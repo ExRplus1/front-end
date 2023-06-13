@@ -110,11 +110,16 @@ export const Landing = () => {
                     <h2>
                         The Decentralized Survey Platform for All
                     </h2>
-                    <ConnectWallet type='black'>
-                        <Text>
-                            Spread the word
-                        </Text>
-                    </ConnectWallet>
+                    <div style={{
+                        display:"flex",
+                        justifyContent: "flex-end"
+                    }}>
+                        <ConnectWallet type='black'>
+                            <Text>
+                                Spread the word
+                            </Text>
+                        </ConnectWallet>
+                    </div>
                 </PageText>
             </Box>
             <Box color="deepCommitmentToPurple">

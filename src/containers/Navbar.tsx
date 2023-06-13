@@ -10,7 +10,7 @@ const Navbar = () => {
     useState(null);
 
   useEffect(() => {
-    const chainId = process.env.REACT_APP_CHAIN_ID;
+    // const chainId = process.env.REACT_APP_CHAIN_ID;
     const { ethereum } = window as any;
     if (!ethereum) {
       setWarn("Metamask is not installed! Go install the extension!");
