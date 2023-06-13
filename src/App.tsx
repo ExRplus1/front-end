@@ -1,56 +1,16 @@
 /* eslint-disable react/jsx-no-undef */
-import './App.css';
-import { Routes, Route } from "react-router-dom";
-import { Landing } from './pages/Landing';
-import { BrowserRouter } from "react-router-dom";
+import "./App.css";
+import { AppContextProvider } from "./hooks/useAppContext";
+import HashVoteRoutes from "./components/HashVoteRoutes";
 
-import { Outlet } from 'react-router-dom';
-import { NavBarContainer, Link, Text, ConnectWallet, Bg } from './styles';
-
-
-const Navbar = () => {
+const App = () => {
   return (
-    <NavBarContainer>
-      <div style={{
-        display: "flex"
-      }}>
-        <Link><Text> Link 1</Text></Link>
-        <Link><Text> Link 2</Text></Link>
-        <Link><Text> Link 3</Text></Link>
-      </div>
-      <div style={{
-        display: "flex",
-        justifyContent: "flex-end",
-        flexGrow: 1,
-      }} >
-        <ConnectWallet type='white'><Text>Connect Wallet</Text></ConnectWallet>
-      </div>
-    </NavBarContainer>
+    <div className="app">
+      <AppContextProvider>
+        <HashVoteRoutes />
+      </AppContextProvider>
+    </div>
   );
 };
-
-
-const Layout = () => {
-  return <Bg>
-    <Navbar />
-    <div >
-      <Outlet />
-    </div>
-  </Bg>
-}
-
-function App() {
-  return <div className="app">
-
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Landing />} />
-        </Route>
-      </Routes>
-
-    </BrowserRouter>
-  </div>
-}
 
 export default App;
