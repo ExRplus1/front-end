@@ -16,7 +16,9 @@ body,
 
 @font-face {
   font-family: 'Archivo';
-  src: url('./fonts/Archivo/Archivo-Italic-VariableFont_wdth\,wght.ttf') format('truetype'),
-  url('./fonts/Archivo/Archivo-VariableFont_wdth\,wght.ttf') format('truetype');
+  src: url('./fonts/Archivo/Archivo-VariableFont_wdth\,wght.ttf') format('truetype');
   /* Add more font formats if necessary */
+}
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
 }

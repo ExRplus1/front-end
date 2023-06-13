@@ -1,13 +1,18 @@
 import { Box } from '../components/Box';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { colors } from '../constants/colors';
 import { ConnectWallet, Text } from '../styles';
+import { Card, Container } from '../components/Card';
+import { explainers } from './constants';
+import { Footer } from './Footer';
 
-const PageText = styled.div`
+const PageText = styled.div<{ white?: boolean }>`
     display: flex;
     flex-direction: column;
-    padding:0px 41px;
-
+    justify-content: space-between;
+    height: calc(100% - 80px);
+    padding: 0px 41px;
+    margin: 40px 0px;
 h1 {
     font-family: 'VCR OSD Mono';
     font-style: normal;
@@ -24,7 +29,7 @@ h2 {
     font-size: 40px;
     line-height: 30px;
     color: ${colors.deepCommitmentToPurple};
-    text-transform: capitalize;
+    text-transform: uppercase;
 }
 h3 {
     font-family: 'VCR OSD Mono';
@@ -51,21 +56,33 @@ h4 {
     align-items: center;
 }
 ${ConnectWallet} {
-    padding: 0px 24px;
+    padding: 2px 24px;
     height: 48px;
-
-    border: 1px solid ${colors.blackMetal};
-    border-radius: 16px;
-
-    /* Inside auto layout */
-
-    flex: none;
-    order: 1;
-    flex-grow: 0;
-    ${Text} {
-    color: ${colors.blackMetal};
-    }
 }
+${({ white }) => white ? css`
+h1, h2, h3, h4, h5, h6 {
+color: ${colors.white};
+}` : null}
+`;
+const Spacer = styled.div<{ newSpace: number }>`
+    height: calc(newSpacepx - 21px);
+`
+const Explainer = styled.h1`
+    font-family: 'VCR OSD Mono';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 34.0193px;
+    line-height: 42px;
+    /* or 124% */
+
+    display: flex;
+    align-items: center;
+    text-align: center;
+    text-transform: uppercase;
+    transform: translateX(-15%) translateY(400px) rotate(-90deg);
+    white-space: nowrap;
+    color: ${colors.white};
+    width: 100%;
 `;
 const Flex = styled.div<{ direction?: "row" | "column", gap?: number }>`
     display: flex;
@@ -78,7 +95,6 @@ const Flex = styled.div<{ direction?: "row" | "column", gap?: number }>`
 export const Landing = () => {
     return (<Flex direction='column'>
         <Box
-            width={"100%"}
             height={"732px"}
             color={"blueprint"}
             style={{
@@ -94,7 +110,7 @@ export const Landing = () => {
                     <h2>
                         The Decentralized Survey Platform for All
                     </h2>
-                    <ConnectWallet>
+                    <ConnectWallet type='black'>
                         <Text>
                             Spread the word
                         </Text>
@@ -114,13 +130,96 @@ export const Landing = () => {
                     <h4>
                         Data-driven Decisions Start Here
                     </h4>
+                    <div style={{
+                        alignSelf: "flex-end",
+                    }}>
+                        <ConnectWallet type="whiteBlack">
+                            <Text>
+                                Create a survey
+                            </Text>
+                        </ConnectWallet>
+                    </div>
                 </PageText>
             </Box>
             <Box color='electricUltramarine' height='442px'>
-
+                <PageText white>
+                    <h3>
+                        Take a survey
+                    </h3>
+                    <h4>
+                        Your Opinion Matters: Shape the World Around You
+                    </h4>
+                    <div style={{
+                        alignSelf: "flex-end",
+                    }}>
+                        <ConnectWallet type="whiteBlack">
+                            <Text>
+                                Take a survey
+                            </Text>
+                        </ConnectWallet>
+                    </div>
+                </PageText>
             </Box>
         </Flex>
+        <Spacer newSpace={51} />
 
+        <div style={{
+            display: "grid",
+            gridTemplateColumns: `194px 1fr`,
+            height: 726,
+            gap: 36,
+        }}>
+            <Container style={{}}>
+                <Explainer>
+                    Why use hashchange?
+                </Explainer>
+            </Container>
+            <div style={{
+                display: "grid",
+                gridTemplateColumns: `repeat(${explainers.length}, 1fr)`,
+                height: 726,
+                gap: 14,
+            }}>
+                {explainers.map(
+                    explainerInfo => <Card {...explainerInfo} />
+                )}
+            </div>
+        </div>
+        <Spacer newSpace={42} />
+        <Flex gap={12}>
+            <Box color="blueprint" height='940px'>
+
+            </Box>
+            <Box color="dreamlessSleep" height='940px'>
+                <PageText style={{
+                    justifyContent: "space-evenly"
+                }}>
+                    <h1 style={{
+                        color: colors.white,
+                        fontSize: 100,
+                        lineHeight: "80px"
+                    }}>
+                        How<br />
+                        does{'\n'}
+                        <h1 style={{
+                            color: colors.green,
+                            fontSize: 100,
+                            lineHeight: "80px"
+                        }}>
+                            HashChange
+                        </h1>
+                        work?
+                    </h1>
+                    <h4 style={{
+                        color: colors.white
+                    }}>
+                        Powered by the Hedera network we develop and deploy fast, efficient, low-cost, secure, transparent, trustworthy and carbon-negative smart contracts.
+                    </h4>
+                </PageText>
+            </Box>
+        </Flex>
+        <Spacer newSpace={120} />
+        <Footer />
     </Flex>
     )
 }

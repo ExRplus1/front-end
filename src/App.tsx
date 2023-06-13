@@ -23,7 +23,7 @@ const Navbar = () => {
         justifyContent: "flex-end",
         flexGrow: 1,
       }} >
-        <ConnectWallet><Text>Connect Wallet</Text></ConnectWallet>
+        <ConnectWallet type='white'><Text>Connect Wallet</Text></ConnectWallet>
       </div>
     </NavBarContainer>
   );
