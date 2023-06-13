@@ -54,6 +54,7 @@ TB  -> write the smart contract
 Leo -> wite the hooks to upload the data 
     -> write one hook to get all the survey ids; than using that you get the info about the survey from and info; you get the survey ids from the contract; the survey info from spheron
     -> interaction with spehron shall be contained
+ .  -> Create node script that will upload the csv to Spheron dictly
 
 
 
