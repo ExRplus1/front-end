@@ -24,8 +24,7 @@ export const handleSpheron = async () => {
         const uploadMetaResult = await upload([blobSurvey], {
             token: responseMetaJson.uploadToken,
         });
-        console.log(uploadMetaResult);
-        console.log(`https://${uploadMetaResult.dynamicLinks[0]}/survey.json`);
+        console.log(uploadMetaResult, `https://${uploadMetaResult.dynamicLinks[0]}/survey.json`);
     } catch (err) {
         console.log(err);
     } finally {
