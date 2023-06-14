@@ -29,11 +29,26 @@ type Question = {
     options: Array<{ id: number, text: string }>
 }
 
+const ArrowButton = styled.div`
+box-sizing: border-box;
+
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 0px;
+
+width: 52px;
+height: 52px;
+border: 1px solid #FFFFFF;
+border-radius: 4px;
+`;
+
 const QuestionsContainer = ({
     crtQuestion, setCrtQuestion, children, max,
     questionTitle
 }: { crtQuestion: number, setCrtQuestion: React.Dispatch<React.SetStateAction<number>>, children: React.ReactElement<any, any>, max: number, questionTitle?: string }) => {
-    return <>
+    return <div style={{ height: 650, display: "flex" }}>
         <p>
             <Title>
                 Question {crtQuestion + 1} / {max}
@@ -45,7 +60,22 @@ const QuestionsContainer = ({
             {children}
         </p>
 
-    </>
+        <div style={{ display: "flex", gap: 18, alignSelf: "flex-end" }}>
+            {crtQuestion === max - 1 ? null : <ArrowButton onClick={() => {
+                setCrtQuestion(questionNumber => questionNumber + 1)
+            }}>
+                <DownArrow />
+            </ArrowButton>}
+            {crtQuestion === 0 ? null : <ArrowButton
+                onClick={() => {
+                    setCrtQuestion(questionNumber => questionNumber - 1)
+                }}>
+                <UpArrow />
+            </ArrowButton>
+            }
+        </div >
+
+    </div>
 }
 const OptionScaleQuestion = ({ question }: { question: Question }) => {
     throw new Error("V2 - Nice to have for now");
@@ -91,6 +121,25 @@ const OptionText = styled.span`
     color: #868484;
     text-align: center;
 `;
+
+const DownArrow = styled.span`
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 5px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  `;
+
+
+const UpArrow = styled.span`
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 5px;
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+  `;
 
 const MultipleOptionQuestion = ({ question, single }: { question: Question, single?: boolean }) => {
     // do the selected stuff
