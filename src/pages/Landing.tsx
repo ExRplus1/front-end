@@ -6,6 +6,7 @@ import { Card, Container } from '../components/Card';
 import { explainers } from './constants';
 import { Footer } from './Footer';
 import { useNavigate } from "react-router-dom";
+import { handleSpheron } from '../services/spheron';
 
 const PageText = styled.div<{ white?: boolean }>`
     display: flex;
@@ -140,7 +141,7 @@ export const Landing = () => {
                     <div style={{
                         alignSelf: "flex-end",
                     }}>
-                        <ConnectWallet type="whiteBlack">
+                        <ConnectWallet type="whiteBlack" onClick={handleSpheron}>
                             <Text>
                                 Create a survey
                             </Text>

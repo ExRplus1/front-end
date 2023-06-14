@@ -3,8 +3,6 @@ import { connectMetamask } from "../services/metamaskServices";
 import { useEffect, useState, Dispatch, SetStateAction } from "react";
 import { useAppContext } from "../hooks/useAppContext";
 
-import { handleSpheron } from "../services/spheron";
-
 const Navbar = () => {
   const { metamaskAccountAddress, setMetamaskAccountAddress } = useAppContext();
 
@@ -67,11 +65,6 @@ const Navbar = () => {
             </Text>
           </ConnectWallet>
         )}
-          <ConnectWallet type="white" onClick={handleSpheron}>
-            <Text>
-                HandleSpheron
-            </Text>
-          </ConnectWallet>
       </div>
     </NavBarContainer>
   );

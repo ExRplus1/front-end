@@ -7,23 +7,25 @@ type Survey = {
  name: string,
  authId: string,
  questions: Array<Question>,
- endDate: Date,
  startDate: Date,
+ endDate: Date,
  maxNumberOfVoters: number,
 };
 
+//options Null when statement. Statements does not have an answer,
 type Question = {
   id: number,// step count la a cata intrebare esti
   questionText: string,
   questionType: "optionScale" | "singleOption" | "statement" | "multipleOption", 
-  options: Array<{id: number, text: string}> | null, // statement does not have an answer,
+  options: Array<{id: number, text: string}>
 }
 
-
+ // questionId step la care sunt
+ // answers null when is a statement
 type Answers = {
   surveyId: string,
-  questionId: number, // step la care sunt
-  answers: Array<number> | null // null when it s a statement
+  questionId: number,
+  answers: Array<number>
 }
 
 
