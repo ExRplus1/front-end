@@ -4,8 +4,10 @@ import { TopContainer } from "../components/TopContainer"
 import styled from 'styled-components'
 import { colors } from "../constants/colors";
 import { Spacer } from "./Landing";
+import { useNavigate } from "react-router-dom";
 
 const surveys: Array<{
+  id: string,
   title: string,
   type: string,
   organization: string,
@@ -14,6 +16,7 @@ const surveys: Array<{
   color: keyof typeof colors
 }> = [
     {
+      id: "some-id",
       title: "Climate Change",
       description: "How do you feel about healthcare?",
       type: "Climate",
@@ -22,6 +25,7 @@ const surveys: Array<{
       image: "https://via.placeholder.com/200",
     },
     {
+      id: "some-id",
       title: "Healthcare",
       type: "Healthcare",
       organization: "WHO",
@@ -30,6 +34,7 @@ const surveys: Array<{
       color: "red"
     },
     {
+      id: "some-id",
       title: "Healthcare",
       type: "Healthcare",
       organization: "WHO",
@@ -38,6 +43,7 @@ const surveys: Array<{
       color: "red"
     },
     {
+      id: "some-id",
       title: "Healthcare",
       type: "Healthcare",
       organization: "WHO",
@@ -46,6 +52,7 @@ const surveys: Array<{
       color: "red"
     },
     {
+      id: "some-id",
       title: "Healthcare",
       type: "Healthcare",
       organization: "WHO",
@@ -106,18 +113,24 @@ color: ${({ color }) => colors[color]};
 
 const SurveyCard = ({
   title,
+  id: surveyId,
   type,
   organization,
   description,
   image,
   color,
 }: typeof surveys[number]) => {
-  return <Box style={{
-    border: `1.5px solid ${colors[color as keyof typeof colors]}`,
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-evenly",
-  }}>
+  const navigate = useNavigate();
+  return <Box
+    onClick={() => {
+      navigate(`/respond-survey/pay/${surveyId}`)
+    }}
+    style={{
+      border: `1.5px solid ${colors[color as keyof typeof colors]}`,
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-evenly",
+    }}>
 
     <div style={{
       height: "calc(100% - 70px)",
