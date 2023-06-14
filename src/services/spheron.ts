@@ -1,22 +1,21 @@
 import { upload } from "@spheron/browser-upload";
-import survey from "../stubs/climate-survey.json"
+import survey from "../stubs/climate-survey.json";
 
 const createFile = (obj: Object) => {
-    const json = JSON.stringify(obj);
-    const blob = new Blob([json], { type: "application/json" });
-    const file = new File([blob], "survey.json", {
-        type: "application/json",
-    });
+  const json = JSON.stringify(obj);
+  const blob = new Blob([json], { type: "application/json" });
+  const file = new File([blob], "survey.json", {
+    type: "application/json",
+  });
 
-    return file;
+  return file;
 };
 
-
 export const handleSpheron = async () => {
-    const SE_URL = `${process.env.REACT_APP_API_URL}/initiate-upload`;
+  const SE_URL = `${process.env.REACT_APP_API_URL}/initiate-upload`;
 
-    const name = "climate-change";
-    const blobSurvey = createFile(survey);
+  const name = "climate-change";
+  const blobSurvey = createFile(survey);
 
     try {
         const responseMeta = await fetch(`${SE_URL}/${name}-survey`);

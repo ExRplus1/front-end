@@ -20,8 +20,8 @@ position: absolute;
   left: 0px;
   height: 100%;
   top: 0px;
+  background: #000000;
 
-  background: #C4C4C4;
   border-radius: 17.6359px;
 `;
 
@@ -31,9 +31,7 @@ position: absolute;
   height: 100%;
   left: 0px;
   top: 0px;
-
-
-  background: #000000;
+  background: #C4C4C4;
   border-radius: 17.6359px;
 `;
 

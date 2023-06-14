@@ -55,6 +55,7 @@
       ]
     },
     {
+<<<<<<< HEAD
       "id": 5,
       "questionText": "How concerned are you about the potential impacts of climate change?",
       "questionType": "optionScale",
@@ -67,6 +68,8 @@
       ]
     },
     {
+=======
+>>>>>>> 4323ba5e718dc719389d5ce2fe70adbab1f3efda
       "id": 6,
       "questionText": "Do you think governments should prioritize climate change mitigation efforts over other issues?",
       "questionType": "singleOption",
