@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Step } from "../components/Step";
 import { TopBar } from "../components/TopBar";
 import { TopContainer } from "../components/TopContainer";
@@ -24,6 +24,7 @@ const steps = [
 
 export const SurveyPay = () => {
     const navigator = useNavigate();
+    const { surveyId } = useParams();
     return (
         <div style={{
             display: "flex",
@@ -38,7 +39,7 @@ export const SurveyPay = () => {
                 button={{
                     text: "TODO change",
                     onClick: function (): void {
-                        navigator("/respond-survey/start-survey")
+                        navigator(`/respond-survey/start-survey/${surveyId}`)
                     }
                 }}
             />
