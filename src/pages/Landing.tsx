@@ -5,6 +5,7 @@ import { ConnectWallet, Text } from '../styles';
 import { Card, Container } from '../components/Card';
 import { explainers } from './constants';
 import { Footer } from './Footer';
+import { useNavigate } from "react-router-dom";
 
 const PageText = styled.div<{ white?: boolean }>`
     display: flex;
@@ -64,8 +65,8 @@ h1, h2, h3, h4, h5, h6 {
 color: ${colors.white};
 }` : null}
 `;
-const Spacer = styled.div<{ newSpace: number }>`
-    height: calc(newSpacepx - 21px);
+export const Spacer = styled.div<{ newSpace: number }>`
+    height: calc(${({ newSpace }) => newSpace}px - 21px);
 `
 const Explainer = styled.h1`
     font-family: 'VCR OSD Mono';
@@ -93,6 +94,7 @@ const Flex = styled.div<{ direction?: "row" | "column", gap?: number }>`
     height: 100%;
 `
 export const Landing = () => {
+    const navigation = useNavigate();
     return (<Flex direction='column'>
         <Box
             height={"732px"}
@@ -111,7 +113,7 @@ export const Landing = () => {
                         The Decentralized Survey Platform for All
                     </h2>
                     <div style={{
-                        display:"flex",
+                        display: "flex",
                         justifyContent: "flex-end"
                     }}>
                         <ConnectWallet type='black'>
@@ -157,7 +159,7 @@ export const Landing = () => {
                     <div style={{
                         alignSelf: "flex-end",
                     }}>
-                        <ConnectWallet type="whiteBlack">
+                        <ConnectWallet type="whiteBlack" onClick={() => navigation("/respond-survey")}>
                             <Text>
                                 Take a survey
                             </Text>
