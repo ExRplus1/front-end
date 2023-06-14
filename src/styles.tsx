@@ -25,7 +25,6 @@ export const ConnectWallet = styled.span<{ type: "black" | "white" | "whiteBlack
   padding: 0px 24px;
 
   height: 100%;
-  max-width: 180px;
   /* White */
 
   border-radius: 16px;

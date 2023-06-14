@@ -1,5 +1,4 @@
-import React from 'react'
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { colors } from '../constants/colors';
 import { ConnectWallet, Text } from '../styles';
 const SignUp = styled.span`
