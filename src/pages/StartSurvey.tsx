@@ -48,8 +48,10 @@ const QuestionsContainer = ({
     crtQuestion, setCrtQuestion, children, max,
     questionTitle
 }: { crtQuestion: number, setCrtQuestion: React.Dispatch<React.SetStateAction<number>>, children: React.ReactElement<any, any>, max: number, questionTitle?: string }) => {
-    return <div style={{ height: 650, display: "flex" }}>
-        <p>
+    return <div style={{ height: 650, display: "flex", width: "70vw" }}>
+        <p style={{
+            width: "70vw"
+        }}>
             <Title>
                 Question {crtQuestion + 1} / {max}
             </Title>
