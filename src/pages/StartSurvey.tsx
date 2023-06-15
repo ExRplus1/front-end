@@ -6,6 +6,7 @@ import { Spacer } from "./Landing";
 import styled, { css } from 'styled-components'
 import { useNavigate, useParams } from "react-router-dom";
 import { colors } from "../constants/colors";
+import { ConnectWallet, Text } from "../styles";
 
 const Title = styled.h1`
     font-family: 'Archivo';
@@ -55,6 +56,29 @@ const ArrowButton = styled.div`
     }
 `;
 
+const EndSurvey = ({ onClick }: { onClick: any }) => {
+    return <div style={{ height: 650, display: "flex", width: "70vw" }}>
+        <p style={{
+            width: "70vw"
+        }}>
+            <QuestionTitle>
+                Congrats for completing the survey
+            </QuestionTitle>
+            <Spacer newSpace={50} />
+        </p>
+        <div style={{
+            height: 70,
+        }}>
+            <ConnectWallet type='white' onClick={onClick} >
+                <Text>
+                    Complete Survey
+                </Text>
+            </ConnectWallet>
+        </div>
+
+    </div>
+}
+
 const QuestionsContainer = ({
     crtQuestion, setCrtQuestion, children, max,
     questionTitle
@@ -74,14 +98,14 @@ const QuestionsContainer = ({
         </p>
 
         <div style={{ display: "flex", gap: 18, alignSelf: "flex-end" }}>
-            {crtQuestion === max - 1 ? <div style={{
+            <div style={{
                 width: "52px",
                 height: "52px"
             }} /> : <ArrowButton onClick={() => {
                 setCrtQuestion(questionNumber => questionNumber + 1)
             }}>
                 <DownArrow />
-            </ArrowButton>}
+            </ArrowButton>
             {crtQuestion === 0 ? <div style={{
                 width: "52px",
                 height: "52px"
@@ -182,7 +206,6 @@ const MultipleOptionQuestion = ({ question, single, respondToQuestion, answer }:
         gap: 20,
     }}>
         {(question?.options ?? []).map((option, index) => <OptionContainer
-
             onClick={() => {
                 respondToQuestion(index, single ?? false)
             }}
@@ -215,6 +238,7 @@ const QuestionFactory = ({ question, respondToQuestion, answer }: QuestionProps)
 export const StartSurvey = () => {
     const { data: survey } = useFetchSurvey();
     const { surveyId } = useParams();
+    const navigate = useNavigate();
 
     const questions = useMemo<Array<Question>>(() => survey?.questions ?? [], [survey?.questions]);
     const [crtQuestion, setCrtQuestion] = useState(0);
@@ -265,10 +289,17 @@ export const StartSurvey = () => {
                 button={null} />
             <div style={{
                 display: 'grid',
-                gridTemplateColumns: '0.3fr 1fr 0.3fr',
+                gridTemplateColumns: '1fr 70vw 1fr',
             }}>
                 <div />
-                {
+                {crtQuestion >= questions.length ?
+                    <EndSurvey onClick={() => {
+                        // Write to ipfs first and tha complete
+                        navigate(`/survey/${surveyId}/end`)
+                    }
+                    } />
+
+                    :
                     <QuestionsContainer crtQuestion={crtQuestion} setCrtQuestion={setCrtQuestion} max={questions.length}
                         questionTitle={questions?.[crtQuestion]?.questionText}
                     >
