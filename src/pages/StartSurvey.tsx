@@ -56,7 +56,7 @@ const ArrowButton = styled.div`
     }
 `;
 
-const EndSurvey = ({ onClick }: { onClick: any }) => {
+const EndSurvey = () => {
     return <div style={{ height: 650, display: "flex", width: "70vw" }}>
         <p style={{
             width: "70vw"
@@ -66,16 +66,6 @@ const EndSurvey = ({ onClick }: { onClick: any }) => {
             </QuestionTitle>
             <Spacer newSpace={50} />
         </p>
-        <div style={{
-            height: 70,
-        }}>
-            <ConnectWallet type='white' onClick={onClick} >
-                <Text>
-                    Complete Survey
-                </Text>
-            </ConnectWallet>
-        </div>
-
     </div>
 }
 
@@ -286,18 +276,22 @@ export const StartSurvey = () => {
                 }
                 title={survey?.name} description={survey?.description}
                 color="electricUltramarine"
-                button={null} />
+                button={crtQuestion >= questions?.length ?
+                    {
+                        text: "Complete Survey",
+                        onClick: () => {
+                            // Write to ipfs first and tha complete
+                            navigate(`/respond-survey/end/${surveyId}`)
+                        }
+                    }
+                    : null} />
             <div style={{
                 display: 'grid',
                 gridTemplateColumns: '1fr 70vw 1fr',
             }}>
                 <div />
                 {crtQuestion >= questions.length ?
-                    <EndSurvey onClick={() => {
-                        // Write to ipfs first and tha complete
-                        navigate(`/survey/${surveyId}/end`)
-                    }
-                    } />
+                    <EndSurvey />
 
                     :
                     <QuestionsContainer crtQuestion={crtQuestion} setCrtQuestion={setCrtQuestion} max={questions.length}
