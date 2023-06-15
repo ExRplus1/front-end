@@ -1,9 +1,11 @@
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { TopBar } from "../components/TopBar";
 import { TopContainer } from "../components/TopContainer";
 import { useFetchSurvey } from "../hooks/useFetchSurvey";
 import { Spacer } from "./Landing";
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+import { useNavigate, useParams } from "react-router-dom";
+import { colors } from "../constants/colors";
 
 const Title = styled.h1`
     font-family: 'Archivo';
@@ -22,6 +24,12 @@ const QuestionTitle = styled.h1`
     line-height: 35px;
     color: #FFFFFF;
 `;
+type Answers = {
+    surveyId: string,
+    questionId: number,
+    answers: Array<number>
+}
+
 type Question = {
     id: number,
     questionText: string,
@@ -42,6 +50,9 @@ const ArrowButton = styled.div`
     height: 52px;
     border: 1px solid #FFFFFF;
     border-radius: 4px;
+    &:hover{
+        background-color:#8282823f;
+    }
 `;
 
 const QuestionsContainer = ({
@@ -85,20 +96,38 @@ const QuestionsContainer = ({
 
     </div>
 }
-const OptionScaleQuestion = ({ question }: { question: Question }) => {
+const OptionScaleQuestion = ({ question, respondToQuestion, answer }: QuestionProps) => {
     return <>
     </>
 }
 
-const OptionContainer = styled.div`
+const OptionContainer = styled.div<{ $selected: string }>`
     display: flex;
     flex-direction: row;
     align-items: center;
     padding: 8px 39px 8px 17px;
     gap: 15px;
-    border: 1.89706px solid #828282;
+    border: 2px solid ${({ $selected }) => $selected === "true" ? "#828282" : "#8282823f"};
+  
     width: fit-content;
     border-radius: 16px;
+    cursor: pointer;
+
+     
+    ${({ $selected }) => $selected === "true" ? (
+        css`
+            background-color: #D9D9D9;
+            color: #070707;
+            ${Button} {
+                background-color: #D9D9D9;
+            }
+        `
+    ) : null
+    }
+
+    &:hover{
+        background-color:#8282823f;
+    }
 `;
 const Button = styled.span`
     width: 39px;
@@ -112,7 +141,6 @@ const Button = styled.span`
     font-weight: 400;
     font-size: 22.7647px;
     line-height: 54px;
-    /* identical to box height, or 235% */
 
     display: flex;
     align-items: center;
@@ -136,7 +164,7 @@ const DownArrow = styled.span`
   padding: 5px;
   transform: rotate(45deg);
   -webkit-transform: rotate(45deg);
-  `;
+`;
 
 
 const UpArrow = styled.span`
@@ -146,16 +174,19 @@ const UpArrow = styled.span`
   padding: 5px;
   transform: rotate(-135deg);
   -webkit-transform: rotate(-135deg);
-  `;
-
-const MultipleOptionQuestion = ({ question, single }: { question: Question, single?: boolean }) => {
-    // do the selected stuff
-
+`;
+type QuestionProps = { question: Question, single?: boolean, respondToQuestion: (answer: number, single: boolean) => void, answer: Array<number> };
+const MultipleOptionQuestion = ({ question, single, respondToQuestion, answer }: QuestionProps) => {
     return <div style={{
         display: "grid",
         gap: 20,
     }}>
-        {(question?.options ?? []).map((option, index) => <OptionContainer>
+        {(question?.options ?? []).map((option, index) => <OptionContainer
+
+            onClick={() => {
+                respondToQuestion(index, single ?? false)
+            }}
+            $selected={answer?.length > 0 ? answer.includes(index).toString() : "false"}>
             <Button>
                 {String.fromCharCode(65 + index)}
             </Button>
@@ -166,25 +197,52 @@ const MultipleOptionQuestion = ({ question, single }: { question: Question, sing
     </div>
 }
 
-const QuestionFactory = ({ question }: { question: Question }) => {
+const QuestionFactory = ({ question, respondToQuestion, answer }: QuestionProps) => {
     switch (question.questionType) {
         case "optionScale":
-            return <OptionScaleQuestion question={question} />
+            return <OptionScaleQuestion question={question} respondToQuestion={respondToQuestion} answer={answer} />
         case "singleOption":
-            return <MultipleOptionQuestion question={question} single />
+            return <MultipleOptionQuestion question={question} single respondToQuestion={respondToQuestion} answer={answer} />
         case "statement":
             return null;
         case "multipleOption":
-            return <MultipleOptionQuestion question={question} />
+            return <MultipleOptionQuestion question={question} respondToQuestion={respondToQuestion} answer={answer} />
         default:
-            return <></>
+            return null;
     }
 }
 
 export const StartSurvey = () => {
     const { data: survey } = useFetchSurvey();
-    const questions = useMemo(() => survey?.questions ?? [], [survey?.questions]);
+    const { surveyId } = useParams();
+
+    const questions = useMemo<Array<Question>>(() => survey?.questions ?? [], [survey?.questions]);
     const [crtQuestion, setCrtQuestion] = useState(0);
+    const [answers, setAnswers] = useState<Array<Answers>>(questions.map((question) => {
+        return {
+            surveyId: surveyId ?? "",
+            questionId: question.id,
+            answers: []
+        }
+    }));
+    const setAnswersForQuestion = useCallback((questionNumber: number) => (answer: number, single: boolean) => {
+        setAnswers(prevAnswers => {
+            const newAnswers = [...prevAnswers];
+            const answersPrev = prevAnswers?.[questionNumber]?.answers ?? [];
+            const crtAnswer = answersPrev.includes(answer) ? answersPrev.filter((ans) => ans !== answer) : [...answersPrev, answer];
+
+            prevAnswers[questionNumber] = {
+                surveyId: surveyId ?? "",
+                questionId: questions[questionNumber].id,
+                answers: single ? [answer] : crtAnswer
+            };
+            if (questions[questionNumber]?.questionType === "singleOption") {
+                setCrtQuestion(index => index + 1);
+            }
+            return newAnswers;
+        });
+    }, [questions, surveyId]);
+
     return (
         <div style={{
             display: "flex",
@@ -212,7 +270,7 @@ export const StartSurvey = () => {
                     <QuestionsContainer crtQuestion={crtQuestion} setCrtQuestion={setCrtQuestion} max={questions.length}
                         questionTitle={questions?.[crtQuestion]?.questionText}
                     >
-                        <QuestionFactory question={questions[crtQuestion]} />
+                        <QuestionFactory question={questions[crtQuestion]} respondToQuestion={setAnswersForQuestion(crtQuestion)} answer={answers[crtQuestion]?.answers ?? []} />
                     </QuestionsContainer>
                 }
                 <div />
