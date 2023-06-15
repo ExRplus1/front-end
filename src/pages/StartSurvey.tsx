@@ -218,6 +218,8 @@ export const StartSurvey = () => {
 
     const questions = useMemo<Array<Question>>(() => survey?.questions ?? [], [survey?.questions]);
     const [crtQuestion, setCrtQuestion] = useState(0);
+
+    // TODO: save in IPFS at the end @drLeo
     const [answers, setAnswers] = useState<Array<Answers>>(questions.map((question) => {
         return {
             surveyId: surveyId ?? "",
