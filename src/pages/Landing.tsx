@@ -113,7 +113,8 @@ export const Landing = () => {
                     <h2>
                         The Decentralized Survey Platform for All
                     </h2>
-                    <div style={{
+                    <div></div>
+                    {/* <div style={{
                         display: "flex",
                         justifyContent: "flex-end"
                     }}>
@@ -122,7 +123,7 @@ export const Landing = () => {
                                 Spread the word
                             </Text>
                         </ConnectWallet>
-                    </div>
+                    </div> */}
                 </PageText>
             </Box>
             <Box color="deepCommitmentToPurple">

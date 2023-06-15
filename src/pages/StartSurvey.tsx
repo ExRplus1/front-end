@@ -30,18 +30,18 @@ type Question = {
 }
 
 const ArrowButton = styled.div`
-box-sizing: border-box;
+    box-sizing: border-box;
 
-display: flex;
-flex-direction: row;
-justify-content: center;
-align-items: center;
-padding: 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
 
-width: 52px;
-height: 52px;
-border: 1px solid #FFFFFF;
-border-radius: 4px;
+    width: 52px;
+    height: 52px;
+    border: 1px solid #FFFFFF;
+    border-radius: 4px;
 `;
 
 const QuestionsContainer = ({
@@ -61,12 +61,18 @@ const QuestionsContainer = ({
         </p>
 
         <div style={{ display: "flex", gap: 18, alignSelf: "flex-end" }}>
-            {crtQuestion === max - 1 ? null : <ArrowButton onClick={() => {
+            {crtQuestion === max - 1 ? <div style={{
+                width: "52px",
+                height: "52px"
+            }} /> : <ArrowButton onClick={() => {
                 setCrtQuestion(questionNumber => questionNumber + 1)
             }}>
                 <DownArrow />
             </ArrowButton>}
-            {crtQuestion === 0 ? null : <ArrowButton
+            {crtQuestion === 0 ? <div style={{
+                width: "52px",
+                height: "52px"
+            }} /> : <ArrowButton
                 onClick={() => {
                     setCrtQuestion(questionNumber => questionNumber - 1)
                 }}>
@@ -78,7 +84,6 @@ const QuestionsContainer = ({
     </div>
 }
 const OptionScaleQuestion = ({ question }: { question: Question }) => {
-    throw new Error("V2 - Nice to have for now");
     return <>
     </>
 }
