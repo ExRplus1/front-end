@@ -108,78 +108,82 @@ const Flex = styled.div<{ direction?: "row" | "column"; gap?: number }>`
   height: 100%;
 `;
 export const Landing = () => {
-  const navigation = useNavigate();
-  const ctx = useAppContext();
-
-  return (
-    <Flex direction="column">
-      <Box
-        height={"732px"}
-        color={"blueprint"}
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-        }}
-      >
-        <Box>
-          <PageText>
-            <h1>hash change</h1>
-            <h2>The Decentralized Survey Platform for All</h2>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "flex-end",
-              }}
-            >
-              <ConnectWallet type="black">
-                <Text>Spread the word</Text>
-              </ConnectWallet>
-            </div>
-          </PageText>
+    const navigation = useNavigate();
+    return (<Flex direction='column'>
+        <Box
+            height={"732px"}
+            color={"blueprint"}
+            style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+            }}
+        >
+            <Box>
+                <PageText>
+                    <h1>
+                        hash change
+                    </h1>
+                    <h2>
+                        The Decentralized Survey Platform for All
+                    </h2>
+                    <div></div>
+                    {/* <div style={{
+                        display: "flex",
+                        justifyContent: "flex-end"
+                    }}>
+                        <ConnectWallet type='black'>
+                            <Text>
+                                Spread the word
+                            </Text>
+                        </ConnectWallet>
+                    </div> */}
+                </PageText>
+            </Box>
+            <Box color="deepCommitmentToPurple">
+                {/* add image in here */}
+            </Box>
         </Box>
-        <Box color="deepCommitmentToPurple">{/* add image in here */}</Box>
-      </Box>
-      <Flex direction="row" gap={12}>
-        <Box color="green" height="442px">
-          <PageText>
-            <h3>Create a survey</h3>
-            <h4>Data-driven Decisions Start Here</h4>
-            <div
-              style={{
-                alignSelf: "flex-end",
-              }}
-            >
-              <ConnectWallet
-                type="whiteBlack"
-                onClick={() => {
-                  /*handleSpheron*/
-                }}
-              >
-                <Text>Create a survey</Text>
-              </ConnectWallet>
-            </div>
-          </PageText>
-        </Box>
-        <Box color="electricUltramarine" height="442px">
-          <PageText white>
-            <h3>Take a survey</h3>
-            <h4>Your Opinion Matters: Shape the World Around You</h4>
-            <div
-              style={{
-                alignSelf: "flex-end",
-              }}
-            >
-              <ConnectWallet
-                type="whiteBlack"
-                onClick={() => navigation("/respond-survey")}
-              >
-                <Text>Take a survey</Text>
-              </ConnectWallet>
-            </div>
-          </PageText>
-        </Box>
-      </Flex>
-      <Spacer newSpace={51} />
+        <Flex direction='row' gap={12}>
+            <Box color='green' height='442px'>
+                <PageText>
+                    <h3>
+                        Create a survey
+                    </h3>
+                    <h4>
+                        Data-driven Decisions Start Here
+                    </h4>
+                    <div style={{
+                        alignSelf: "flex-end",
+                    }}>
+                        <ConnectWallet type="whiteBlack" onClick={()=>{}}>
+                            <Text>
+                                Create a survey
+                            </Text>
+                        </ConnectWallet>
+                    </div>
+                </PageText>
+            </Box>
+            <Box color='electricUltramarine' height='442px'>
+                <PageText white>
+                    <h3>
+                        Take a survey
+                    </h3>
+                    <h4>
+                        Your Opinion Matters: Shape the World Around You
+                    </h4>
+                    <div style={{
+                        alignSelf: "flex-end",
+                    }}>
+                        <ConnectWallet type="whiteBlack" onClick={() => navigation("/respond-survey")}>
+                            <Text>
+                                Take a survey
+                            </Text>
+                        </ConnectWallet>
+                    </div>
+                </PageText>
+            </Box>
+        </Flex>
+        <Spacer newSpace={51} />
 
       <div
         style={{
