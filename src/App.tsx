@@ -1,15 +1,15 @@
 /* eslint-disable react/jsx-no-undef */
 import "./App.css";
 import { AppContextProvider } from "./hooks/useAppContext";
-import HashVoteRoutes from "./components/HashVoteRoutes";
+import HashChangeRoutes from "./components/HashChangeRoutes";
 
 const App = () => {
   return (
-    <div className="app">
-      <AppContextProvider>
-        <HashVoteRoutes />
-      </AppContextProvider>
-    </div>
+      <div className="app">
+        <AppContextProvider>
+          <HashChangeRoutes />
+        </AppContextProvider>
+      </div>
   );
 };
 

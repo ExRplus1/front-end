@@ -1,8 +1,24 @@
-import { createContext, useState, ReactNode, useContext } from "react";
+import React, {
+  createContext,
+  useState,
+  ReactNode,
+  useContext,
+  SetStateAction,
+  Dispatch,
+} from "react";
 
-const AppContext = createContext({
+interface AppContextInterface {
+  metamaskAccountAddress: string;
+  setMetamaskAccountAddress: React.Dispatch<SetStateAction<string | any>>;
+  metamaskConnected: boolean;
+  setMetamaskConnected: React.Dispatch<SetStateAction<boolean>>;
+}
+
+const AppContext = createContext<AppContextInterface>({
   metamaskAccountAddress: "",
-  setMetamaskAccountAddress: (newValue: string) => {},
+  setMetamaskAccountAddress: () => {},
+  metamaskConnected: false,
+  setMetamaskConnected: () => {},
 });
 
 const AppContextProvider = ({
@@ -10,11 +26,17 @@ const AppContextProvider = ({
 }: {
   children: ReactNode | undefined;
 }) => {
-  const [metamaskAccountAddress, setMetamaskAccountAddress] = useState("");
+  const [metamaskAccountAddress, setMetamaskAccountAddress] = useState('');
+  const [metamaskConnected, setMetamaskConnected] = useState(false);
 
   return (
     <AppContext.Provider
-      value={{ metamaskAccountAddress, setMetamaskAccountAddress }}
+      value={{
+        metamaskAccountAddress,
+        setMetamaskAccountAddress,
+        metamaskConnected,
+        setMetamaskConnected,
+      }}
     >
       {children}
     </AppContext.Provider>
