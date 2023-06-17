@@ -7,11 +7,9 @@ import { explainers } from "./constants";
 import { Footer } from "./Footer";
 import { useNavigate } from "react-router-dom";
 
-import { upload } from "@spheron/browser-upload";
-import surveys from "../abi/Surveys.json";
-import { ethers } from "ethers";
-import { useState } from "react";
-import { useAppContext } from "../hooks/useAppContext";
+import { createHash, createSurvey, getSurveyAuthor } from "../services/metamaskServices";
+
+
 
 const PageText = styled.div<{ white?: boolean }>`
   display: flex;
@@ -155,7 +153,7 @@ export const Landing = () => {
                     <div style={{
                         alignSelf: "flex-end",
                     }}>
-                        <ConnectWallet type="whiteBlack" onClick={()=>{}}>
+                        <ConnectWallet type="whiteBlack" onClick={() => getSurveyAuthor(2)}>
                             <Text>
                                 Create a survey
                             </Text>

@@ -22,9 +22,7 @@ const Profile = () => {
   } = useAppContext();
 
   useEffect(() => {
-    // console.log(metamaskConnected, metamaskAccountAddress);
     const {ethereum} = window as any;
-
     const windowReload = (chainId: any) => window.location.reload();
     ethereum?.on("chainChanged", windowReload);
     return () => ethereum?.removeListener("chainChanged", windowReload);
