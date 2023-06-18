@@ -7,7 +7,7 @@ import { explainers } from "./constants";
 import { Footer } from "./Footer";
 import { useNavigate } from "react-router-dom";
 
-import { createHash, createSurvey, getSurveyAuthor } from "../services/metamaskServices";
+import { deployContracts, createHash, createSurvey, getSurveyAuthor } from "../services/metamaskServices";
 
 
 
@@ -153,7 +153,8 @@ export const Landing = () => {
                     <div style={{
                         alignSelf: "flex-end",
                     }}>
-                        <ConnectWallet type="whiteBlack" onClick={() => getSurveyAuthor(2)}>
+                        {/* <ConnectWallet type="whiteBlack" onClick={() => deployContracts()}> */}
+                        <ConnectWallet type="whiteBlack" onClick={() => createSurvey('sadadasddasdsaddasd')}>
                             <Text>
                                 Create a survey
                             </Text>
