@@ -9,6 +9,8 @@ export const colors = {
     blackMana: "#858585",
     dreamlessSleep: "#111111",
     doctor: "#F9F9F9",
-    red: "#EB5757"
-
+    red: "#EB5757",
+    yellowGreen: "#C8F745",
+    northSeaBlue: "#323F4B",
+    sheetBlue: "#52606D",
 }

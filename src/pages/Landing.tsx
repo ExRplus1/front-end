@@ -164,10 +164,7 @@ export const Landing = () => {
           <div style={{
             alignSelf: "flex-end",
           }}>
-            {/* <ConnectWallet type="whiteBlack" onClick={() => deployContracts()}> */}
-            {/* <ConnectWallet type="whiteBlack" onClick={() => createSurvey('Climatic')}> */}
-            <ConnectWallet type="whiteBlack" onClick={() => getAuthorSurveys()}>
-              {/* <ConnectWallet type="whiteBlack" onClick={() => getSurveys()}> */}
+            <ConnectWallet type="whiteBlack" onClick={() => navigation("/createSurvey/start")}>
               <CreateSurvey />
               <Text style={{ paddingLeft: 12 }}>
                 Create a survey
@@ -182,7 +179,7 @@ export const Landing = () => {
             display: "flex",
             justifyContent: "space-between",
           }}>
-            <div >
+            <div>
               <h3>
                 Take a survey
               </h3>

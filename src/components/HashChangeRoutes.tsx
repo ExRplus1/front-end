@@ -6,6 +6,8 @@ import { SelectSurvey } from "../pages/SelectSurvey";
 import { SurveyPay } from "../pages/SurveyPay";
 import { StartSurvey } from '../pages/StartSurvey'
 import { EndSurvey } from '../pages/EndSurvey'
+import { CreateSurveyPage } from "../pages/CreateSurveyPage";
+import { CalculatePrice } from "../pages/CalculatePrice";
 
 const HashChangeRoutes = () => (
   <Routes>
@@ -16,6 +18,9 @@ const HashChangeRoutes = () => (
       <Route path="/respond-survey/pay/:surveyId" element={<SurveyPay />} />
       <Route path="/respond-survey/start-survey/:surveyId" element={<StartSurvey />} />
       <Route path="/respond-survey/end/:surveyId" element={<EndSurvey />} />
+      <Route path="/createSurvey/start" element={<CreateSurveyPage />} />
+      <Route path="/createSurvey/calculatePrice" element={<CalculatePrice />} />
+
     </Route>
   </Routes>
 );

@@ -1,31 +1,41 @@
 import { Box } from "../components/Box"
 import styled from 'styled-components'
+import { colors } from "../constants/colors";
 
-const Title = styled.h1`
+const Title = styled.h1<{ color: string }>`
     font-family: 'Archivo';
     font-style: normal;
     font-weight: 500;
     font-size: 18.8116px;
     line-height: 28px;
-    color: #DCDCDC;
+    color: ${({ color }) => color ? color : "#DCDCDC"};
 `;
-const Description = styled.h2`
+const Description = styled.h2<{ color: string }>`
     font-family: 'Archivo';
     font-style: normal;
     font-weight: 700;
     font-size: 23.5145px;
     line-height: 35px;
-    color: #FFFFFF;
+    color: ${({ color }) => color ? color : "#FFFFFF"};
 `;
 
 
-export const Step = ({ title, description, image }: {
-    title: string,
-    description: string,
-    image: string,
-}) => {
+export const Step = ({
+    title,
+    description,
+    image,
+    color,
+    textColor,
+    descriptionColor }: {
+        title: string,
+        description: string,
+        image: string,
+        color?: keyof typeof colors,
+        textColor?: keyof typeof colors,
+        descriptionColor?: keyof typeof colors,
+    }) => {
     return (
-        <Box color="electricUltramarine" height="413px" style={{
+        <Box color={color ?? "electricUltramarine"} height="413px" style={{
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-evenly",
@@ -48,10 +58,10 @@ export const Step = ({ title, description, image }: {
                 <div style={{
                     alignSelf: "flex-end",
                 }}>
-                    <Title>
+                    <Title color={textColor ? colors[textColor] : ""}>
                         {title}
                     </Title>
-                    <Description>
+                    <Description color={descriptionColor ? colors[descriptionColor] : ""}>
                         {description}
                     </Description>
                 </div>
