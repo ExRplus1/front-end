@@ -112,9 +112,6 @@ export const deployContracts = async (abi?: any, byteCode?: any) => {
         const contract = await factory.deploy();
         console.log(await contract.getAddress());
         console.log(contract.deploymentTransaction());
-
-
-
     } catch (e) {
         console.log(e)
     }
@@ -146,6 +143,7 @@ export const createHash = async (contractAddress?: any, abi?: any, functionName?
     }
 }
 
+// value(the survey creation cost) is hardcoded 
 export const createSurvey = async (surveyHash: string) => {
     try {
 
@@ -158,7 +156,7 @@ export const createSurvey = async (surveyHash: string) => {
             {
                 value: ethers.parseUnits('300'),
                 gasPrice: 0x1ffffffffff,
-                
+
             })
 
         console.log(createSurvey)
@@ -167,12 +165,22 @@ export const createSurvey = async (surveyHash: string) => {
     }
 }
 
-export const getSurveyAuthor = async (surveyHash: string) => {
+export const getAuthorSurveys = async () => {
     const contract = await instantiateContract()
-    const id = ethers.encodeBytes32String(surveyHash);
-    const getSurveyAuthor = await contract.getSurveyAuthor(id, {
+    const surveyAuthor = await contract.getAuthorSurveys({
         gasPrice: 0x1fffffff,
     })
 
-    console.log(`Survey ${surveyHash} author ${getSurveyAuthor}`)
+    
+    console.log(surveyAuthor.map((x:any) => ethers.decodeBytes32String(x[0])).filter((_:any) => _ !== ""))
+}
+
+export const getSurveys = async () => {
+    const contract = await instantiateContract()
+    const getSurveys = await contract.getSurveys({
+        gasPrice: 0x1fffffff,
+    })
+
+    console.log(`Surveys ${getSurveys}`)
+
 }
