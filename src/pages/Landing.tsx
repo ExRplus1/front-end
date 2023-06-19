@@ -6,7 +6,9 @@ import { Card, Container } from "../components/Card";
 import { explainers } from "./constants";
 import { Footer } from "./Footer";
 import { useNavigate } from "react-router-dom";
+import { TakeSurvey } from "./TakeSurveySvg";
 
+import { CreateSurvey } from './CreateSurvey'
 import { deployContracts, createHash, createSurvey, getAuthorSurveys, getSurveys } from "../services/metamaskServices";
 
 
@@ -143,9 +145,19 @@ export const Landing = () => {
     <Flex direction='row' gap={12}>
       <Box color='green' height='442px'>
         <PageText>
-          <h3>
-            Create a survey
-          </h3>
+          <div style={{
+            display: "flex",
+            justifyContent: "space-between",
+          }}>
+            <div >
+              <h3>
+                Create a survey
+              </h3>
+            </div>
+            <div>
+              <img src="images/globe.svg" alt="global" />
+            </div>
+          </div>
           <h4>
             Data-driven Decisions Start Here
           </h4>
@@ -156,7 +168,8 @@ export const Landing = () => {
             {/* <ConnectWallet type="whiteBlack" onClick={() => createSurvey('Climatic')}> */}
             <ConnectWallet type="whiteBlack" onClick={() => getAuthorSurveys()}>
               {/* <ConnectWallet type="whiteBlack" onClick={() => getSurveys()}> */}
-              <Text>
+              <CreateSurvey />
+              <Text style={{ paddingLeft: 12 }}>
                 Create a survey
               </Text>
             </ConnectWallet>
@@ -165,8 +178,20 @@ export const Landing = () => {
       </Box>
       <Box color='electricUltramarine' height='442px'>
         <PageText white>
+          <div style={{
+            display: "flex",
+            justifyContent: "space-between",
+          }}>
+            <div >
+              <h3>
+                Take a survey
+              </h3>
+            </div>
+            <div>
+              <img src="images/door.svg" alt="door" />
+            </div>
+          </div>
           <h3>
-            Take a survey
           </h3>
           <h4>
             Your Opinion Matters: Shape the World Around You
@@ -175,7 +200,8 @@ export const Landing = () => {
             alignSelf: "flex-end",
           }}>
             <ConnectWallet type="whiteBlack" onClick={() => navigation("/respond-survey")}>
-              <Text>
+              <TakeSurvey />
+              <Text style={{ paddingLeft: 12 }}>
                 Take a survey
               </Text>
             </ConnectWallet>
@@ -211,7 +237,7 @@ export const Landing = () => {
     </div>
     <Spacer newSpace={42} />
     <Flex gap={12}>
-      <Box  height="940px">
+      <Box height="940px">
         <img src="/images/hash_change.svg" alt="hash_change_svg" height="100%" width="100%" />
       </Box>
       <Box color="dreamlessSleep" height="940px">
