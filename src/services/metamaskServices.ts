@@ -184,3 +184,11 @@ export const getSurveys = async () => {
     console.log(`Surveys ${getSurveys}`)
 
 }
+
+/**
+ --- Survey.json
+ 1. Get hash from Spheron(IPFS) and generate Survey' hash to be write on blockchain
+ 2. Get SurveyHash from blockchain and fetch the data from Spheron(IPFS) 
+ 3. Write Answers to Spheron, get the hash and write in blockchain 
+ 4. Mint the NFT and transfer it to the user
+ */
