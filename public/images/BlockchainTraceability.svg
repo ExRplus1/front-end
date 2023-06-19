@@ -1,0 +1,32 @@
+<svg width="345" height="284" viewBox="0 0 345 284" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="345" height="284" fill="#070707"/>
+<path d="M234.068 129.008L269 119.211V37L234.068 73.6329L172.937 94.0791L163.767 111.544M234.068 129.008H198.699M234.068 129.008V76.1886M234.068 129.008L243.674 150.306M234.068 129.008L209.615 165.215M198.699 129.008H178.613M198.699 129.008L209.615 165.215M178.613 129.008L138.441 126.026M178.613 129.008L112.679 192.903L91.2828 209.941L106.566 241.888L157.654 247L172.937 229.535M138.441 126.026L76 111.544L86.4796 147.325M138.441 126.026L170.09 192.903M163.767 111.544L81.2398 91.0974M163.767 111.544L170.09 192.903M138.441 83.856L86.4796 69.7992M209.615 165.215L172.937 229.535M172.937 229.535L170.09 192.903" stroke="url(#paint0_linear_91_1784)" stroke-width="0.850482"/>
+<circle cx="269" cy="37" r="5" fill="#6BFFF5"/>
+<circle cx="269" cy="119" r="5" fill="#6BFFF5"/>
+<circle cx="233" cy="74" r="5" fill="#6BFFF5"/>
+<circle cx="86" cy="71" r="5" fill="#2EFF32"/>
+<circle cx="81" cy="92" r="5" fill="#2EFF32"/>
+<ellipse cx="75.5" cy="111" rx="5.5" ry="5" fill="#2EFF32"/>
+<circle cx="86" cy="147" r="5" fill="#2EFF32"/>
+<circle cx="81" cy="179" r="5" fill="#6BFFF5"/>
+<ellipse cx="111.5" cy="194" rx="5.5" ry="5" fill="#40FF6D"/>
+<ellipse cx="91.5" cy="211" rx="5.5" ry="5" fill="#40FF6D"/>
+<circle cx="106.5" cy="241.5" r="5.5" fill="#40FF6D"/>
+<ellipse cx="157" cy="246.5" rx="5" ry="5.5" fill="#50FF9E"/>
+<circle cx="173" cy="229" r="5" fill="#50FF9E"/>
+<circle cx="138" cy="127" r="5" fill="#50FF9E"/>
+<circle cx="138" cy="84" r="5" fill="#50FF9E"/>
+<circle cx="173" cy="94" r="5" fill="#6BFFF5"/>
+<ellipse cx="162.5" cy="111" rx="5.5" ry="5" fill="#50FF9E"/>
+<circle cx="178" cy="129" r="5" fill="#6BFFF5"/>
+<circle cx="198" cy="129" r="5" fill="#6BFFF5"/>
+<circle cx="233" cy="129" r="5" fill="#6BFFF5"/>
+<circle cx="243" cy="150" r="5" fill="#6BFFF5"/>
+<ellipse cx="208.5" cy="165" rx="5.5" ry="5" fill="#6BFFF5"/>
+<defs>
+<linearGradient id="paint0_linear_91_1784" x1="202.629" y1="135.824" x2="76.4122" y2="101.916" gradientUnits="userSpaceOnUse">
+<stop stop-color="#6BFFF5"/>
+<stop offset="1" stop-color="#27FF1E"/>
+</linearGradient>
+</defs>
+</svg>

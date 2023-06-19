@@ -5,8 +5,6 @@ import { useFetchSurvey } from "../hooks/useFetchSurvey";
 import { Spacer } from "./Landing";
 import styled, { css } from 'styled-components'
 import { useNavigate, useParams } from "react-router-dom";
-import { colors } from "../constants/colors";
-import { ConnectWallet, Text } from "../styles";
 
 const Title = styled.h1`
     font-family: 'Archivo';

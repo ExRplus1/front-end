@@ -10,7 +10,6 @@ import { useNavigate } from "react-router-dom";
 import { deployContracts, createHash, createSurvey, getAuthorSurveys, getSurveys } from "../services/metamaskServices";
 
 
-
 const PageText = styled.div<{ white?: boolean }>`
   display: flex;
   flex-direction: column;
@@ -106,26 +105,26 @@ const Flex = styled.div<{ direction?: "row" | "column"; gap?: number }>`
   height: 100%;
 `;
 export const Landing = () => {
-    const navigation = useNavigate();
-    return (<Flex direction='column'>
-        <Box
-            height={"732px"}
-            color={"blueprint"}
-            style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-            }}
-        >
-            <Box>
-                <PageText>
-                    <h1>
-                        hash change
-                    </h1>
-                    <h2>
-                        The Decentralized Survey Platform for All
-                    </h2>
-                    <div></div>
-                    {/* <div style={{
+  const navigation = useNavigate();
+  return (<Flex direction='column'>
+    <Box
+      height={"732px"}
+      color={"blueprint"}
+      style={{
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr",
+      }}
+    >
+      <Box>
+        <PageText>
+          <h1>
+            hash change
+          </h1>
+          <h2>
+            The Decentralized Survey Platform for All
+          </h2>
+          <div></div>
+          {/* <div style={{
                         display: "flex",
                         justifyContent: "flex-end"
                     }}>
@@ -135,125 +134,127 @@ export const Landing = () => {
                             </Text>
                         </ConnectWallet>
                     </div> */}
-                </PageText>
-            </Box>
-            <Box color="deepCommitmentToPurple">
-                {/* add image in here */}
-            </Box>
-        </Box>
-        <Flex direction='row' gap={12}>
-            <Box color='green' height='442px'>
-                <PageText>
-                    <h3>
-                        Create a survey
-                    </h3>
-                    <h4>
-                        Data-driven Decisions Start Here
-                    </h4>
-                    <div style={{
-                        alignSelf: "flex-end",
-                    }}>
-                        {/* <ConnectWallet type="whiteBlack" onClick={() => deployContracts()}> */}
-                        {/* <ConnectWallet type="whiteBlack" onClick={() => createSurvey('Climatic')}> */}
-                        <ConnectWallet type="whiteBlack" onClick={() => getAuthorSurveys()}>
-                        {/* <ConnectWallet type="whiteBlack" onClick={() => getSurveys()}> */}
-                            <Text>
-                                Create a survey
-                            </Text>
-                        </ConnectWallet>
-                    </div>
-                </PageText>
-            </Box>
-            <Box color='electricUltramarine' height='442px'>
-                <PageText white>
-                    <h3>
-                        Take a survey
-                    </h3>
-                    <h4>
-                        Your Opinion Matters: Shape the World Around You
-                    </h4>
-                    <div style={{
-                        alignSelf: "flex-end",
-                    }}>
-                        <ConnectWallet type="whiteBlack" onClick={() => navigation("/respond-survey")}>
-                            <Text>
-                                Take a survey
-                            </Text>
-                        </ConnectWallet>
-                    </div>
-                </PageText>
-            </Box>
-        </Flex>
-        <Spacer newSpace={51} />
+        </PageText>
+      </Box>
+      <Box color="deepCommitmentToPurple">
+        {/* add image in here */}
+      </Box>
+    </Box>
+    <Flex direction='row' gap={12}>
+      <Box color='green' height='442px'>
+        <PageText>
+          <h3>
+            Create a survey
+          </h3>
+          <h4>
+            Data-driven Decisions Start Here
+          </h4>
+          <div style={{
+            alignSelf: "flex-end",
+          }}>
+            {/* <ConnectWallet type="whiteBlack" onClick={() => deployContracts()}> */}
+            {/* <ConnectWallet type="whiteBlack" onClick={() => createSurvey('Climatic')}> */}
+            <ConnectWallet type="whiteBlack" onClick={() => getAuthorSurveys()}>
+              {/* <ConnectWallet type="whiteBlack" onClick={() => getSurveys()}> */}
+              <Text>
+                Create a survey
+              </Text>
+            </ConnectWallet>
+          </div>
+        </PageText>
+      </Box>
+      <Box color='electricUltramarine' height='442px'>
+        <PageText white>
+          <h3>
+            Take a survey
+          </h3>
+          <h4>
+            Your Opinion Matters: Shape the World Around You
+          </h4>
+          <div style={{
+            alignSelf: "flex-end",
+          }}>
+            <ConnectWallet type="whiteBlack" onClick={() => navigation("/respond-survey")}>
+              <Text>
+                Take a survey
+              </Text>
+            </ConnectWallet>
+          </div>
+        </PageText>
+      </Box>
+    </Flex>
+    <Spacer newSpace={51} />
 
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: `194px 1fr`,
+        height: 726,
+        gap: 36,
+      }}
+    >
+      <Container style={{}}>
+        <Explainer>Why use hashchange?</Explainer>
+      </Container>
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: `194px 1fr`,
+          gridTemplateColumns: `repeat(${explainers.length}, 1fr)`,
           height: 726,
-          gap: 36,
+          gap: 14,
         }}
       >
-        <Container style={{}}>
-          <Explainer>Why use hashchange?</Explainer>
-        </Container>
-        <div
+        {explainers.map((explainerInfo) => (
+          <Card {...explainerInfo} />
+        ))}
+      </div>
+    </div>
+    <Spacer newSpace={42} />
+    <Flex gap={12}>
+      <Box  height="940px">
+        <img src="/images/hash_change.svg" alt="hash_change_svg" height="100%" width="100%" />
+      </Box>
+      <Box color="dreamlessSleep" height="940px">
+        <PageText
           style={{
-            display: "grid",
-            gridTemplateColumns: `repeat(${explainers.length}, 1fr)`,
-            height: 726,
-            gap: 14,
+            justifyContent: "space-evenly",
           }}
         >
-          {explainers.map((explainerInfo) => (
-            <Card {...explainerInfo} />
-          ))}
-        </div>
-      </div>
-      <Spacer newSpace={42} />
-      <Flex gap={12}>
-        <Box color="blueprint" height="940px"></Box>
-        <Box color="dreamlessSleep" height="940px">
-          <PageText
+          <h1
             style={{
-              justifyContent: "space-evenly",
+              color: colors.white,
+              fontSize: 100,
+              lineHeight: "80px",
             }}
           >
+            How
+            <br />
+            does{"\n"}
             <h1
               style={{
-                color: colors.white,
+                color: colors.green,
                 fontSize: 100,
                 lineHeight: "80px",
               }}
             >
-              How
-              <br />
-              does{"\n"}
-              <h1
-                style={{
-                  color: colors.green,
-                  fontSize: 100,
-                  lineHeight: "80px",
-                }}
-              >
-                HashChange
-              </h1>
-              work?
+              HashChange
             </h1>
-            <h4
-              style={{
-                color: colors.white,
-              }}
-            >
-              Powered by the Hedera network we develop and deploy fast,
-              efficient, low-cost, secure, transparent, trustworthy and
-              carbon-negative smart contracts.
-            </h4>
-          </PageText>
-        </Box>
-      </Flex>
-      <Spacer newSpace={120} />
-      <Footer />
+            work?
+          </h1>
+          <h4
+            style={{
+              color: colors.white,
+            }}
+          >
+            Powered by the Hedera network we develop and deploy fast,
+            efficient, low-cost, secure, transparent, trustworthy and
+            carbon-negative smart contracts.
+          </h4>
+        </PageText>
+      </Box>
     </Flex>
+    <Spacer newSpace={120} />
+    <Footer />
+  </Flex>
   );
 };

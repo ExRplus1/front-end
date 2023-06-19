@@ -38,10 +38,10 @@ color: ${colors.white};
 
 `;
 
-export const Card = ({ Svg, title, description }: { Svg: any, title: string, description: string }) => {
+export const Card = ({ imgSrc, title, description }: { imgSrc: string, title: string, description: string }) => {
     return (
         <Container>
-            <Svg />
+            <img src={imgSrc} alt={imgSrc} />
             <Title >
                 {title}
             </Title>
