@@ -43,7 +43,7 @@ export const TopContainer = ({
     button,
     color,
     textColor,
-    descriptionColor
+    descriptionColor, ButtonComponent
 }: {
     title: string,
     description: string,
@@ -51,7 +51,8 @@ export const TopContainer = ({
     color: keyof typeof colors,
     textColor?: keyof typeof colors,
     descriptionColor?: keyof typeof colors,
-    button: {
+    ButtonComponent?: any,
+    button?: {
         text: string,
         Icon?: any,
         onClick: () => void
@@ -74,11 +75,12 @@ export const TopContainer = ({
             <DescriptionPage width={button === null ? "100%" : "70%"} color={descriptionColor ? colors[descriptionColor] : ""}>
                 {description}
             </DescriptionPage>
+            {ButtonComponent ? <ButtonComponent /> : null}
             {button ? <div style={{
                 height: 71
             }}>
                 <ConnectWallet type="whiteBlack" onClick={button.onClick}>
-                    <button.Icon />
+                    {button.Icon ? <button.Icon /> : null}
                     <Text>
                         {button.text}
                     </Text>

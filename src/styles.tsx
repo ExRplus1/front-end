@@ -38,7 +38,7 @@ export const ConnectWallet = styled.span<{ type: "black" | "white" | "whiteBlack
     }
     svg {
     color: ${colors.blackMetal};;
-  }
+    }
   }
 
 

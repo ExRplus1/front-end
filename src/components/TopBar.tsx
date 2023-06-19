@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-const Text = styled.h1`
+export const Text = styled.h1`
 font-family: 'Archivo';
 font-style: normal;
 font-weight: 500;

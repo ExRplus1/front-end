@@ -19,6 +19,6 @@ body,
   src: url('./fonts/Archivo/Archivo-VariableFont_wdth\,wght.ttf') format('truetype');
   /* Add more font formats if necessary */
 }
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6, label {
   margin: 0;
 }

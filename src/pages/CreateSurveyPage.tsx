@@ -21,6 +21,10 @@ const steps = [
 ]
 
 
+// Claim back care sa fie check
+// date range
+// category si level nu decomandata 
+
 export const CreateSurveyPage = () => {
     const navigator = useNavigate();
     return (
@@ -41,7 +45,7 @@ export const CreateSurveyPage = () => {
                     text: "Create survey",
                     Icon: () => <div style={{ paddingRight: 10, display: "grid", placeItems: "center" }}> <CreateSurvey /> </div>,
                     onClick: function (): void {
-                        navigator("/createSurvey/calculatePrice")
+                        navigator("/createSurvey/uploadJson")
                     }
                 }} />
             <div style={{
