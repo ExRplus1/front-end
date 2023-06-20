@@ -4,20 +4,36 @@ import { TSurveyForm, surveySchema } from './UploadJson';
 import { useState, useEffect } from 'react';
 import { TopBar } from '../components/TopBar';
 import { styled } from 'styled-components';
+import React from 'react';
 
 const StyledTable = styled.table`
     border-collapse: collapse;
     color: white;
-    tr, th {
+    width: 100%;
+    tr, th, td {
+    width: 100%;
         color: white;
+        font-family: 'Archivo';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 18.8116px;
+        line-height: 28px;
+        /* identical to box height, or 150% */
 
+        display: flex;
+        align-items: center;
+
+        color: #FFFFFF;
+
+        border: 1px solid #000000;
     }
     `;
-const PriceCalculator = () => {
+const PriceCalculator = ({ numberQuestions }: { numberQuestions?: number }) => {
     // price calculator table with one row and table header
     return <div>
         <StyledTable>
             <tr>
+                <th>Define</th>
                 <th>Number of questions</th>
                 <th>Participant count</th>
                 <th>Date Range of survey</th>
@@ -25,8 +41,11 @@ const PriceCalculator = () => {
                 <th>Hedera network taxes</th>
             </tr>
             <tr>
-                <td>9-10</td>
-                <td>0.1</td>
+                <td>Survey details</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
                 <td>1</td>
             </tr>
         </StyledTable>

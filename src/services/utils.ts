@@ -1,14 +1,8 @@
-
-import { useState } from "react";
-import { useAppContext } from "../hooks/useAppContext";
-import { upload } from "@spheron/browser-upload";
 import { ethers } from "ethers";
 import { ContractFactory } from 'ethers';
 import Surveys from "../contracts/Surveys.json"
-import Badges from "../contracts/Badge.json"
 import climateJson from "../stubs/climate-survey.json";
 
-import CID from "cids"
 import axios from "axios";
 import bs58 from 'bs58';
 import { Buffer } from "buffer";
@@ -256,35 +250,3 @@ const uploadFileToPinata = async (survey?: any) => {
 const fetchIPFSFile = (cid: string) => {
     return axios.get(`https://gateway.pinata.cloud/ipfs/${cid}`)
 }
-
-//SPHERON 
-const createFileFromJson = (obj: Object) => {
-    const json = JSON.stringify(obj);
-    const blob = new Blob([json], { type: "application/json" });
-    const file = new File([blob], "survey.json", {
-        type: "application/json",
-    });
-
-    return file;
-};
-
-const uploadFileToSpheron = async (surveyJson: any) => {
-    const SE_URL = `${process.env.REACT_APP_API_URL}/initiate-upload`;
-
-    const name = "climate-change";
-    const blobSurvey = createFileFromJson(surveyJson);
-
-    try {
-        const responseMeta = await fetch(`${SE_URL}/${name}-survey`);
-        const responseMetaJson = await responseMeta.json();
-        const uploadMetaResult = await upload([blobSurvey], {
-            token: responseMetaJson.uploadToken,
-        });
-        //   console.log({...uploadMetaResult});
-        //, "link creation:: https://${uploadMetaResult.dynamicLinks[0]}/survey.json");
-        return (uploadMetaResult.cid)
-    } catch (err) {
-        console.log(err);
-    } finally {
-    }
-};

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { TopBar } from "../components/TopBar";
 import { TopContainer } from "../components/TopContainer";
 import { useFetchSurvey } from "../hooks/useFetchSurvey";

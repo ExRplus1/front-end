@@ -72,3 +72,5 @@ Check that the survey is under a specific value
 so create survey will receive the survey parameters
 
 Update to testnet ?
+because of the Nonfungible blockchain state you can not modify the survey after the creation of it
+To change it how??
