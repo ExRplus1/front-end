@@ -3,56 +3,19 @@ import { TopBar } from "../components/TopBar";
 import { TopContainer } from "../components/TopContainer";
 import { useFetchSurvey } from "../hooks/useFetchSurvey";
 import { Spacer } from "./Landing";
-import styled, { css } from 'styled-components'
 import { useNavigate, useParams } from "react-router-dom";
+import { QuestionTitle, Title, ArrowButton, DownArrow, UpArrow, OptionContainer, Button, OptionText } from "./styles";
+import { TAnswers, TQuestion } from "./UploadJson";
 
-const Title = styled.h1`
-    font-family: 'Archivo';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 18.8116px;
-    line-height: 50px;
-    color: #DCDCDC;
-`;
 
-const QuestionTitle = styled.h1`
-    font-family: 'Archivo';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 30px;
-    line-height: 35px;
-    color: #FFFFFF;
-`;
-type Answers = {
-    surveyId: string,
-    questionId: number,
-    answers: Array<number>
-}
 
-type Question = {
-    id: number,
-    questionText: string,
-    questionType: "optionScale" | "singleOption" | "statement" | "multipleOption",
-    options: Array<{ id: number, text: string }>
-}
+type QuestionProps = {
+    question: TQuestion,
+    single?: boolean,
+    respondToQuestion: (answer: number, single: boolean) => void,
+    answer: Array<number>
+};
 
-const ArrowButton = styled.div`
-    box-sizing: border-box;
-
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    padding: 0px;
-
-    width: 52px;
-    height: 52px;
-    border: 1px solid #FFFFFF;
-    border-radius: 4px;
-    &:hover{
-        background-color:#8282823f;
-    }
-`;
 
 const EndSurvey = () => {
     return <div style={{ height: 650, display: "flex", width: "70vw" }}>
@@ -113,81 +76,6 @@ const OptionScaleQuestion = ({ question, respondToQuestion, answer }: QuestionPr
     </>
 }
 
-const OptionContainer = styled.div<{ $selected: string }>`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 8px 39px 8px 17px;
-    gap: 15px;
-    border: 2px solid ${({ $selected }) => $selected === "true" ? "#828282" : "#8282823f"};
-  
-    width: fit-content;
-    border-radius: 16px;
-    cursor: pointer;
-
-     
-    ${({ $selected }) => $selected === "true" ? (
-        css`
-            background-color: #D9D9D9;
-            color: #070707;
-            ${Button} {
-                background-color: #D9D9D9;
-            }
-        `
-    ) : null
-    }
-
-    &:hover{
-        background-color:#8282823f;
-    }
-`;
-const Button = styled.span`
-    width: 39px;
-    height: 38px;
-
-    background: #D9D9D9;
-    border-radius: 4px;
-    font-family: 'Archivo';
-    font-style: normal;
-    justify-content: center;
-    font-weight: 400;
-    font-size: 22.7647px;
-    line-height: 54px;
-
-    display: flex;
-    align-items: center;
-
-    color: #070707;
-`;
-const OptionText = styled.span`
-    font-family: 'Archivo';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 22.7647px;
-    line-height: 54px;
-    color: #868484;
-    text-align: center;
-`;
-
-const DownArrow = styled.span`
-  border: solid white;
-  border-width: 0 3px 3px 0;
-  display: inline-block;
-  padding: 5px;
-  transform: rotate(45deg);
-  -webkit-transform: rotate(45deg);
-`;
-
-
-const UpArrow = styled.span`
-  border: solid white;
-  border-width: 0 3px 3px 0;
-  display: inline-block;
-  padding: 5px;
-  transform: rotate(-135deg);
-  -webkit-transform: rotate(-135deg);
-`;
-type QuestionProps = { question: Question, single?: boolean, respondToQuestion: (answer: number, single: boolean) => void, answer: Array<number> };
 const MultipleOptionQuestion = ({ question, single, respondToQuestion, answer }: QuestionProps) => {
     return <div style={{
         display: "grid",
@@ -223,16 +111,45 @@ const QuestionFactory = ({ question, respondToQuestion, answer }: QuestionProps)
     }
 }
 
+export const SurveyMagic = ({ crtQuestion, questions, setCrtQuestion, respondToQuestions, answers }: {
+    questions: TQuestion[],
+    crtQuestion: number,
+    setCrtQuestion: React.Dispatch<React.SetStateAction<number>>,
+    respondToQuestions: (answer: number, single: boolean) => void,
+    answers: Array<TAnswers>
+}) => {
+    return <>
+        <div style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 70vw 1fr',
+        }}>
+            <div />
+            {crtQuestion >= questions.length ?
+                <EndSurvey />
+                :
+                <QuestionsContainer crtQuestion={crtQuestion} setCrtQuestion={setCrtQuestion} max={questions.length}
+                    questionTitle={questions?.[crtQuestion]?.questionText}
+                >
+                    <QuestionFactory question={questions[crtQuestion]} respondToQuestion={respondToQuestions} answer={answers[crtQuestion]?.answers ?? []} />
+                </QuestionsContainer>
+            }
+            <div />
+        </div>
+
+        <Spacer newSpace={100} />
+    </>
+}
+
 export const StartSurvey = () => {
     const { data: survey } = useFetchSurvey();
     const { surveyId } = useParams();
     const navigate = useNavigate();
 
-    const questions = useMemo<Array<Question>>(() => survey?.questions ?? [], [survey?.questions]);
+    const questions = useMemo<Array<TQuestion>>(() => survey?.questions ?? [], [survey?.questions]);
     const [crtQuestion, setCrtQuestion] = useState(0);
 
     // TODO: save in IPFS at the end @drLeo
-    const [answers, setAnswers] = useState<Array<Answers>>(questions.map((question) => {
+    const [answers, setAnswers] = useState<Array<TAnswers>>(questions.map((question) => {
         return {
             surveyId: surveyId ?? "",
             questionId: question.id,
@@ -283,25 +200,13 @@ export const StartSurvey = () => {
                         }
                     }
                     : null} />
-            <div style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 70vw 1fr',
-            }}>
-                <div />
-                {crtQuestion >= questions.length ?
-                    <EndSurvey />
-
-                    :
-                    <QuestionsContainer crtQuestion={crtQuestion} setCrtQuestion={setCrtQuestion} max={questions.length}
-                        questionTitle={questions?.[crtQuestion]?.questionText}
-                    >
-                        <QuestionFactory question={questions[crtQuestion]} respondToQuestion={setAnswersForQuestion(crtQuestion)} answer={answers[crtQuestion]?.answers ?? []} />
-                    </QuestionsContainer>
-                }
-                <div />
-            </div>
-
-            <Spacer newSpace={100} />
+            <SurveyMagic
+                questions={questions}
+                crtQuestion={crtQuestion}
+                setCrtQuestion={setCrtQuestion}
+                respondToQuestions={setAnswersForQuestion(crtQuestion)}
+                answers={answers}
+            />
         </div>
     )
 }

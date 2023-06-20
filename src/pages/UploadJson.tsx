@@ -1,13 +1,29 @@
 import { styled } from 'styled-components'
 import { TopContainer } from '../components/TopContainer'
-import { CreateSurvey } from './CreateSurvey'
 import { useNavigate } from 'react-router-dom'
 import { Text } from "../styles"
 import { colors } from '../constants/colors';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import * as yup from 'yup';
+import { SurveyMagic } from './StartSurvey';
 
-const surveySchema = yup.object().shape({
+export const answersSchema = yup.object().shape({
+    surveyId: yup.string().required(),
+    questionId: yup.number().required(),
+    answers: yup.array().of(yup.number().required()).required()
+});
+
+export const questionsSchema = yup.object().shape({
+    id: yup.number().required(),
+    questionText: yup.string().required(),
+    questionType: yup.string().required().oneOf(["optionScale", "singleOption", "statement", "multipleOption"]),
+    options: yup.array().of(yup.object().shape({
+        id: yup.number().required(),
+        text: yup.string().required()
+    })).nullable(),
+});
+
+export const surveySchema = yup.object().shape({
     id: yup.string().required(),
     completed: yup.boolean().required(),
     description: yup.string().required(),
@@ -16,18 +32,12 @@ const surveySchema = yup.object().shape({
     startDate: yup.date().required(),
     endDate: yup.date().required(),
     maxNumberOfVoters: yup.number().required(),
-    questions: yup.array().of(yup.object().shape({
-        id: yup.number().required(),
-        questionText: yup.string().required(),
-        questionType: yup.string().required().oneOf(["optionScale", "singleOption", "statement", "multipleOption"]),
-        options: yup.array().of(yup.object().shape({
-            id: yup.number().required(),
-            text: yup.string().required()
-        })).nullable(),
-    })).required()
+    questions: yup.array().of(questionsSchema).required()
 });
 
-type TSurveyForm = yup.InferType<typeof surveySchema>;
+export type TSurveyForm = yup.InferType<typeof surveySchema>;
+export type TQuestion = TSurveyForm["questions"][number];
+export type TAnswers = yup.InferType<typeof answersSchema>;
 
 const StyledForm = styled.form`
     input {
@@ -67,8 +77,38 @@ const StyledForm = styled.form`
 `;
 
 export const UploadJson = () => {
-    const navigator = useNavigate();
     const [files, setFiles] = useState<TSurveyForm | null>(null);
+
+    const navigate = useNavigate();
+
+    const questions = useMemo<Array<TQuestion>>(() => files?.questions ?? [], [files?.questions]);
+    const [crtQuestion, setCrtQuestion] = useState(0);
+
+    // The questions in here do not have an surveyId
+    const [answers, setAnswers] = useState<Array<TAnswers>>(questions.map((question) => {
+        return {
+            surveyId: "testRunId",
+            questionId: question.id,
+            answers: []
+        }
+    }));
+    const setAnswersForQuestion = useCallback((questionNumber: number) => (answer: number, single: boolean) => {
+        setAnswers(prevAnswers => {
+            const newAnswers = [...prevAnswers];
+            const answersPrev = prevAnswers?.[questionNumber]?.answers ?? [];
+            const crtAnswer = answersPrev.includes(answer) ? answersPrev.filter((ans) => ans !== answer) : [...answersPrev, answer];
+
+            prevAnswers[questionNumber] = {
+                surveyId: "testRunId",
+                questionId: questions[questionNumber].id,
+                answers: single ? [answer] : crtAnswer
+            };
+            if (questions[questionNumber]?.questionType === "singleOption") {
+                setCrtQuestion(index => index + 1);
+            }
+            return newAnswers;
+        });
+    }, [questions]);
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (!e.target.files) return;
         const fileReader = new FileReader();
@@ -118,7 +158,14 @@ export const UploadJson = () => {
                         </StyledForm>
                     </>
                 }} />
-
+            {(files?.questions?.length ?? 0) > 0 ?
+                <SurveyMagic
+                    questions={questions}
+                    crtQuestion={crtQuestion}
+                    setCrtQuestion={setCrtQuestion}
+                    respondToQuestions={setAnswersForQuestion(crtQuestion)}
+                    answers={answers}
+                /> : null}
         </div>
     )
 }
