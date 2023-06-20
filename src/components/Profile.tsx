@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAppContext } from "../hooks/useAppContext";
 import { ConnectWallet, Text } from "../styles";
-import { connectMM, disconnectMM } from "../services/metamaskServices";
+import { connectMM, disconnectMM } from "../services/utils";
 
 //hook
 const useHover = () => {

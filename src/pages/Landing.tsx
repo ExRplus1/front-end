@@ -7,7 +7,7 @@ import { explainers } from "./constants";
 import { Footer } from "./Footer";
 import { useNavigate } from "react-router-dom";
 
-import { deployContracts, createHash, createSurvey, getAuthorSurveys, getSurveys } from "../services/metamaskServices";
+import { deployContracts, deploySurvey, getAuthorSurveys, getSurveys } from "../services/utils";
 
 
 
@@ -154,9 +154,9 @@ export const Landing = () => {
                         alignSelf: "flex-end",
                     }}>
                         {/* <ConnectWallet type="whiteBlack" onClick={() => deployContracts()}> */}
-                        {/* <ConnectWallet type="whiteBlack" onClick={() => createSurvey('Climatic')}> */}
-                        <ConnectWallet type="whiteBlack" onClick={() => getAuthorSurveys()}>
-                        {/* <ConnectWallet type="whiteBlack" onClick={() => getSurveys()}> */}
+                        {/* <ConnectWallet type="whiteBlack" onClick={() => deploySurvey(null, '300')}> */}
+                        {/* <ConnectWallet type="whiteBlack" onClick={() => getAuthorSurveys()}> */}
+                        <ConnectWallet type="whiteBlack" onClick={() => getSurveys()}>
                             <Text>
                                 Create a survey
                             </Text>
