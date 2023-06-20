@@ -6,6 +6,7 @@ import { colors } from '../constants/colors';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import * as yup from 'yup';
 import { SurveyMagic } from './StartSurvey';
+import { TopBar } from '../components/TopBar';
 
 export const answersSchema = yup.object().shape({
     surveyId: yup.string().required(),
@@ -149,6 +150,15 @@ export const UploadJson = () => {
         }}>
             <TopContainer
                 title={"Upload Json + Preview"}
+                TopBar={() =>
+                    <TopBar
+                        color="sheetBlue"
+                        title={(files?.questions?.length ?? 0) > 0 ? "Check your questions" : "Upload Questions"}
+                        stepText={`Step ${(files?.questions?.length ?? 0) > 0 ? 2 : 1} of 3`}
+                        percentage={((files?.questions?.length ?? 0) > 0 ? 2 : 1) / (
+                            3
+                        )}
+                    />}
                 description={"You need to upload your questions in a JSON format"}
                 color="yellowGreen"
                 textColor="northSeaBlue"

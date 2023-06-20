@@ -77,7 +77,8 @@ export const TopContainer = ({
             </DescriptionPage>
             {ButtonComponent ? <ButtonComponent /> : null}
             {button ? <div style={{
-                height: 71
+                height: 50,
+                alignSelf: "center"
             }}>
                 <ConnectWallet type="whiteBlack" onClick={button.onClick}>
                     {button.Icon ? <button.Icon /> : null}

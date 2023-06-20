@@ -1,22 +1,22 @@
 import styled from 'styled-components'
+import { colors } from '../constants/colors';
 
-export const Text = styled.h1`
-font-family: 'Archivo';
-font-style: normal;
-font-weight: 500;
-font-size: 18.8116px;
-line-height: 28px;
-/* identical to box height, or 150% */
+export const Text = styled.h1<{ color: string }>`
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18.8116px;
+  line-height: 28px;
+  /* identical to box height, or 150% */
 
-display: flex;
-align-items: center;
-
-color: #DCDCDC;
+  display: flex;
+  align-items: center;
+  color: ${({ color }) => color ? color : "#DCDCDC"};
 `;
 
 const ProgressBarInner = styled.div<{ width: number }>`
   width: ${({ width }) => width}%;
-position: absolute;
+  position: absolute;
   left: 0px;
   height: 100%;
   top: 0px;
@@ -26,7 +26,7 @@ position: absolute;
 `;
 
 const ProgressBarOuter = styled.div`
-position: absolute;
+  position: absolute;
   width: 100%;
   height: 100%;
   left: 0px;
@@ -35,9 +35,10 @@ position: absolute;
   border-radius: 17.6359px;
 `;
 
-export const TopBar = ({ title, stepText, percentage }: {
+export const TopBar = ({ title, stepText, color, percentage }: {
   title: string,
   stepText: string,
+  color?: keyof typeof colors,
   percentage: number
 }) => {
   return <div>
@@ -45,10 +46,10 @@ export const TopBar = ({ title, stepText, percentage }: {
       display: "flex",
       justifyContent: "space-between"
     }}>
-      <Text>
+      <Text color={color ? colors[color] : ""}>
         {title}
       </Text>
-      <Text>
+      <Text color={color ? colors[color] : ""}>
         {stepText}
       </Text>
     </div>
@@ -57,7 +58,7 @@ export const TopBar = ({ title, stepText, percentage }: {
       height: 18,
       position: "relative",
       marginTop: 20,
-      marginBottom:64,
+      marginBottom: 64,
     }}>
       {/* progressbar */}
       <ProgressBarOuter />
