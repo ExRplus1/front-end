@@ -70,3 +70,5 @@ And if message value is not the value that we calculate on the contract we are r
 Check that the survey is under a specific value
 ^ issue that we have overcome
 so create survey will receive the survey parameters
+
+Update to testnet ?
