@@ -7,9 +7,9 @@ import { explainers } from "./constants";
 import { Footer } from "./Footer";
 import { useNavigate } from "react-router-dom";
 import { TakeSurvey } from "./TakeSurveySvg";
+import { CreateSurvey } from "./CreateSurvey";
 
-import { CreateSurvey } from './CreateSurvey'
-import { deployContracts, createHash, createSurvey, getAuthorSurveys, getSurveys } from "../services/metamaskServices";
+import { deployContracts, deploySurvey, getAuthorSurveys, getSurveys } from "../services/utils";
 
 
 const PageText = styled.div<{ white?: boolean }>`
