@@ -15,7 +15,7 @@ line-height: 69px;
 display: flex;
 align-items: center;
 
-color: ${({ color }) => color ?? "#FFFFFF"};
+color: ${({ color }) => color ? color : "#FFFFFF"};
 `;
 const DescriptionPage = styled.h2<{ width: string, color: string }>`
 font-family: 'Archivo';
@@ -31,7 +31,7 @@ line-height: 44px;
 
 display: flex;
 align-items: center;
-color: ${({ color }) => color ?? "#DCDCDC"};
+color: ${({ color }) => color ? color : "#DCDCDC"};
 
 `;
 
