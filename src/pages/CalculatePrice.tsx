@@ -7,11 +7,16 @@ import { styled } from 'styled-components';
 import React from 'react';
 
 const StyledTable = styled.table`
+    width: 100%;
+tbody {
     border-collapse: collapse;
     color: white;
-    width: 100%;
+    border-spacing:0;
+    td{ 
+        border-style:none none solid none;
+    }
     tr, th, td {
-    width: 100%;
+  width: 100%;
         color: white;
         font-family: 'Archivo';
         font-style: normal;
@@ -27,28 +32,136 @@ const StyledTable = styled.table`
 
         border: 1px solid #000000;
     }
+    th, td {
+        margin: 8px;
+    }
+    td {
+        padding-left: 1px;
+    }
+    tr:first-of-type {
+        border-bottom:  1px solid #828282;
+    }
+}
     `;
+const HbarStyle = styled.td`
+    &::after {
+        content: "ℏ";
+        display: inline;
+        position: relative;
+        padding-left: 5px;
+        font-size: 16px;
+    }
+`;
+const StyledInput = styled.input`
+    outline: none;
+    background-color: transparent;
+    border: 1px solid #828282;
+    border-radius: 19px;
+    height: 38px;
+    font-family: 'Archivo';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 28px;
+    padding-left: 10px;
+    /* identical to box height, or 235% */
+
+    display: flex;
+    align-items: center;
+    color: #FFFFFF;
+    &:focus {
+        outline: none;
+    }
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+    }
+
+    &[type=number] {
+        -moz-appearance: textfield;
+    }
+`;
+
+const PriceLine = styled.hr`
+  border-top:1px solid #C8F745;
+  width  : 100%;
+`;
+
+const Total = styled.div`
+   /* identical to box height, or 235% */
+
+   display: grid;
+   padding-top:8px ;
+
+    h1 {
+        font-family: 'Archivo';
+        text-align: right;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 23.5145px;
+        /* identical to box height, or 150% */
+        color: #FFFFFF;
+    }
+    h1::after {
+        content: "ℏ";
+        display: inline;
+        position: relative;
+        padding-left: 5px;
+        font-size: 16px;
+    }
+span {
+    font-family: 'Archivo';
+text-align: right;
+    font-style: italic;
+    font-weight: 100;
+    font-size: 12px;
+    line-height:20px ;
+ 
+    color: #737373;
+}
+
+`
 const PriceCalculator = ({ numberQuestions }: { numberQuestions?: number }) => {
     // price calculator table with one row and table header
     return <div>
-        <StyledTable>
-            <tr>
-                <th>Define</th>
-                <th>Number of questions</th>
-                <th>Participant count</th>
-                <th>Date Range of survey</th>
-                <th>Flat survey price</th>
-                <th>Hedera network taxes</th>
-            </tr>
-            <tr>
-                <td>Survey details</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-            </tr>
+        <StyledTable cellSpacing={0}>
+            <tbody>
+                <tr>
+                    <th>Define</th>
+                    <th>Number of questions</th>
+                    <th>Participant count</th>
+                    {/* <th>Date Range of survey</th> */}
+                    <th>Flat survey price</th>
+                    <th>Hedera network taxes</th>
+                </tr>
+                <tr>
+                    <td>Survey details</td>
+                    <td>{numberQuestions}</td>
+                    <td>
+                        <StyledInput type="number" placeholder='# of participants' />
+                    </td>
+                    {/* <td>1</td> */}
+                    <HbarStyle>30</HbarStyle>
+                    <HbarStyle>50</HbarStyle>
+                </tr>
+            </tbody>
         </StyledTable>
+        <PriceLine />
+        <div style={{
+            display: "flex",
+            justifyContent: "flex-end",
+        }}>
+            <Total>
+                <h1>
+                    Total: 1,000 USD = 22.320328
+                </h1>
+                <span>
+                    to continue press the button at the top
+                </span>
+            </Total>
+        </div>
     </div>
 }
 
@@ -61,7 +174,6 @@ export const CalculatePrice = () => {
                 const survey = localStorage.getItem("survey");
                 const surveyObject = await surveySchema.validate(JSON.parse(survey ?? ""));
                 setSurvey(surveyObject);
-                console.log({ surveyObject })
             } catch (e) {
                 setSurvey(null);
                 // if error set survey to null so we don t show the calculator
@@ -99,7 +211,7 @@ export const CalculatePrice = () => {
                         navigator("/createSurvey/uploadJson")
                     }
                 }} />
-            <PriceCalculator />
+            <PriceCalculator numberQuestions={survey?.questions?.length ?? 0} />
         </div>
     )
 }
