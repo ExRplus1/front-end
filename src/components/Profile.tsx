@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAppContext } from "../hooks/useAppContext";
 import { ConnectWallet, Text } from "../styles";
-import { connectMM, disconnectMM } from "../services/utils";
 
 //hook
 const useHover = () => {
@@ -19,36 +18,17 @@ const Profile = () => {
     setMetamaskAccountAddress,
     metamaskConnected,
     setMetamaskConnected,
+    connect,
+    disconnect
   } = useAppContext();
 
-  useEffect(() => {
-    const {ethereum} = window as any;
-    const windowReload = (chainId: any) => window.location.reload();
-    ethereum?.on("chainChanged", windowReload);
-    return () => ethereum?.removeListener("chainChanged", windowReload);
-  }, [metamaskConnected]);
-
-  const connect = async () => {
-    const account = await connectMM();
-    // console.log(account)
-    if (account) {
-      setMetamaskAccountAddress(account);
-      setMetamaskConnected(true);
-    }
-  };
-
-  const disconnect = async () => {
-    await disconnectMM();
-    setMetamaskAccountAddress('');
-    setMetamaskConnected(false);
-  };
 
   const [hovered, hoverProps] = useHover();
 
   return metamaskConnected ? (
     <ConnectWallet
       type="white"
-      onClick={() => disconnect()}
+      onClick={disconnect}
       {...hoverProps}
       style={{ width: 350 }}
     >

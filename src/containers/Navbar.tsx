@@ -1,7 +1,8 @@
 import Profile from "../components/Profile";
 import { NavBarContainer, Link, Text } from "../styles";
-
+import { useAppContext } from "../hooks/useAppContext";
 const Navbar = () => {
+  const ctx = useAppContext();
   return (
     <NavBarContainer>
       <div
@@ -10,7 +11,7 @@ const Navbar = () => {
         }}
       >
         <Link>
-          <Text> Link 1</Text>
+          <Text> 1Hbar = {ctx?.exRate}$ </Text>
         </Link>
         <Link>
           <Text> Link 2</Text>

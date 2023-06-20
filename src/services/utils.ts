@@ -1,5 +1,4 @@
-import { ethers } from "ethers";
-import { ContractFactory } from 'ethers';
+import { ethers, ContractFactory } from 'ethers';
 import Surveys from "../contracts/Surveys.json"
 import climateJson from "../stubs/climate-survey.json";
 
@@ -9,18 +8,29 @@ import { Buffer } from "buffer";
 
 // blockchain
 
+export const exchangeRate = async () => {
+    try {
+        const {data} = await axios.get('https://mainnet-public.mirrornode.hedera.com/api/v1/network/exchangerate');
+        const {cent_equivalent, hbar_equivalent} = data.current_rate;
+        const HbarPriceInUSD: number = Math.round(cent_equivalent / hbar_equivalent * 100) / 1e4
+        return HbarPriceInUSD
+    } catch (e) {
+
+    }
+}
+
 // connect to Metamask
 const connect = async () => {
     try {
         const { ethereum } = window as any;
-        switchToHederaNetwork(ethereum)
-        let provider;
         if (!ethereum) {
+            alert('Get Metamask!')
             console.log("MetaMask not installed; using read-only defaults");
-            provider = new ethers.JsonRpcProvider(process.env.REACT_APP_RPC_URL)
-        } else {
-            provider = new ethers.BrowserProvider(ethereum)
+            return;
         }
+        let provider;
+        switchToHederaNetwork(ethereum)
+        provider = new ethers.BrowserProvider(ethereum)
         await provider.send('eth_requestAccounts', []);
         const accounts = await provider.listAccounts();
         const { address } = accounts[0]
@@ -64,7 +74,7 @@ const switchToHederaNetwork = async (ethereum: any) => {
     }
 }
 
-export const connectMM = async () => {
+export const connectWallet = async () => {
     try {
         const { address } = await connect() as any;
         return address
@@ -73,31 +83,27 @@ export const connectMM = async () => {
     }
 }
 
-
-export const disconnectMM = async () => {
+// Unused because Metamask' HSON-RPC API don't allow to 'really' disconect 
+export const disconnectWallet = async () => {
     try {
-        const { ethereum, provider } = await connect() as any;
-
+        const { ethereum } = await connect() as any;
         if (!ethereum) {
             throw new Error("Metamask is not installed! Go install the extension!");
         }
-        const accounts = await ethereum.request({
+        await ethereum.request({
             method: "wallet_requestPermissions",
             params: [{
                 eth_accounts: {}
             }]
-        }).then(() => ethereum.request({
-            method: 'eth_requestAccounts'
-        }))
-
-
+        });
+        window.location.reload();
     } catch (e) {
         console.log("[ERROR THROW::]", e)
     }
 }
 
 
-// utilities
+// TODO :: MOVE THIS IN HARDHAT
 export const deployContracts = async (abi?: any, byteCode?: any) => {
     abi = Surveys.abi;
     byteCode = Surveys.bytecode;
@@ -202,16 +208,14 @@ export const getSurveys = async () => {
 
         // const fetchedSurveys = await Promise.all(mappedSurveys);
 
-        console.log(filteredSurveys.map((cid:string) => `${endPoint}${cid}`))
+        console.log(filteredSurveys.map((cid: string) => `${endPoint}${cid}`))
 
-        return ;
+        return;
 
     } catch (e) {
         console.log(e)
     }
 }
-
-
 
 /**
  --- Survey.json
@@ -220,8 +224,6 @@ export const getSurveys = async () => {
  3. Write Answers to Spheron, get the hash and write in blockchain 
  4. Mint the NFT and transfer it to the user
  */
-
-
 
 // Pinata
 const uploadFileToPinata = async (survey?: any) => {
