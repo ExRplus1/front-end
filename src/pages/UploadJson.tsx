@@ -125,9 +125,20 @@ export const UploadJson = () => {
             }
         };
     };
+
     useEffect(() => {
-        console.log(files);
-    }, [files]);
+        const getSurveyIfExists = async () => {
+            try {
+                const survey = localStorage.getItem("survey");
+                const surveyObject = await surveySchema.validate(JSON.parse(survey ?? ""));
+                setFiles(surveyObject);
+            } catch (e) {
+                // don t log error as we don t know if the survey is coming from us
+                // console.log(e);
+            }
+        };
+        getSurveyIfExists();
+    }, [])
     return (
         <div style={{
             display: "flex",
@@ -165,6 +176,12 @@ export const UploadJson = () => {
                     setCrtQuestion={setCrtQuestion}
                     respondToQuestions={setAnswersForQuestion(crtQuestion)}
                     answers={answers}
+                    onClick={() => {
+                        // Yes, yes; not the best solution... maybe we should use some url parameter :-?
+                        localStorage.setItem("survey", JSON.stringify(files));
+                        navigate("/createSurvey/calculatePrice");
+                    }}
+
                 /> : null}
         </div>
     )

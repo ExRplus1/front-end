@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { TopBar } from "../components/TopBar";
 import { TopContainer } from "../components/TopContainer";
 import { useFetchSurvey } from "../hooks/useFetchSurvey";
@@ -6,6 +6,7 @@ import { Spacer } from "./Landing";
 import { useNavigate, useParams } from "react-router-dom";
 import { QuestionTitle, Title, ArrowButton, DownArrow, UpArrow, OptionContainer, Button, OptionText } from "./styles";
 import { TAnswers, TQuestion } from "./UploadJson";
+import { ConnectWallet, Text } from "../styles";
 
 
 
@@ -17,7 +18,7 @@ type QuestionProps = {
 };
 
 
-const EndSurvey = () => {
+const EndSurvey = ({ onClick }: { onClick: React.MouseEventHandler<HTMLSpanElement> }) => {
     return <div style={{ height: 650, display: "flex", width: "70vw" }}>
         <p style={{
             width: "70vw"
@@ -25,6 +26,16 @@ const EndSurvey = () => {
             <QuestionTitle>
                 Congrats for completing the survey
             </QuestionTitle>
+            <div style={{
+                display: "flex",
+                justifyContent: "flex-end",
+            }}>
+                <ConnectWallet type="white" onClick={onClick}>
+                    <Text>
+                        Continue
+                    </Text>
+                </ConnectWallet>
+            </div>
             <Spacer newSpace={50} />
         </p>
     </div>
@@ -111,12 +122,13 @@ const QuestionFactory = ({ question, respondToQuestion, answer }: QuestionProps)
     }
 }
 
-export const SurveyMagic = ({ crtQuestion, questions, setCrtQuestion, respondToQuestions, answers }: {
+export const SurveyMagic = ({ crtQuestion, questions, setCrtQuestion, respondToQuestions, answers, onClick }: {
     questions: TQuestion[],
     crtQuestion: number,
     setCrtQuestion: React.Dispatch<React.SetStateAction<number>>,
     respondToQuestions: (answer: number, single: boolean) => void,
     answers: Array<TAnswers>
+    onClick: React.MouseEventHandler<HTMLSpanElement>
 }) => {
     return <>
         <div style={{
@@ -125,7 +137,7 @@ export const SurveyMagic = ({ crtQuestion, questions, setCrtQuestion, respondToQ
         }}>
             <div />
             {crtQuestion >= questions.length ?
-                <EndSurvey />
+                <EndSurvey onClick={onClick} />
                 :
                 <QuestionsContainer crtQuestion={crtQuestion} setCrtQuestion={setCrtQuestion} max={questions.length}
                     questionTitle={questions?.[crtQuestion]?.questionText}
@@ -174,6 +186,7 @@ export const StartSurvey = () => {
         });
     }, [questions, surveyId]);
 
+
     return (
         <div style={{
             display: "flex",
@@ -206,6 +219,9 @@ export const StartSurvey = () => {
                 setCrtQuestion={setCrtQuestion}
                 respondToQuestions={setAnswersForQuestion(crtQuestion)}
                 answers={answers}
+                onClick={() =>
+                    navigate(`/respond-survey/end/${surveyId}`)
+                }
             />
         </div>
     )
