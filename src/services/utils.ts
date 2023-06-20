@@ -130,12 +130,11 @@ const instantiateContract = async () => {
     return contract
 }
 
-
 //abi functions call
 
 const encodeCIDtoBytes32 = (IPFSUploadToken: string) => {
     const cidHex = bs58.decode(IPFSUploadToken)
-    console.log(cidHex.slice(0, 4), cidHex.slice(4));
+    // console.log(cidHex.slice(0, 4), cidHex.slice(4));
     const cid = ethers.hexlify(cidHex.slice(2));
     // console.log("CID::", cid)
     return cid;
