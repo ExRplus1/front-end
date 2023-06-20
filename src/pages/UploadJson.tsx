@@ -4,8 +4,30 @@ import { CreateSurvey } from './CreateSurvey'
 import { useNavigate } from 'react-router-dom'
 import { Text } from "../styles"
 import { colors } from '../constants/colors';
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
+import * as yup from 'yup';
 
+const surveySchema = yup.object().shape({
+    id: yup.string().required(),
+    completed: yup.boolean().required(),
+    description: yup.string().required(),
+    name: yup.string().required(),
+    authId: yup.string().required(),
+    startDate: yup.date().required(),
+    endDate: yup.date().required(),
+    maxNumberOfVoters: yup.number().required(),
+    questions: yup.array().of(yup.object().shape({
+        id: yup.number().required(),
+        questionText: yup.string().required(),
+        questionType: yup.string().required().oneOf(["optionScale", "singleOption", "statement", "multipleOption"]),
+        options: yup.array().of(yup.object().shape({
+            id: yup.number().required(),
+            text: yup.string().required()
+        })).nullable(),
+    })).required()
+});
+
+type TSurveyForm = yup.InferType<typeof surveySchema>;
 
 const StyledForm = styled.form`
     input {
@@ -46,19 +68,21 @@ const StyledForm = styled.form`
 
 export const UploadJson = () => {
     const navigator = useNavigate();
-    const [files, setFiles] = useState<ArrayBuffer | string | null>(null);
+    const [files, setFiles] = useState<TSurveyForm | null>(null);
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (!e.target.files) return;
         const fileReader = new FileReader();
         fileReader.readAsText(e.target.files[0], "UTF-8");
-        fileReader.onload = ee => {
+        fileReader.onload = async ee => {
             if (!ee?.target?.result) return;
-            console.log("e.target.result", ee.target.result);
             try {
-                setFiles(JSON.parse(ee.target.result as string));
+                const valid = await surveySchema.validate(JSON.parse(ee.target.result as string))
+                if (valid) {
+                    setFiles(valid);
+                }
             } catch (e) {
                 alert("Invalid JSON file");
-            }   
+            }
         };
     };
     useEffect(() => {
@@ -93,7 +117,6 @@ export const UploadJson = () => {
                             </label>
                         </StyledForm>
                     </>
-
                 }} />
 
         </div>
