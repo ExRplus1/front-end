@@ -4,7 +4,6 @@ import React, {
   ReactNode,
   useContext,
   SetStateAction,
-  Dispatch,
 } from "react";
 
 interface AppContextInterface {

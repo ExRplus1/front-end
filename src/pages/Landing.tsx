@@ -9,8 +9,6 @@ import { useNavigate } from "react-router-dom";
 import { TakeSurvey } from "./TakeSurveySvg";
 import { CreateSurvey } from "./CreateSurvey";
 
-import { deployContracts, deploySurvey, getAuthorSurveys, getSurveys } from "../services/utils";
-
 
 const PageText = styled.div<{ white?: boolean }>`
   display: flex;

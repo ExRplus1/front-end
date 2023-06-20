@@ -4,6 +4,7 @@ import { TSurveyForm, surveySchema } from './UploadJson';
 import { useState, useEffect } from 'react';
 import { TopBar } from '../components/TopBar';
 import { styled } from 'styled-components';
+import React from 'react';
 
 const StyledTable = styled.table`
     border-collapse: collapse;
