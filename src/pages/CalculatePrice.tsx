@@ -52,7 +52,7 @@ const HbarStyle = styled.td`
         font-size: 16px;
     }
 `;
-const StyleDInput = styled.input`
+const StyledInput = styled.input`
     outline: none;
     background-color: transparent;
     border: 1px solid #828282;
@@ -140,7 +140,7 @@ const PriceCalculator = ({ numberQuestions }: { numberQuestions?: number }) => {
                     <td>Survey details</td>
                     <td>{numberQuestions}</td>
                     <td>
-                        <StyleDInput type="number" />
+                        <StyledInput type="number" placeholder='# of participants' />
                     </td>
                     {/* <td>1</td> */}
                     <HbarStyle>30</HbarStyle>
