@@ -1,9 +1,37 @@
 import { TopContainer } from '../components/TopContainer'
-import { CreateSurvey } from './CreateSurvey'
 import { useNavigate } from 'react-router-dom'
 import { TSurveyForm, surveySchema } from './UploadJson';
 import { useState, useEffect } from 'react';
 import { TopBar } from '../components/TopBar';
+import { styled } from 'styled-components';
+
+const StyledTable = styled.table`
+    border-collapse: collapse;
+    color: white;
+    tr, th {
+        color: white;
+
+    }
+    `;
+const PriceCalculator = () => {
+    // price calculator table with one row and table header
+    return <div>
+        <StyledTable>
+            <tr>
+                <th>Number of questions</th>
+                <th>Participant count</th>
+                <th>Date Range of survey</th>
+                <th>Flat survey price</th>
+                <th>Hedera network taxes</th>
+            </tr>
+            <tr>
+                <td>9-10</td>
+                <td>0.1</td>
+                <td>1</td>
+            </tr>
+        </StyledTable>
+    </div>
+}
 
 export const CalculatePrice = () => {
     const navigator = useNavigate();
@@ -35,8 +63,8 @@ export const CalculatePrice = () => {
             <TopContainer
                 title={"Quote Calculator"}
                 TopBar={() => <TopBar
-                color="sheetBlue"
-                title={"Pay and publish"} stepText={"Step 3 of 3"} percentage={1} />}
+                    color="sheetBlue"
+                    title={"Pay and publish"} stepText={"Step 3 of 3"} percentage={1} />}
                 description={"Invest in knowledge, shape the future. Decide how many results you will need from your survey and create data encrypted NFT’s for your participants as incentives, motivating them to provide valuable feedback."}
                 color="yellowGreen"
                 textColor="northSeaBlue"
@@ -52,6 +80,7 @@ export const CalculatePrice = () => {
                         navigator("/createSurvey/uploadJson")
                     }
                 }} />
+            <PriceCalculator />
         </div>
     )
 }
