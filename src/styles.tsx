@@ -4,18 +4,18 @@ import styled, { css } from "styled-components";
 export const Bg = styled.div`
   background-color: ${colors.blackMetal};
   height: 100%;
-      padding: 0px 27px;
-      overflow-x: hidden;
-      overflow-y: scroll;
+  padding: 0px 27px;
+  overflow-x: hidden;
+  overflow-y: scroll;
 `;
 
 export const Text = styled.span`
   font-family: 'Inter';
-font-style: normal;
-font-weight: 600;
-font-size: 18px;
-line-height: 28px;
-cursor: pointer;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 28px;
+  cursor: pointer;
 `
 export const ConnectWallet = styled.span<{ type: "black" | "white" | "whiteBlack" }>`
   display: flex;
@@ -23,6 +23,9 @@ export const ConnectWallet = styled.span<{ type: "black" | "white" | "whiteBlack
   justify-content: center;
   align-items: center;
   padding: 0px 24px;
+  svg {
+    color: ${colors.white_border};;
+  }
 
   height: 100%;
   /* White */
@@ -33,7 +36,11 @@ export const ConnectWallet = styled.span<{ type: "black" | "white" | "whiteBlack
     ${Text} {
       color: ${colors.blackMetal};
     }
+    svg {
+    color: ${colors.blackMetal};;
+    }
   }
+
 
 ${({ type }) => {
     switch (type) {

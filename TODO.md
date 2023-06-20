@@ -63,3 +63,12 @@ Leo -> wite the hooks to upload the data
 
 https://github.com/rekpero/fvm-nft-minter-demo/blob/main/frontend/src/components/card.js
 
+
+
+Parameters that influence the price of the survey will be saved in the contract.
+And if message value is not the value that we calculate on the contract we are revoking the creation
+Check that the survey is under a specific value
+^ issue that we have overcome
+so create survey will receive the survey parameters
+
+Update to testnet ?

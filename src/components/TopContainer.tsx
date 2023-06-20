@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { colors } from "../constants/colors";
 import { ConnectWallet, Text } from "../styles";
 
-const TitlePage = styled.h1`
+const TitlePage = styled.h1<{ color: string }>`
 font-family: 'VCR OSD Mono';
 font-style: normal;
 font-weight: 400;
@@ -15,9 +15,9 @@ line-height: 69px;
 display: flex;
 align-items: center;
 
-color: #FFFFFF;
+color: ${({ color }) => color ? color : "#FFFFFF"};
 `;
-const DescriptionPage = styled.h2<{ width: string }>`
+const DescriptionPage = styled.h2<{ width: string, color: string }>`
 font-family: 'Archivo';
 width: ${({ width }) => width};
 word-wrap: break-word;
@@ -31,18 +31,30 @@ line-height: 44px;
 
 display: flex;
 align-items: center;
+color: ${({ color }) => color ? color : "#DCDCDC"};
 
-color: #DCDCDC;
 `;
 
 
-export const TopContainer = ({ title, TopBar, description, button, color }: {
+export const TopContainer = ({
+    title,
+    TopBar,
+    description,
+    button,
+    color,
+    textColor,
+    descriptionColor, ButtonComponent
+}: {
     title: string,
     description: string,
     TopBar?: any,
     color: keyof typeof colors,
-    button: {
+    textColor?: keyof typeof colors,
+    descriptionColor?: keyof typeof colors,
+    ButtonComponent?: any,
+    button?: {
         text: string,
+        Icon?: any,
         onClick: () => void
     } | null
 }) => {
@@ -52,7 +64,7 @@ export const TopContainer = ({ title, TopBar, description, button, color }: {
     }}>
         {/* react types making a fool out of myself */}
         {TopBar ? <TopBar /> : null}
-        <TitlePage>
+        <TitlePage color={textColor ? colors[textColor] : ""}>
             {title}
         </TitlePage>
         <div style={{
@@ -60,13 +72,16 @@ export const TopContainer = ({ title, TopBar, description, button, color }: {
             justifyContent: "space-between",
             marginTop: 40,
         }}>
-            <DescriptionPage width={button === null ? "100%" : "70%"}>
+            <DescriptionPage width={button === null ? "100%" : "70%"} color={descriptionColor ? colors[descriptionColor] : ""}>
                 {description}
             </DescriptionPage>
+            {ButtonComponent ? <ButtonComponent /> : null}
             {button ? <div style={{
-                height: 71
+                height: 50,
+                alignSelf: "center"
             }}>
                 <ConnectWallet type="whiteBlack" onClick={button.onClick}>
+                    {button.Icon ? <button.Icon /> : null}
                     <Text>
                         {button.text}
                     </Text>
