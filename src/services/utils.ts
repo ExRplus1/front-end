@@ -1,6 +1,5 @@
 import { ethers, ContractFactory } from 'ethers';
 import Surveys from "../contracts/Surveys.json"
-import climateJson from "../stubs/climate-survey.json";
 
 import axios from "axios";
 import bs58 from 'bs58';
@@ -10,8 +9,8 @@ import { Buffer } from "buffer";
 
 export const exchangeRate = async () => {
     try {
-        const {data} = await axios.get('https://mainnet-public.mirrornode.hedera.com/api/v1/network/exchangerate');
-        const {cent_equivalent, hbar_equivalent} = data.current_rate;
+        const { data } = await axios.get('https://mainnet-public.mirrornode.hedera.com/api/v1/network/exchangerate');
+        const { cent_equivalent, hbar_equivalent } = data.current_rate;
         const HbarPriceInUSD: number = Math.round(cent_equivalent / hbar_equivalent * 100) / 1e4
         return HbarPriceInUSD
     } catch (e) {
@@ -150,32 +149,42 @@ const decodeCIDfromBytes32 = (cid: string) => {
     return revertedCid;
 }
 
-// value(the survey creation cost) is hardcoded as 300 and surveyJson as climateJson
-export const deploySurvey = async (surveyJson?: any, surveyValue?: string) => {
+export const execute = async (type: string, file: any, value: string, survey?: string) => {
     try {
 
-        // remove after survey creation
-        surveyJson = climateJson;
-        // remove 
-
-        // let IPFSUploadToken = await uploadFileToSpheron(surveyJson) as string;
-        let IPFSUploadToken = await uploadFileToPinata(surveyJson);
+        const fileBuffer = Buffer.from(file, 'utf8');
+        let IPFSUploadToken = await uploadFileToIPFS(fileBuffer);
         if (IPFSUploadToken.length === 0) {
-            throw new Error("IPFS problems!!")
+            throw new Error("IPFS service problems!!")
         }
-
         // console.log("IPFS Token::", IPFSUploadToken);
 
-        const cid = encodeCIDtoBytes32(IPFSUploadToken)
-
+        const CID = encodeCIDtoBytes32(IPFSUploadToken)
         const contract = await instantiateContract()
-        const createSurvey = await contract.setSurvey(
-            cid,
-            {
-                value: ethers.parseUnits(surveyValue as string),
-                gasPrice: 0x1fffffffffff,
-            })
-        console.log(createSurvey)
+
+        switch (type) {
+            case 'survey':
+                const setSurvey = await contract.setSurvey(
+                    CID,
+                    {
+                        value: ethers.parseUnits(value as string),
+                        gasPrice: 0x1fffffffffff,
+                    })
+                break;
+            case 'answers': {
+                const surveyCID = encodeCIDtoBytes32(survey as string);
+                const setAnswers = await contract.setAnswer(
+                    CID,
+                    surveyCID,
+                    {
+                        value: ethers.parseUnits(value as string),
+                        gasPrice: 0x1fffffffffff,
+                    })
+                break;
+            }
+            default:
+        }
+        return IPFSUploadToken;
     } catch (e) {
         console.log(e)
     }
@@ -192,7 +201,6 @@ export const getAuthorSurveys = async () => {
 
 export const getSurveys = async () => {
     try {
-
         const contract = await instantiateContract()
         const surveys = await contract.getSurveys({
             gasPrice: 0x1fffffffff,
@@ -217,18 +225,10 @@ export const getSurveys = async () => {
     }
 }
 
-/**
- --- Survey.json
- 1. Get hash from Spheron(IPFS) and generate Survey' hash to be write on blockchain
- 2. Get SurveyHash from blockchain and fetch the data from Spheron(IPFS) 
- 3. Write Answers to Spheron, get the hash and write in blockchain 
- 4. Mint the NFT and transfer it to the user
- */
 
-// Pinata
-const uploadFileToPinata = async (survey?: any) => {
+// TODO - Move to backend
+const uploadFileToIPFS = async (file?: any) => {
     try {
-
         const config = {
             method: 'post',
             url: 'https://api.pinata.cloud/pinning/pinJSONToIPFS',
@@ -236,7 +236,7 @@ const uploadFileToPinata = async (survey?: any) => {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${process.env.REACT_APP_PINATA_JWT}`,
             },
-            data: JSON.stringify(survey)
+            data: JSON.stringify(file)
         };
 
         const { data } = await axios(config);
@@ -249,6 +249,7 @@ const uploadFileToPinata = async (survey?: any) => {
 }
 
 
+// TODO - Move to backend
 const fetchIPFSFile = (cid: string) => {
     return axios.get(`https://gateway.pinata.cloud/ipfs/${cid}`)
 }

@@ -7,8 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { QuestionTitle, Title, ArrowButton, DownArrow, UpArrow, OptionContainer, Button, OptionText } from "./styles";
 import { TAnswers, TQuestion } from "./UploadJson";
 import { ConnectWallet, Text } from "../styles";
-
-
+import { execute } from "../services/utils";
 
 type QuestionProps = {
     question: TQuestion,
@@ -16,7 +15,6 @@ type QuestionProps = {
     respondToQuestion: (answer: number, single: boolean) => void,
     answer: Array<number>
 };
-
 
 const EndSurvey = ({ onClick }: { onClick: React.MouseEventHandler<HTMLSpanElement> }) => {
     return <div style={{ height: 650, display: "flex", width: "70vw" }}>
@@ -187,6 +185,17 @@ export const StartSurvey = () => {
     }, [questions, surveyId]);
 
 
+    const complete = async () => {
+        try {
+            const ex = await execute('answers', answers, '20', surveyId);
+            console.log(ex)
+            // navigate(`/respond-survey/end/${surveyId}`)
+        } catch(e) {
+
+        }
+    }
+
+
     return (
         <div style={{
             display: "flex",
@@ -207,10 +216,7 @@ export const StartSurvey = () => {
                 button={crtQuestion >= questions?.length ?
                     {
                         text: "Complete Survey",
-                        onClick: () => {
-                            // Write to ipfs first and tha complete
-                            navigate(`/respond-survey/end/${surveyId}`)
-                        }
+                        onClick: complete
                     }
                     : null} />
             <SurveyMagic

@@ -16,7 +16,7 @@ const surveys: Array<{
   color: keyof typeof colors
 }> = [
     {
-      id: "some-id",
+      id: "QmYCqcvcD7VUKdRJ9LMfLtBJEGxKU3oi9H85qRkawYuE6U",
       title: "Climate Change",
       description: "How do you feel about healthcare?",
       type: "Climate",
@@ -25,7 +25,7 @@ const surveys: Array<{
       image: "https://via.placeholder.com/200",
     },
     {
-      id: "some-id",
+      id: "QmYCqcvcD7VUKdRJ9LMfLtBJEGxKU3oi9H85qRkawYuE6U",
       title: "Healthcare",
       type: "Healthcare",
       organization: "WHO",
@@ -34,7 +34,7 @@ const surveys: Array<{
       color: "red"
     },
     {
-      id: "some-id",
+      id: "QmYCqcvcD7VUKdRJ9LMfLtBJEGxKU3oi9H85qRkawYuE6U",
       title: "Healthcare",
       type: "Healthcare",
       organization: "WHO",
@@ -43,7 +43,7 @@ const surveys: Array<{
       color: "red"
     },
     {
-      id: "some-id",
+      id: "QmYCqcvcD7VUKdRJ9LMfLtBJEGxKU3oi9H85qRkawYuE6U",
       title: "Healthcare",
       type: "Healthcare",
       organization: "WHO",
@@ -52,7 +52,7 @@ const surveys: Array<{
       color: "red"
     },
     {
-      id: "some-id",
+      id: "QmYCqcvcD7VUKdRJ9LMfLtBJEGxKU3oi9H85qRkawYuE6U",
       title: "Healthcare",
       type: "Healthcare",
       organization: "WHO",
