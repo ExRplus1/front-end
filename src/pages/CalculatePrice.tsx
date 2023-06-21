@@ -193,12 +193,12 @@ export const CalculatePrice = () => {
     try {
       // hardcoded for the moment
       const price = "300"; // hbars as string
-      const surveyToken = await execute(
+      const token = await execute(
         "survey",
-        JSON.stringify(survey),
+        survey,
         price
       );
-      console.log(surveyToken);
+      console.log(token)
     } catch (e) {
       console.log("ERROR when creating survey", e);
     }

@@ -1,6 +1,8 @@
 import Profile from "../components/Profile";
 import { NavBarContainer, Link, Text } from "../styles";
 import { useAppContext } from "../hooks/useAppContext";
+import { deployContracts, getAnswer, getAnswers, getBadgesOfAddress, getSurveys, getUserAnswers } from "../services/utils";
+
 const Navbar = () => {
   const ctx = useAppContext();
   return (
@@ -13,11 +15,17 @@ const Navbar = () => {
         <Link>
           <Text> 1Hbar = {ctx?.exRate}$ </Text>
         </Link>
-        <Link>
-          <Text> Link 2</Text>
+        <Link onClick={deployContracts}>
+          <Text> DEV :: Deploy Contracts</Text>
         </Link>
-        <Link>
-          <Text> Link 3</Text>
+        <Link onClick={getSurveys}>
+          <Text> GetSurveys</Text>
+        </Link>
+        <Link onClick={getBadgesOfAddress}>
+          <Text> GetBadges</Text>
+        </Link>
+        <Link onClick={getAnswers}>
+          <Text> Answers</Text>
         </Link>
       </div>
       <div

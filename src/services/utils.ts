@@ -1,5 +1,6 @@
 import { ethers, ContractFactory } from 'ethers';
 import Surveys from "../contracts/Surveys.json"
+import Badge from "../contracts/Badge.json"
 
 import axios from "axios";
 import bs58 from 'bs58';
@@ -106,8 +107,8 @@ export const disconnectWallet = async () => {
 export const deployContracts = async (abi?: any, byteCode?: any) => {
     abi = Surveys.abi;
     byteCode = Surveys.bytecode;
-    // abi = Badges.abi;
-    // byteCode = Badges.bytecode;
+    // abi = Badge.abi;
+    // byteCode = Badge.bytecode;
 
     try {
         const { provider, signer } = await connect() as any;
@@ -123,7 +124,7 @@ export const deployContracts = async (abi?: any, byteCode?: any) => {
 
 const instantiateContract = async () => {
     const abi = Surveys.abi;
-    const contractAddress = '0xd094c7a494e1f8d0f93bc02e1557664f74952a9e'
+    const contractAddress = process.env.REACT_APP_SURVEYS_CONTRACT as string;
     const { provider, signer, address } = await connect() as any;
     const contract = new ethers.Contract(contractAddress, abi, signer);
     return contract
@@ -149,11 +150,10 @@ const decodeCIDfromBytes32 = (cid: string) => {
     return revertedCid;
 }
 
-export const execute = async (type: string, file: any, value: string, survey?: string) => {
+export const execute = async (type: string, jsonObj: any, value: string, survey?: string) => {
     try {
 
-        const fileBuffer = Buffer.from(file, 'utf8');
-        let IPFSUploadToken = await uploadFileToIPFS(fileBuffer);
+        let IPFSUploadToken = await uploadFileToIPFS(jsonObj);
         if (IPFSUploadToken.length === 0) {
             throw new Error("IPFS service problems!!")
         }
@@ -161,6 +161,7 @@ export const execute = async (type: string, file: any, value: string, survey?: s
 
         const CID = encodeCIDtoBytes32(IPFSUploadToken)
         const contract = await instantiateContract()
+
 
         switch (type) {
             case 'survey':
@@ -223,6 +224,47 @@ export const getSurveys = async () => {
     } catch (e) {
         console.log(e)
     }
+}
+
+
+export const getBadgesOfAddress = async () => {
+    const contract = await instantiateContract()
+    const badges = await contract.getBadgesOfAddress({
+        gasPrice: 0x1fffffffff,
+    })
+
+    console.log(badges.map((x:any) => parseInt(x)))
+}
+
+
+export const getAnswers = async () => {
+    const contract = await instantiateContract()
+    const qry = await contract.getAnswers({
+        gasPrice: 0x1fffffffff,
+    })
+
+    const q = qry.map((x:any) => decodeCIDfromBytes32(x[0]))
+    console.log("sss",q)
+}
+
+export const getUserAnswers = async () => {
+    const contract = await instantiateContract()
+    const qry = await contract.getUserAnswers({
+        gasPrice: 0x1fffffffff,
+    })
+
+    console.log(qry)
+}
+
+export const getAnswer = async () => {
+    const contract = await instantiateContract()
+    const id = 1;
+    const qry = await contract.getUserAnswers({
+        id,
+        gasPrice: 0x1fffffffff,
+    })
+
+    console.log([...qry])
 }
 
 
