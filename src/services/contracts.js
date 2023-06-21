@@ -1,0 +1,2 @@
+export const operatorAccountAddress='0x00000000000000000000000000000000000003e8';
+export const surveysContractAddress='0xE1F3D52Bd67b7f46f7A32EeCc286fF5c0367B56b';

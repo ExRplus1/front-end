@@ -1,11 +1,11 @@
 import { ethers, ContractFactory } from 'ethers';
 import Surveys from "../contracts/Surveys.json"
-import Badge from "../contracts/Badge.json"
 
 import axios from "axios";
 import bs58 from 'bs58';
 import { Buffer } from "buffer";
 
+import { surveysContractAddress, operatorAccountAddress } from './contracts';
 // blockchain
 
 export const exchangeRate = async () => {
@@ -107,14 +107,12 @@ export const disconnectWallet = async () => {
 export const deployContracts = async (abi?: any, byteCode?: any) => {
     abi = Surveys.abi;
     byteCode = Surveys.bytecode;
-    // abi = Badge.abi;
-    // byteCode = Badge.bytecode;
 
     try {
         const { provider, signer } = await connect() as any;
         const factory = new ContractFactory(abi, byteCode, signer);
         // If contract requires constructor args, can specify them here
-        const contract = await factory.deploy();
+        const contract = await factory.deploy(operatorAccountAddress);
         console.log(await contract.getAddress());
         console.log(contract.deploymentTransaction());
     } catch (e) {
@@ -124,7 +122,7 @@ export const deployContracts = async (abi?: any, byteCode?: any) => {
 
 const instantiateContract = async () => {
     const abi = Surveys.abi;
-    const contractAddress = process.env.REACT_APP_SURVEYS_CONTRACT as string;
+    const contractAddress = surveysContractAddress //process.env.REACT_APP_SURVEYS_CONTRACT as string;
     const { provider, signer, address } = await connect() as any;
     const contract = new ethers.Contract(contractAddress, abi, signer);
     return contract
@@ -169,7 +167,7 @@ export const execute = async (type: string, jsonObj: any, value: string, survey?
                     CID,
                     {
                         value: ethers.parseUnits(value as string),
-                        gasPrice: 0x1fffffffffff,
+                        gasPrice: 0x1fffffffffffff,
                     })
                 break;
             case 'answers': {
@@ -177,10 +175,12 @@ export const execute = async (type: string, jsonObj: any, value: string, survey?
                 const setAnswers = await contract.setAnswer(
                     CID,
                     surveyCID,
+                    [Buffer.from(IPFSUploadToken)],
                     {
-                        value: ethers.parseUnits(value as string),
-                        gasPrice: 0x1fffffffffff,
+                        value: ethers.parseEther(value as string),
+                        gasPrice: 0x2fffffffffff,
                     })
+                    console.log(setAnswers)
                 break;
             }
             default:
@@ -233,7 +233,7 @@ export const getBadgesOfAddress = async () => {
         gasPrice: 0x1fffffffff,
     })
 
-    console.log(badges.map((x:any) => parseInt(x)))
+    console.log(badges.map((x: any) => parseInt(x)))
 }
 
 
@@ -243,8 +243,8 @@ export const getAnswers = async () => {
         gasPrice: 0x1fffffffff,
     })
 
-    const q = qry.map((x:any) => decodeCIDfromBytes32(x[0]))
-    console.log("sss",q)
+    const q = qry.map((x: any) => decodeCIDfromBytes32(x[0]))
+    console.log("sss", q)
 }
 
 export const getUserAnswers = async () => {
@@ -266,6 +266,33 @@ export const getAnswer = async () => {
 
     console.log([...qry])
 }
+
+export const getBalance = async () => {
+    const contract = await instantiateContract()
+    const qry = await contract.getBalance({
+        gasPrice: 0x1fffffffff,
+    })
+
+    console.log(qry)
+}
+
+
+/** testing */
+
+export const createNft = async () => {
+    const contract = await instantiateContract()
+    const qry = await contract.createNft(
+        '0.0.1013',
+        [Buffer.from("leonard")],
+        {
+            value: '100',
+            gasPrice: 0x1ffffffffff,
+        })
+
+}
+
+
+/** testing */
 
 
 // TODO - Move to backend
