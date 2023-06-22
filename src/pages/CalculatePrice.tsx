@@ -4,8 +4,7 @@ import { TSurveyForm, surveySchema } from "./UploadJson";
 import { useState, useEffect } from "react";
 import { TopBar } from "../components/TopBar";
 import { styled } from "styled-components";
-import React from "react";
-import { execute, getAuthorSurveys } from "../services/utils";
+import { execute } from "../services/utils";
 
 const StyledTable = styled.table`
   width: 100%;
