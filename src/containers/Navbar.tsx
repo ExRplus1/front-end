@@ -1,7 +1,7 @@
 import Profile from "../components/Profile";
 import { NavBarContainer, Link, Text } from "../styles";
 import { useAppContext } from "../hooks/useAppContext";
-import { createNft, deployContracts, getAnswer, getAnswers, getBadgesOfAddress, getBalance, getSurveys, getUserAnswers } from "../services/utils";
+import { mintNft, deployContracts, getBalance, getSurveys, claimNft, approveNft, tokenInfo } from "../services/utils";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
@@ -19,16 +19,22 @@ const Navbar = () => {
           <Text> 1Hbar = {ctx?.exRate}$ </Text>
         </Link>
         <Link onClick={deployContracts}>
-          <Text> DEV :: Deploy Contracts</Text>
-        </Link>
-        <Link onClick={getSurveys}>
-          <Text> GetSurveys</Text>
+          <Text> DEPOLY</Text>
         </Link>
         <Link onClick={getBalance}>
           <Text> GetBalance</Text>
         </Link>
-        <Link onClick={createNft}>
-          <Text> Answers</Text>
+        <Link onClick={mintNft}>
+          <Text> MINT</Text>
+        </Link>
+        <Link onClick={tokenInfo}>
+          <Text> INFO</Text>
+        </Link>
+        <Link onClick={approveNft}>
+          <Text> APPROVE</Text>
+        </Link>
+        <Link onClick={claimNft}>
+          <Text> CLAIM</Text>
         </Link>
       </div>
       <div

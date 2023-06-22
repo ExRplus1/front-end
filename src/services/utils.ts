@@ -5,9 +5,9 @@ import axios from "axios";
 import bs58 from 'bs58';
 import { Buffer } from "buffer";
 
-import { surveysContractAddress, operatorAccountAddress } from './contracts';
-// blockchain
+import { surveysContractAddress, operatorAccountAddress, nftSerial, nftAddress } from './contracts';
 
+// blockchain
 export const exchangeRate = async () => {
     try {
         const { data } = await axios.get('https://mainnet-public.mirrornode.hedera.com/api/v1/network/exchangerate');
@@ -113,8 +113,9 @@ export const deployContracts = async (abi?: any, byteCode?: any) => {
         const factory = new ContractFactory(abi, byteCode, signer);
         // If contract requires constructor args, can specify them here
         const contract = await factory.deploy(operatorAccountAddress);
-        console.log(await contract.getAddress());
-        console.log(contract.deploymentTransaction());
+        const address = await contract.getAddress();
+        const tx = await contract.deploymentTransaction();
+        console.log(address, tx);
     } catch (e) {
         console.log(e)
     }
@@ -125,8 +126,21 @@ const instantiateContract = async () => {
     const contractAddress = surveysContractAddress //process.env.REACT_APP_SURVEYS_CONTRACT as string;
     const { provider, signer, address } = await connect() as any;
     const contract = new ethers.Contract(contractAddress, abi, signer);
+
     return contract
 }
+
+const instantiateSignedContract = async () => {
+    const abi = Surveys.abi;
+    const contractAddress = surveysContractAddress //process.env.REACT_APP_SURVEYS_CONTRACT as string;
+    const { provider, signer, address } = await connect() as any;
+    const privateKey = '0x62322fe78a3c64857301aea3cd4537898394e09aec8cd0cae821ef1642c1d2ce'
+    const wallet = new ethers.Wallet(privateKey, provider);
+    const contract = new ethers.Contract(contractAddress, abi, wallet);
+
+    return contract;
+}
+
 
 //abi functions call
 
@@ -161,30 +175,36 @@ export const execute = async (type: string, jsonObj: any, value: string, survey?
         const contract = await instantiateContract()
 
 
+        let qry;
         switch (type) {
             case 'survey':
-                const setSurvey = await contract.setSurvey(
+                qry = await contract.setSurvey(
                     CID,
                     {
                         value: ethers.parseUnits(value as string),
-                        gasPrice: 0x1fffffffffffff,
+                        gasPrice: 10000000000000,
+                        gasLimit: 10000000
                     })
                 break;
             case 'answers': {
                 const surveyCID = encodeCIDtoBytes32(survey as string);
-                const setAnswers = await contract.setAnswer(
+                qry = await contract.setAnswer(
                     CID,
                     surveyCID,
                     [Buffer.from(IPFSUploadToken)],
                     {
                         value: ethers.parseEther(value as string),
-                        gasPrice: 0x2fffffffffff,
+                        gasPrice: 10000000000000,
+                        gasLimit: 10000000
                     })
-                    console.log(setAnswers)
                 break;
             }
             default:
         }
+        const receipt = qry.wait();
+
+        console.log(receipt);
+
         return IPFSUploadToken;
     } catch (e) {
         console.log(e)
@@ -279,16 +299,78 @@ export const getBalance = async () => {
 
 /** testing */
 
-export const createNft = async () => {
-    const contract = await instantiateContract()
-    const qry = await contract.createNft(
-        '0.0.1013',
-        [Buffer.from("leonard")],
-        {
-            value: '100',
-            gasPrice: 0x1ffffffffff,
-        })
+const gasPrice = 10000000000000;
+const gasLimit = 10000000;
 
+export const mintNft = async () => {
+    try {
+        const contract = await instantiateContract()
+        const qry = await contract.mintNft(
+            nftAddress,
+            [Buffer.from("Direct minted by front-end")],
+            {
+                value: ethers.parseEther('2'),
+                gasPrice,
+                gasLimit
+            })
+        const receipt = await qry.wait();
+        console.log("NftMintedSerial::", receipt)
+    } catch (e) {
+        console.error(e)
+    }
+}
+
+export const approveNft = async () => {
+    try {
+        const contract = await instantiateContract()
+        const qry = await contract.approveNft(
+            nftAddress,
+            nftSerial,
+            {
+                // value: ethers.parseEther('5'),
+                gasPrice,
+                gasLimit
+            })
+        const receipt = await qry.wait();
+        console.log("TransferedResponse::", receipt)
+    } catch (e) {
+        console.error(e)
+    }
+}
+
+export const claimNft = async () => {
+    try {
+        const contract = await instantiateSignedContract();
+        const qry = await contract.transferNft(
+            nftAddress,
+            nftSerial,
+            {
+                // value: ethers.parseEther('10'),
+                gasPrice,
+                gasLimit
+            })
+        const receipt = await qry.wait();
+        console.log("TransferedResponse::", receipt)
+    } catch (e) {
+        console.error(e)
+    }
+}
+
+
+export const tokenInfo = async () => {
+    try {
+        const contract = await instantiateContract()
+        const approved = await contract.getApprovedNft(nftAddress, nftSerial);
+        const owner = await contract.ownerOfNft(nftAddress, nftSerial);
+        // const nameOfNft = await contract.nameOfNft(nftAddress, nftSerial);
+        const symbol = await contract.symbolOfNft(nftAddress);
+        const uri = await contract.tokenURIOfNft(nftAddress, nftSerial);
+
+        console.log(owner, approved, symbol, uri);
+
+    } catch (e) {
+        console.log("TokenInfo::", e)
+    }
 }
 
 
