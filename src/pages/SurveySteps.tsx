@@ -1,26 +1,27 @@
 import { useNavigate } from "react-router-dom";
 import { TopContainer } from "../components/TopContainer";
 import { Step } from "../components/Step";
+
 const steps = [
     {
         title: "Step 1",
         description: "Select a survey",
-        image: "https://via.placeholder.com/200",
+        image: "/steps/step1take.svg",
     },
     {
         title: "Step 2",
-        description: "Pay for the survey",
-        image: "https://via.placeholder.com/200",
+        description: "Pay Hedera fee",
+        image: "/steps/Step2take.svg",
     },
     {
         title: "Step 3",
-        description: "Start the survey",
-        image: "https://via.placeholder.com/200",
+        description: "Start survey",
+        image: "/steps/Step3take.svg",
     },
     {
         title: "Step 4",
         description: "Complete and Get the NFT",
-        image: "https://via.placeholder.com/200",
+        image: "/steps/step4take.svg",
     }
 ]
 

@@ -12,7 +12,6 @@ const surveys: Array<{
   type: string,
   organization: string,
   description: string,
-  image: string,
   color: keyof typeof colors
 }> = [
     {
@@ -22,7 +21,6 @@ const surveys: Array<{
       type: "Climate",
       organization: "UN",
       color: "electricUltramarine",
-      image: "https://via.placeholder.com/200",
     },
     {
       id: "Qmck3MdJ5JZz9n3t4HsiQbnmiPFUfg9C8wE7S4Q6VaNreF",
@@ -30,7 +28,6 @@ const surveys: Array<{
       type: "Healthcare",
       organization: "WHO",
       description: "Description of the survey upt to two sentances only no more than maybe the amount of text needed for 4 lines 126characters",
-      image: "https://via.placeholder.com/200",
       color: "red"
     },
     {
@@ -39,7 +36,6 @@ const surveys: Array<{
       type: "Healthcare",
       organization: "WHO",
       description: "Description of the survey upt to two sentances only no more than maybe the amount of text needed for 4 lines 126characters",
-      image: "https://via.placeholder.com/200",
       color: "red"
     },
     {
@@ -48,7 +44,6 @@ const surveys: Array<{
       type: "Healthcare",
       organization: "WHO",
       description: "Description of the survey upt to two sentances only no more than maybe the amount of text needed for 4 lines 126characters",
-      image: "https://via.placeholder.com/200",
       color: "red"
     },
     {
@@ -57,7 +52,6 @@ const surveys: Array<{
       type: "Healthcare",
       organization: "WHO",
       description: "Description of the survey upt to two sentances only no more than maybe the amount of text needed for 4 lines 126characters",
-      image: "https://via.placeholder.com/200",
       color: "red"
     },
   ];
@@ -117,7 +111,6 @@ const SurveyCard = ({
   type,
   organization,
   description,
-  image,
   color,
 }: typeof surveys[number]) => {
   const navigate = useNavigate();
@@ -137,12 +130,6 @@ const SurveyCard = ({
       width: "calc(100% - 70px)",
       padding: 35,
     }}>
-      <div style={{
-        overflow: "hidden",
-        width: "100%",
-      }}>
-        <img src={image} alt={title} width="100%" />
-      </div>
       <div>
         <Type color={color}>
           {type}

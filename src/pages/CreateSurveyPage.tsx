@@ -5,25 +5,21 @@ import { CreateSurvey } from "./CreateSurvey";
 const steps = [
     {
         title: "Step 1",
-        description: "Calculate the cost",
-        image: "https://via.placeholder.com/200",
+        description: "Upload JSON + Review",
+        image: "/steps/step1create.svg",
     },
     {
         title: "Step 2",
-        description: "Upload the survey",
-        image: "https://via.placeholder.com/200",
+        description: "Calculate the Cost",
+        image: "/steps/step2create.svg",
     },
     {
         title: "Step 3",
         description: "Pay",
-        image: "https://via.placeholder.com/200",
+        image: "/steps/step3create.svg",
     }
 ]
 
-
-// Claim back care sa fie check
-// date range
-// category si level nu decomandata 
 
 export const CreateSurveyPage = () => {
     const navigator = useNavigate();
@@ -50,9 +46,10 @@ export const CreateSurveyPage = () => {
                 }} />
             <div style={{
                 display: "grid",
-                gridTemplateColumns: `repeat(${steps.length}, 1fr)`,
+                gridTemplateColumns: `0.75fr repeat(${steps.length}, 1fr) 0.75fr`,
                 gap: 34, padding: "calc(90px-27px)"
             }}>
+                <div />
                 {steps.map(
                     (step) => <Step {...step}
                         color="yellowGreen"
@@ -60,6 +57,7 @@ export const CreateSurveyPage = () => {
                         descriptionColor="sheetBlue"
                     />
                 )}
+                <div />
             </div>
         </div>
     )

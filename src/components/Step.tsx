@@ -26,7 +26,9 @@ export const Step = ({
     image,
     color,
     textColor,
+    Button,
     descriptionColor }: {
+        Button?: any,
         title: string,
         description: string,
         image: string,
@@ -35,25 +37,24 @@ export const Step = ({
         descriptionColor?: keyof typeof colors,
     }) => {
     return (
-        <Box color={color ?? "electricUltramarine"} height="413px" style={{
+        <Box color={color ?? "electricUltramarine"} style={{
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-evenly",
         }}>
-
             <div style={{
-                height: "calc(100% - 70px)",
-                width: "calc(100% - 70px)",
                 padding: 35,
                 display: "grid",
-                gridTemplateRows: "1fr 0.4fr"
+                gridTemplateRows: "1fr 0.5fr"
             }}>
                 <div style={{
                     overflow: "hidden",
                     width: "100%",
                     borderRadius: 40,
                 }}>
-                    <img src={image} alt={title} width="100%" />
+                    <img src={image} alt={title} style={{
+                        width: "100%",
+                    }} />
                 </div>
                 <div style={{
                     alignSelf: "flex-end",
@@ -64,6 +65,11 @@ export const Step = ({
                     <Description color={descriptionColor ? colors[descriptionColor] : ""}>
                         {description}
                     </Description>
+                    <div style={{
+                        display: "flex"
+                    }}>
+                        {Button ? <Button /> : null}
+                    </div>
                 </div>
             </div>
         </Box >

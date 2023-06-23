@@ -3,22 +3,24 @@ import { Step } from "../components/Step";
 import { TopBar } from "../components/TopBar";
 import { TopContainer } from "../components/TopContainer";
 import { Spacer } from "./Landing";
+import { ConnectWallet, Text } from "../styles";
 
 const steps = [
     {
-        title: "Press button to pay",
-        description: "Metamask opens up",
-        image: "https://via.placeholder.com/200",
+        title: "Step 1",
+        description: "",
+        image: "/steps/Step2take.svg",
+        button: true
     },
     {
-        title: "Press button to pay",
+        title: "Step 3",
         description: "Metamask opens up",
-        image: "https://via.placeholder.com/200",
+        image: "/steps/step2metamask.svg",
     },
     {
-        title: "Press button to pay",
-        description: "Metamask opens up",
-        image: "https://via.placeholder.com/200",
+        title: "Step 4",
+        description: "Complete and Get the NFT",
+        image: "/steps/Step3pay.svg",
     }
 ]
 
@@ -36,21 +38,31 @@ export const SurveyPay = () => {
             <TopContainer
                 TopBar={() => <TopBar title={"Support your cause"} stepText={"Step 2 of 4"} percentage={0.5} />}
                 title={"Support your cause"} description={"We need to tell them what they are paying for, how much, and what happens once they pay"} color="electricUltramarine"
-                button={{
-                    text: "TODO change",
-                    onClick: function (): void {
-                        navigator(`/respond-survey/start-survey/${surveyId}`)
-                    }
-                }}
+                button={null}
             />
             <div style={{
                 display: "grid",
-                gridTemplateColumns: `repeat(${steps.length}, 1fr)`,
+                gridTemplateColumns: `0.75fr repeat(${steps.length}, 1fr) 0.75fr`,
                 gap: 34, padding: "calc(90px-27px)"
             }}>
+                <div />
                 {steps.map(
-                    (step) => <Step {...step} />
+                    (step) => <Step {...step} Button={() => {
+                        if (step.button)
+                            return <ConnectWallet type="whiteBlack"
+                                style={{
+                                    marginTop: 10
+                                }}
+                                onClick={() => {
+                                    // metamask pay and redirect
+                                }}>
+                                <Text>
+                                    Press to Pay
+                                </Text>
+                            </ConnectWallet>
+                    }} />
                 )}
+                <div />
             </div>
             <Spacer newSpace={100} />
         </div>
