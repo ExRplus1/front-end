@@ -130,16 +130,17 @@ const instantiateContract = async () => {
     return contract
 }
 
-const instantiateSignedContract = async () => {
-    const abi = Surveys.abi;
-    const contractAddress = surveysContractAddress //process.env.REACT_APP_SURVEYS_CONTRACT as string;
-    const { provider, signer, address } = await connect() as any;
-    const privateKey = '0x62322fe78a3c64857301aea3cd4537898394e09aec8cd0cae821ef1642c1d2ce'
-    const wallet = new ethers.Wallet(privateKey, provider);
-    const contract = new ethers.Contract(contractAddress, abi, wallet);
+/** Call contracts without Metamask signing */
+// const instantiateSignedContract = async () => {
+//     const abi = Surveys.abi;
+//     const contractAddress = surveysContractAddress //process.env.REACT_APP_SURVEYS_CONTRACT as string;
+//     const { provider, signer, address } = await connect() as any;
+//     const privateKey = //process.env.REACT_APP_PRIVATE_KEY as string;
+//     const wallet = new ethers.Wallet(privateKey, provider);
+//     const contract = new ethers.Contract(contractAddress, abi, wallet);
 
-    return contract;
-}
+//     return contract;
+// }
 
 
 //abi functions call
@@ -158,7 +159,7 @@ const decodeCIDfromBytes32 = (cid: string) => {
     newA.set([18, 32], 0);
     newA.set(cidBytes, 2);
     const revertedCid = bs58.encode(Buffer.from(newA));
-    console.log("RevertedCID::", revertedCid)
+    // console.log("RevertedCID::", revertedCid)
     return revertedCid;
 }
 
@@ -174,7 +175,6 @@ export const execute = async (type: string, jsonObj: any, value: string, survey?
         const CID = encodeCIDtoBytes32(IPFSUploadToken)
         const contract = await instantiateContract()
 
-
         let qry;
         switch (type) {
             case 'survey':
@@ -189,8 +189,8 @@ export const execute = async (type: string, jsonObj: any, value: string, survey?
             case 'answers': {
                 const surveyCID = encodeCIDtoBytes32(survey as string);
                 qry = await contract.setAnswer(
-                    CID,
                     surveyCID,
+                    CID,
                     [Buffer.from(IPFSUploadToken)],
                     {
                         value: ethers.parseEther(value as string),
@@ -201,7 +201,7 @@ export const execute = async (type: string, jsonObj: any, value: string, survey?
             }
             default:
         }
-        const receipt = qry.wait();
+        const receipt = await qry.wait();
 
         console.log(receipt);
 
@@ -211,11 +211,11 @@ export const execute = async (type: string, jsonObj: any, value: string, survey?
     }
 }
 
+
+
 export const getAuthorSurveys = async () => {
     const contract = await instantiateContract()
-    const surveyAuthor = await contract.getAuthorSurveys({
-        gasPrice: 0x1fffffffff,
-    })
+    const surveyAuthor = await contract.getAuthorSurveys()
 
     console.log(surveyAuthor.map((x: any) => ethers.decodeBytes32String(x[0])).filter((_: any) => _ !== ""))
 }
@@ -223,21 +223,26 @@ export const getAuthorSurveys = async () => {
 export const getSurveys = async () => {
     try {
         const contract = await instantiateContract()
-        const surveys = await contract.getSurveys({
-            gasPrice: 0x1fffffffff,
-        })
+        const surveys = await contract.getSurveys()
 
-        const endPoint = 'https://gateway.pinata.cloud/ipfs/';
-        const headers = {
-            'Authorization': `Bearer ${process.env.REACT_APP_PINATA_JWT}`
-        };
+        /*
+        dSurveys [[IPFT Token, Power User Addresss, NFT Address]] 
+        */
+        const dSurveys = surveys.map((survey: any) => {
+            const s = [...survey]
+            s[0] = decodeCIDfromBytes32(s[0])
+            return s
+        });
 
-        const filteredSurveys = surveys.map((survey: any) => decodeCIDfromBytes32(survey[0])).filter((cid: any) => cid !== "")
-        // const mappedSurveys = filteredSurveys.map((cid: any) => axios.get(`${endPoint}${cid}`, { headers }))
+        console.log(dSurveys)
 
-        // const fetchedSurveys = await Promise.all(mappedSurveys);
+        /** CREATE AND FETCH WHEN CLICK ON TODO Answer*/
 
-        console.log(filteredSurveys.map((cid: string) => `${endPoint}${cid}`))
+        // const endPoint = 'https://gateway.pinata.cloud/ipfs/';
+        // const headers = {
+        //     'Authorization': `Bearer ${process.env.REACT_APP_PINATA_JWT}`
+        // };
+        // console.log(filteredSurveys.map((cid: string) => `${endPoint}${cid}`))
 
         return;
 
@@ -246,54 +251,38 @@ export const getSurveys = async () => {
     }
 }
 
-
-export const getBadgesOfAddress = async () => {
-    const contract = await instantiateContract()
-    const badges = await contract.getBadgesOfAddress({
-        gasPrice: 0x1fffffffff,
-    })
-
-    console.log(badges.map((x: any) => parseInt(x)))
-}
-
-
-export const getAnswers = async () => {
-    const contract = await instantiateContract()
-    const qry = await contract.getAnswers({
-        gasPrice: 0x1fffffffff,
-    })
-
-    const q = qry.map((x: any) => decodeCIDfromBytes32(x[0]))
-    console.log("sss", q)
-}
-
+/** 
+ * @return [
+        bytes32 surveyHash;
+        bytes32 answerHash;
+        address userAddress;
+        int64   nftSerial;
+    ]
+*/
 export const getUserAnswers = async () => {
-    const contract = await instantiateContract()
-    const qry = await contract.getUserAnswers({
-        gasPrice: 0x1fffffffff,
-    })
-
-    console.log(qry)
-}
-
-export const getAnswer = async () => {
-    const contract = await instantiateContract()
-    const id = 1;
-    const qry = await contract.getUserAnswers({
-        id,
-        gasPrice: 0x1fffffffff,
-    })
-
-    console.log([...qry])
+    try {
+        const contract = await instantiateContract()
+        const r = await contract.getUserAnswers()
+        const dR = r.map((x: any) => {
+            const s = [...x]
+            s[0] = decodeCIDfromBytes32(s[0]);
+            s[1] = decodeCIDfromBytes32(s[1]);
+            return s
+        });
+        console.log(dR);
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 export const getBalance = async () => {
-    const contract = await instantiateContract()
-    const qry = await contract.getBalance({
-        gasPrice: 0x1fffffffff,
-    })
-
-    console.log(qry)
+    try {
+        const contract = await instantiateContract()
+        const qry = await contract.getBalance();
+        console.log(qry)
+    } catch (e) {
+        console.log(e)
+    }
 }
 
 
@@ -340,7 +329,7 @@ export const approveNft = async () => {
 
 export const claimNft = async () => {
     try {
-        const contract = await instantiateSignedContract();
+        const contract = await instantiateContract();
         const qry = await contract.transferNft(
             nftAddress,
             nftSerial,

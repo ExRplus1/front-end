@@ -197,7 +197,6 @@ export const CalculatePrice = () => {
         survey,
         price
       );
-      console.log(token)
     } catch (e) {
       console.log("ERROR when creating survey", e);
     }

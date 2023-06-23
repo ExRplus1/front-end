@@ -1,7 +1,7 @@
 import Profile from "../components/Profile";
 import { NavBarContainer, Link, Text } from "../styles";
 import { useAppContext } from "../hooks/useAppContext";
-import { mintNft, deployContracts, getBalance, getSurveys, claimNft, approveNft, tokenInfo } from "../services/utils";
+import { mintNft, deployContracts, getBalance, getSurveys, tokenInfo, getUserAnswers } from "../services/utils";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
@@ -22,7 +22,10 @@ const Navbar = () => {
           <Text> DEPOLY</Text>
         </Link>
         <Link onClick={getBalance}>
-          <Text> GetBalance</Text>
+          <Text> BALANCE</Text>
+        </Link>
+        <Link onClick={getSurveys}>
+          <Text> SURVEYS</Text>
         </Link>
         <Link onClick={mintNft}>
           <Text> MINT</Text>
@@ -30,11 +33,8 @@ const Navbar = () => {
         <Link onClick={tokenInfo}>
           <Text> INFO</Text>
         </Link>
-        <Link onClick={approveNft}>
-          <Text> APPROVE</Text>
-        </Link>
-        <Link onClick={claimNft}>
-          <Text> CLAIM</Text>
+        <Link onClick={getUserAnswers}>
+          <Text> GETuANSWERS</Text>
         </Link>
       </div>
       <div

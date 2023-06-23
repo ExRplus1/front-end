@@ -288,8 +288,7 @@ export const StartSurvey = () => {
   const sendAnswers = async () => {
     try {
       const price = "20";
-      const token = await execute("answers", answers, price, surveyId);
-      console.log(token);
+      const tx = await execute("answers", answers, price, surveyId);
       // navigate(`/respond-survey/end/${surveyId}`)
     } catch (e) {}
   };
