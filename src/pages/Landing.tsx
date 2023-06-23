@@ -8,6 +8,7 @@ import { Footer } from "./Footer";
 import { useNavigate } from "react-router-dom";
 import { TakeSurvey } from "./TakeSurveySvg";
 import { CreateSurvey } from "./CreateSurvey";
+import { Slideshow } from "../components/Slider";
 
 
 const PageText = styled.div<{ white?: boolean }>`
@@ -123,21 +124,12 @@ export const Landing = () => {
           <h2>
             The Decentralized Survey Platform for All
           </h2>
-          <div></div>
-          {/* <div style={{
-                        display: "flex",
-                        justifyContent: "flex-end"
-                    }}>
-                        <ConnectWallet type='black'>
-                            <Text>
-                                Spread the word
-                            </Text>
-                        </ConnectWallet>
-                    </div> */}
+          <div />
         </PageText>
       </Box>
-      <Box color="deepCommitmentToPurple">
+      <Box >
         {/* add image in here */}
+        <Slideshow />
       </Box>
     </Box>
     <Flex direction='row' gap={12}>
