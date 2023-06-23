@@ -1,11 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 
-const colors = ["#0088FE", "#00C49F", "#FFBB28"];
+
 const delay = 2500;
+
+
+const IMAGE_LENGTH = 5;
 
 export function Slideshow() {
     const [index, setIndex] = useState(0);
     const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const imageIndexArray = new Array(IMAGE_LENGTH).fill(null);
 
     function resetTimeout() {
         if (timeoutRef.current) {
@@ -18,7 +22,7 @@ export function Slideshow() {
         timeoutRef.current = setTimeout(
             () =>
                 setIndex((prevIndex) =>
-                    prevIndex === colors.length - 1 ? 0 : prevIndex + 1
+                    prevIndex === imageIndexArray.length - 1 ? 0 : prevIndex + 1
                 ),
             delay
         );
@@ -26,34 +30,37 @@ export function Slideshow() {
         return () => {
             resetTimeout();
         };
-    }, [index]);
+    }, [imageIndexArray.length, index]);
 
     return (
-        <div className="slideshow">
+        <div className="slideshow" style={{
+            margin: "0 auto",
+            overflow: "hidden",
+            height: "100%"
+        }}>
             <div
                 className="slideshowSlider"
-                style={{ transform: `translate3d(${-index * 100}%, 0, 0)` }}
+                style={{
+                    transform: `translate3d(${-index * 100}%, 0, 0)`,
+                    height: "100%",
+                    whiteSpace: "nowrap",
+                    transition: "ease 1000ms"
+                }}
             >
-                {colors.map((backgroundColor, index) => (
-                    <div
-                        className="slide"
-                        key={index}
-                        style={{ backgroundColor }}
-                    ></div>
+                {imageIndexArray.map((_, index) => (
+                    <img style={{
+                        backgroundImage: `url(images/slider/slider${index + 1}.png)`,
+                        backgroundSize: "cover",
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "center",
+                        display: "inline-block",
+                        height: "100%",
+                        width: "100%",
+                    }} alt={`slider${index + 1}`} />
                 ))}
             </div>
 
-            <div className="slideshowDots">
-                {colors.map((_, idx) => (
-                    <div
-                        key={idx}
-                        className={`slideshowDot${index === idx ? " active" : ""}`}
-                        onClick={() => {
-                            setIndex(idx);
-                        }}
-                    ></div>
-                ))}
-            </div>
+
         </div>
     );
 }
