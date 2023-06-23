@@ -24,18 +24,7 @@ const Navbar = () => {
         <Link onClick={getBalance}>
           <Text> BALANCE</Text>
         </Link>
-        <Link onClick={getSurveys}>
-          <Text> SURVEYS</Text>
-        </Link>
-        <Link onClick={mintNft}>
-          <Text> MINT</Text>
-        </Link>
-        <Link onClick={tokenInfo}>
-          <Text> INFO</Text>
-        </Link>
-        <Link onClick={getUserAnswers}>
-          <Text> GETuANSWERS</Text>
-        </Link>
+     
       </div>
       <div
         style={{

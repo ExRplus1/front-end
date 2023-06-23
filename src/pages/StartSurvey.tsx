@@ -289,8 +289,14 @@ export const StartSurvey = () => {
     try {
       const price = "20";
       const tx = await execute("answers", answers, price, surveyId);
-      // navigate(`/respond-survey/end/${surveyId}`)
-    } catch (e) {}
+      if(tx.status === 1) {
+        navigate(`/respond-survey/end/${surveyId}`)
+      } else {
+        alert("Transaction failed! Please submit again!");
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (

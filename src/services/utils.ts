@@ -202,10 +202,7 @@ export const execute = async (type: string, jsonObj: any, value: string, survey?
             default:
         }
         const receipt = await qry.wait();
-
-        console.log(receipt);
-
-        return IPFSUploadToken;
+        return receipt;
     } catch (e) {
         console.log(e)
     }
@@ -216,35 +213,20 @@ export const execute = async (type: string, jsonObj: any, value: string, survey?
 export const getAuthorSurveys = async () => {
     const contract = await instantiateContract()
     const surveyAuthor = await contract.getAuthorSurveys()
-
-    console.log(surveyAuthor.map((x: any) => ethers.decodeBytes32String(x[0])).filter((_: any) => _ !== ""))
+    const aS = surveyAuthor.map((x: any) => ethers.decodeBytes32String(x[0])).filter((_: any) => _ !== "");
+    return aS;
 }
 
 export const getSurveys = async () => {
     try {
         const contract = await instantiateContract()
-        const surveys = await contract.getSurveys()
-
-        /*
-        dSurveys [[IPFT Token, Power User Addresss, NFT Address]] 
-        */
-        const dSurveys = surveys.map((survey: any) => {
-            const s = [...survey]
+        const r = await contract.getSurveys()
+        const dR = r.map((x: any) => {
+            const s = [...x]
             s[0] = decodeCIDfromBytes32(s[0])
             return s
         });
-
-        console.log(dSurveys)
-
-        /** CREATE AND FETCH WHEN CLICK ON TODO Answer*/
-
-        // const endPoint = 'https://gateway.pinata.cloud/ipfs/';
-        // const headers = {
-        //     'Authorization': `Bearer ${process.env.REACT_APP_PINATA_JWT}`
-        // };
-        // console.log(filteredSurveys.map((cid: string) => `${endPoint}${cid}`))
-
-        return;
+        return dR;
 
     } catch (e) {
         console.log(e)
@@ -261,19 +243,55 @@ export const getSurveys = async () => {
 */
 export const getUserAnswers = async () => {
     try {
-        const contract = await instantiateContract()
-        const r = await contract.getUserAnswers()
+        const c = await instantiateContract()
+        const r = await c.getUserAnswers()
         const dR = r.map((x: any) => {
             const s = [...x]
             s[0] = decodeCIDfromBytes32(s[0]);
             s[1] = decodeCIDfromBytes32(s[1]);
             return s
         });
-        console.log(dR);
+        return dR;
     } catch (error) {
         console.log(error)
     }
 }
+
+/** CREATE AND FETCH WHEN CLICK ON TODO Answer*/
+
+// const endPoint = 'https://gateway.pinata.cloud/ipfs/';
+// const headers = {
+//     'Authorization': `Bearer ${process.env.REACT_APP_PINATA_JWT}`
+// };
+// console.log(filteredSurveys.map((cid: string) => `${endPoint}${cid}`))
+
+
+export const getAnswerForSurvey = async (survey: string) => {
+    try {
+        const c = await instantiateContract()
+        const r = await c.getUserAnswers()
+        const dR = r.map((x: any) => {
+            const s = [...x]
+            s[0] = decodeCIDfromBytes32(s[0]);
+            s[1] = decodeCIDfromBytes32(s[1]);
+            return s
+        });
+        return dR;
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+// export const getNftAddressForSurveyHash = async (survey: string) => {
+//     try {
+//         const c = await instantiateContract()
+//         const r = await c.getNftAddressForSurveyHash(encodeCIDtoBytes32(survey))
+//         return r[0];
+//     } catch (error) {
+//         console.log(error)
+//     }
+// }
 
 export const getBalance = async () => {
     try {
@@ -344,7 +362,6 @@ export const claimNft = async () => {
         console.error(e)
     }
 }
-
 
 export const tokenInfo = async () => {
     try {
