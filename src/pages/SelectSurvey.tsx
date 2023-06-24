@@ -21,39 +21,7 @@ const surveys: Array<{
       type: "Climate",
       organization: "UN",
       color: "electricUltramarine",
-    },
-    {
-      id: "Qmck3MdJ5JZz9n3t4HsiQbnmiPFUfg9C8wE7S4Q6VaNreF",
-      title: "Healthcare",
-      type: "Healthcare",
-      organization: "WHO",
-      description: "Description of the survey upt to two sentances only no more than maybe the amount of text needed for 4 lines 126characters",
-      color: "red"
-    },
-    {
-      id: "Qmck3MdJ5JZz9n3t4HsiQbnmiPFUfg9C8wE7S4Q6VaNreF",
-      title: "Healthcare",
-      type: "Healthcare",
-      organization: "WHO",
-      description: "Description of the survey upt to two sentances only no more than maybe the amount of text needed for 4 lines 126characters",
-      color: "red"
-    },
-    {
-      id: "Qmck3MdJ5JZz9n3t4HsiQbnmiPFUfg9C8wE7S4Q6VaNreF",
-      title: "Healthcare",
-      type: "Healthcare",
-      organization: "WHO",
-      description: "Description of the survey upt to two sentances only no more than maybe the amount of text needed for 4 lines 126characters",
-      color: "red"
-    },
-    {
-      id: "Qmck3MdJ5JZz9n3t4HsiQbnmiPFUfg9C8wE7S4Q6VaNreF",
-      title: "Healthcare",
-      type: "Healthcare",
-      organization: "WHO",
-      description: "Description of the survey upt to two sentances only no more than maybe the amount of text needed for 4 lines 126characters",
-      color: "red"
-    },
+    }
   ];
 
 const Title = styled.h1`
@@ -116,7 +84,7 @@ const SurveyCard = ({
   const navigate = useNavigate();
   return <Box
     onClick={() => {
-      navigate(`/respond-survey/pay/${surveyId}`)
+      navigate(`/respond-survey/start-survey/${surveyId}`)
     }}
     style={{
       border: `1.5px solid ${colors[color as keyof typeof colors]}`,
@@ -160,7 +128,7 @@ export const SelectSurvey = () => {
       paddingTop: 150
     }}>
       <TopContainer
-        TopBar={() => <TopBar title={"Select a Survey"} stepText={"Step 1 of 4"} percentage={0.25} />}
+        TopBar={() => <TopBar title={"Select a Survey"} stepText={"Step 1 of 3"} percentage={0.33} />}
         title={"Select a survey"} description={"From climate change to healthcare, the choice is yours - take surveys on HashChange and earn NFT rewards!"}
         color="electricUltramarine"
         button={null} />

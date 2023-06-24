@@ -28,7 +28,7 @@ type QuestionProps = {
 const EndSurvey = ({
   onClick,
 }: {
-  onClick: React.MouseEventHandler<HTMLSpanElement>;
+  onClick?: React.MouseEventHandler<HTMLSpanElement>;
 }) => {
   return (
     <div style={{ height: 650, display: "flex", width: "70vw" }}>
@@ -38,7 +38,7 @@ const EndSurvey = ({
         }}
       >
         <QuestionTitle>Congrats for completing the survey</QuestionTitle>
-        <div
+        {onClick ? <div
           style={{
             display: "flex",
             justifyContent: "flex-end",
@@ -47,7 +47,7 @@ const EndSurvey = ({
           <ConnectWallet type="white" onClick={onClick}>
             <Text>Continue</Text>
           </ConnectWallet>
-        </div>
+        </div> : null}
         <Spacer newSpace={50} />
       </p>
     </div>
@@ -206,7 +206,7 @@ export const SurveyMagic = ({
   setCrtQuestion: React.Dispatch<React.SetStateAction<number>>;
   respondToQuestions: (answer: number, single: boolean) => void;
   answers: Array<TAnswers>;
-  onClick: React.MouseEventHandler<HTMLSpanElement>;
+  onClick?: React.MouseEventHandler<HTMLSpanElement>;
 }) => {
   return (
     <>
@@ -289,7 +289,7 @@ export const StartSurvey = () => {
     try {
       const price = "20";
       const tx = await execute("answers", answers, price, surveyId);
-      if(tx.status === 1) {
+      if (tx.status === 1) {
         navigate(`/respond-survey/end/${surveyId}`)
       } else {
         alert("Transaction failed! Please submit again!");
@@ -313,8 +313,8 @@ export const StartSurvey = () => {
         TopBar={() => (
           <TopBar
             title={"Take Survey"}
-            stepText={"Step 3 of 4"}
-            percentage={0.75}
+            stepText={"Step 2 of 3"}
+            percentage={0.66}
           />
         )}
         title={survey?.name}
@@ -323,9 +323,9 @@ export const StartSurvey = () => {
         button={
           crtQuestion >= questions?.length
             ? {
-                text: "Complete Survey",
-                onClick: sendAnswers,
-              }
+              text: "Complete Survey",
+              onClick: sendAnswers,
+            }
             : null
         }
       />
@@ -335,7 +335,6 @@ export const StartSurvey = () => {
         setCrtQuestion={setCrtQuestion}
         respondToQuestions={setAnswersForQuestion(crtQuestion)}
         answers={answers}
-        onClick={() => navigate(`/respond-survey/end/${surveyId}`)}
       />
     </div>
   );

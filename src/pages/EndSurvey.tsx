@@ -16,13 +16,17 @@ export const EndSurvey = () => {
   const { surveyId } = useParams();
   useEffect(() => {
     (async () => {
-      const answer = await getAnswerForSurvey(surveyId as string);
-      console.log(answer);
-      setSurveyHash(answer[0][0]);
-      setAnswerHash(answer[0][1]);
-      setNftAddress(answer[0][2]);
-      setNftSerial(answer[0][3]);
+      try {
+        const answer = await getAnswerForSurvey(surveyId as string);
+        setSurveyHash(answer[0][0]);
+        setAnswerHash(answer[0][1]);
+        setNftAddress(answer[0][2]);
+        setNftSerial(answer[0][3]);
+      } catch (e) {
+        console.log(e);
+      }
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div
@@ -36,19 +40,22 @@ export const EndSurvey = () => {
     >
       <TopContainer
         TopBar={() => (
-          <TopBar title={"Complte"} stepText={"Step 4 of 4"} percentage={1} />
+          <TopBar title={"Complete"} stepText={"Step 3 of 3"} percentage={1} />
         )}
         title={`Congratulation!`}
         description={`You completed the survey! Your data are persisted in blockchain and now there are transparent but anonymous and can be consulted here:`}
         color="electricUltramarine"
         button={null}
       />
-      <TopContainer
-        title={`SoulBodyNFT: ${nftAddress}[${nftSerial}]`}
+      {/* <TopContainer
+        title={`SoulBounded NFT: ${nftAddress}[${nftSerial}]`}
         description={`Survey ${pinata}${surveyHash} Answer ${pinata}${answerHash}`}
         color="electricUltramarine"
         button={null}
       />
+      
+      NFT PICTURE that you click to claim it with some text
+      */}
       <Spacer newSpace={100} />
     </div>
   );
