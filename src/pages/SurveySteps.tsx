@@ -10,18 +10,13 @@ const steps = [
     },
     {
         title: "Step 2",
-        description: "Pay Hedera fee",
-        image: "/steps/Step2take.svg",
-    },
-    {
-        title: "Step 3",
         description: "Start survey",
         image: "/steps/Step3take.svg",
     },
     {
-        title: "Step 4",
+        title: "Step 3",
         description: "Complete and Get the NFT",
-        image: "/steps/step4take.svg",
+        image: "/steps/Step4take.svg",
     }
 ]
 
@@ -45,12 +40,14 @@ export const SurveySteps = () => {
                 }} />
             <div style={{
                 display: "grid",
-                gridTemplateColumns: `repeat(${steps.length}, 1fr)`,
+                gridTemplateColumns: `0.75fr repeat(${steps.length}, 1fr) 0.75fr`,
                 gap: 34, padding: "calc(90px-27px)"
             }}>
+                <div />
                 {steps.map(
                     (step) => <Step {...step} />
                 )}
+                <div />
             </div>
         </div>
     )
