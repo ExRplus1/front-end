@@ -48,7 +48,7 @@ export function Slideshow() {
                 }}
             >
                 {imageIndexArray.map((_, index) => (
-                    <img style={{
+                    <div style={{
                         backgroundImage: `url(images/slider/slider${index + 1}.png)`,
                         backgroundSize: "cover",
                         backgroundRepeat: "no-repeat",
@@ -56,7 +56,7 @@ export function Slideshow() {
                         display: "inline-block",
                         height: "100%",
                         width: "100%",
-                    }} alt={`slider${index + 1}`} />
+                    }} />
                 ))}
             </div>
 
