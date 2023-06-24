@@ -5,7 +5,8 @@ import axios from "axios";
 import bs58 from 'bs58';
 import { Buffer } from "buffer";
 
-import { surveysContractAddress, operatorAccountAddress, nftSerial, nftAddress } from './contracts';
+const gasPrice = 10000000000000;
+const gasLimit = 10000000;
 
 // blockchain
 export const exchangeRate = async () => {
@@ -15,7 +16,7 @@ export const exchangeRate = async () => {
         const HbarPriceInUSD: number = Math.round(cent_equivalent / hbar_equivalent * 100) / 1e4
         return HbarPriceInUSD
     } catch (e) {
-
+         console.log(e)
     }
 }
 
@@ -103,7 +104,7 @@ export const disconnectWallet = async () => {
 }
 
 
-// TODO :: MOVE THIS IN HARDHAT
+// TODO :: MOVE THIS IN ADMIN/DASHBOARD or in HARDHAT
 export const deployContracts = async (abi?: any, byteCode?: any) => {
     abi = Surveys.abi;
     byteCode = Surveys.bytecode;
@@ -112,7 +113,7 @@ export const deployContracts = async (abi?: any, byteCode?: any) => {
         const { provider, signer } = await connect() as any;
         const factory = new ContractFactory(abi, byteCode, signer);
         // If contract requires constructor args, can specify them here
-        const contract = await factory.deploy(operatorAccountAddress);
+        const contract = await factory.deploy(process.env.REACT_APP_OPERATOR_ACCOUNT);
         const address = await contract.getAddress();
         const tx = await contract.deploymentTransaction();
         console.log(address, tx);
@@ -121,12 +122,11 @@ export const deployContracts = async (abi?: any, byteCode?: any) => {
     }
 }
 
-const instantiateContract = async () => {
-    const abi = Surveys.abi;
-    const contractAddress = surveysContractAddress //process.env.REACT_APP_SURVEYS_CONTRACT as string;
+const instantiateContract = async (contractAddress?:any, abi?:any) => {
+    abi = abi || Surveys.abi;
+    contractAddress = contractAddress || process.env.REACT_APP_SURVEYS_CONTRACT as string; 
     const { provider, signer, address } = await connect() as any;
     const contract = new ethers.Contract(contractAddress, abi, signer);
-
     return contract
 }
 
@@ -208,8 +208,6 @@ export const execute = async (type: string, jsonObj: any, value: string, survey?
     }
 }
 
-
-
 export const getAuthorSurveys = async () => {
     const contract = await instantiateContract()
     const surveyAuthor = await contract.getAuthorSurveys()
@@ -257,14 +255,15 @@ export const getUserAnswers = async () => {
     }
 }
 
-/** CREATE AND FETCH WHEN CLICK ON TODO Answer*/
-
-// const endPoint = 'https://gateway.pinata.cloud/ipfs/';
-// const headers = {
-//     'Authorization': `Bearer ${process.env.REACT_APP_PINATA_JWT}`
-// };
-// console.log(filteredSurveys.map((cid: string) => `${endPoint}${cid}`))
-
+export const getNftAddressForSurveyHash = async (survey: string) => {
+    try {
+        const c = await instantiateContract()
+        const r = await c.getNftAddressForSurveyHash(encodeCIDtoBytes32(survey))
+        return r;
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 export const getAnswerForSurvey = async (survey: string) => {
     try {
@@ -282,17 +281,6 @@ export const getAnswerForSurvey = async (survey: string) => {
     }
 }
 
-
-// export const getNftAddressForSurveyHash = async (survey: string) => {
-//     try {
-//         const c = await instantiateContract()
-//         const r = await c.getNftAddressForSurveyHash(encodeCIDtoBytes32(survey))
-//         return r[0];
-//     } catch (error) {
-//         console.log(error)
-//     }
-// }
-
 export const getBalance = async () => {
     try {
         const contract = await instantiateContract()
@@ -303,85 +291,33 @@ export const getBalance = async () => {
     }
 }
 
-
-/** testing */
-
-const gasPrice = 10000000000000;
-const gasLimit = 10000000;
-
-export const mintNft = async () => {
+export const associateNft = async (nftAddress: string) => {
     try {
-        const contract = await instantiateContract()
-        const qry = await contract.mintNft(
-            nftAddress,
-            [Buffer.from("Direct minted by front-end")],
-            {
-                value: ethers.parseEther('2'),
-                gasPrice,
-                gasLimit
-            })
+        const contract = await instantiateContract(nftAddress, ['function associate()'])
+        const qry = await contract.associate()
         const receipt = await qry.wait();
-        console.log("NftMintedSerial::", receipt)
+        console.log("AssociateNFT::", receipt.hash)
     } catch (e) {
         console.error(e)
     }
 }
 
-export const approveNft = async () => {
-    try {
-        const contract = await instantiateContract()
-        const qry = await contract.approveNft(
-            nftAddress,
-            nftSerial,
-            {
-                // value: ethers.parseEther('5'),
-                gasPrice,
-                gasLimit
-            })
-        const receipt = await qry.wait();
-        console.log("TransferedResponse::", receipt)
-    } catch (e) {
-        console.error(e)
-    }
-}
-
-export const claimNft = async () => {
+export const transferNft = async (nftAddress: string, nftSerial: number) => {
     try {
         const contract = await instantiateContract();
         const qry = await contract.transferNft(
             nftAddress,
             nftSerial,
             {
-                // value: ethers.parseEther('10'),
                 gasPrice,
                 gasLimit
             })
         const receipt = await qry.wait();
-        console.log("TransferedResponse::", receipt)
+        console.log("TransferNFT::", receipt)
     } catch (e) {
         console.error(e)
     }
 }
-
-export const tokenInfo = async () => {
-    try {
-        const contract = await instantiateContract()
-        const approved = await contract.getApprovedNft(nftAddress, nftSerial);
-        const owner = await contract.ownerOfNft(nftAddress, nftSerial);
-        // const nameOfNft = await contract.nameOfNft(nftAddress, nftSerial);
-        const symbol = await contract.symbolOfNft(nftAddress);
-        const uri = await contract.tokenURIOfNft(nftAddress, nftSerial);
-
-        console.log(owner, approved, symbol, uri);
-
-    } catch (e) {
-        console.log("TokenInfo::", e)
-    }
-}
-
-
-/** testing */
-
 
 // TODO - Move to backend
 const uploadFileToIPFS = async (file?: any) => {
@@ -410,3 +346,44 @@ const uploadFileToIPFS = async (file?: any) => {
 const fetchIPFSFile = (cid: string) => {
     return axios.get(`https://gateway.pinata.cloud/ipfs/${cid}`)
 }
+
+
+/** testing */
+
+// export const mintNft = async (nftAddress: string) => {
+//     try {
+//         const contract = await instantiateContract()
+//         const qry = await contract.mintNft(
+//             nftAddress,
+//             [Buffer.from("Direct minted by front-end")],
+//             {
+//                 value: ethers.parseEther('2'),
+//                 gasPrice,
+//                 gasLimit
+//             })
+//         const receipt = await qry.wait();
+//         console.log("NftMintedSerial::", receipt)
+//     } catch (e) {
+//         console.error(e)
+//     }
+// }
+
+
+// export const tokenInfo = async (nftAddress: string, nftSerial: string) => {
+//     try {
+//         const contract = await instantiateContract()
+//         const approved = await contract.getApprovedNft(nftAddress, nftSerial);
+//         const owner = await contract.ownerOfNft(nftAddress, nftSerial);
+//         // const nameOfNft = await contract.nameOfNft(nftAddress, nftSerial);
+//         const symbol = await contract.symbolOfNft(nftAddress);
+//         const uri = await contract.tokenURIOfNft(nftAddress, nftSerial);
+
+//         console.log(owner, approved, symbol, uri);
+
+//     } catch (e) {
+//         console.log("TokenInfo::", e)
+//     }
+// }
+
+
+/** testing */

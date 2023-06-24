@@ -1,7 +1,7 @@
 import Profile from "../components/Profile";
 import { NavBarContainer, Link, Text } from "../styles";
 import { useAppContext } from "../hooks/useAppContext";
-import { mintNft, deployContracts, getBalance, getSurveys, tokenInfo, getUserAnswers } from "../services/utils";
+import { deployContracts, getBalance, } from "../services/utils";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
@@ -24,7 +24,6 @@ const Navbar = () => {
         <Link onClick={getBalance}>
           <Text> BALANCE</Text>
         </Link>
-     
       </div>
       <div
         style={{

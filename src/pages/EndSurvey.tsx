@@ -3,7 +3,7 @@ import { TopBar } from "../components/TopBar";
 import { TopContainer } from "../components/TopContainer";
 import { Spacer } from "./Landing";
 import { useParams } from "react-router-dom";
-import { getAnswerForSurvey } from "../services/utils";
+import { associateNft, getAnswerForSurvey, getNftAddressForSurveyHash, transferNft } from "../services/utils";
 
 export const EndSurvey = () => {
   const [nftAddress, setNftAddress] = useState("");
@@ -28,6 +28,17 @@ export const EndSurvey = () => {
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const claimNft = async () => {
+    try {
+        await associateNft(nftAddress);
+        await transferNft(nftAddress, nftSerial as unknown as number)
+    } catch (e) {
+        console.log(e)
+        
+    }
+  }
+
   return (
     <div
       style={{
@@ -45,7 +56,7 @@ export const EndSurvey = () => {
         title={`Congratulation!`}
         description={`You completed the survey! Your data are persisted in blockchain and now there are transparent but anonymous and can be consulted here:`}
         color="electricUltramarine"
-        button={null}
+        button={{text: "ClaimNFT", onClick: claimNft}}
       />
       {/* <TopContainer
         title={`SoulBounded NFT: ${nftAddress}[${nftSerial}]`}
