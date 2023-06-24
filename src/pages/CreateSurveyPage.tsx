@@ -51,7 +51,9 @@ export const CreateSurveyPage = () => {
             }}>
                 <div />
                 {steps.map(
-                    (step) => <Step {...step}
+                    (step) => <Step
+                        key={step?.title ?? "1"}
+                        {...step}
                         color="yellowGreen"
                         textColor="northSeaBlue"
                         descriptionColor="sheetBlue"

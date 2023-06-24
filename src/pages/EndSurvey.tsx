@@ -67,7 +67,7 @@ export const EndSurvey = () => {
       
       NFT PICTURE that you click to claim it with some text
       */}
-      <Spacer newSpace={100} />
+      <Spacer newspace={100} />
     </div>
   );
 };
