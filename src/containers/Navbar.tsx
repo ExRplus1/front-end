@@ -1,7 +1,5 @@
 import Profile from "../components/Profile";
 import { NavBarContainer, Link, Text } from "../styles";
-import { useAppContext } from "../hooks/useAppContext";
-import { deployContracts, getBalance, } from "../services/utils";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {

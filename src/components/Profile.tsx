@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAppContext } from "../hooks/useAppContext";
 import { ConnectWallet, Text } from "../styles";
 
@@ -15,9 +15,7 @@ const useHover = () => {
 const Profile = () => {
   const {
     metamaskAccountAddress,
-    setMetamaskAccountAddress,
     metamaskConnected,
-    setMetamaskConnected,
     connect,
     disconnect
   } = useAppContext();

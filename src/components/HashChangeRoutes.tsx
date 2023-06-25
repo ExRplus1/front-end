@@ -25,7 +25,6 @@ const HashChangeRoutes = () => (
       <Route path="/createSurvey/start" element={<CreateSurveyPage />} />
       <Route path="/createSurvey/calculatePrice" element={<CalculatePrice />} />
       <Route path="/createSurvey/uploadJson" element={<UploadJson />} />
-
     </Route>
   </Routes>
 );

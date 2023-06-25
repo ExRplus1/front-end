@@ -25,9 +25,6 @@ export const questionsSchema = yup.object().shape({
 });
 
 export const surveySchema = yup.object().shape({
-    // id: yup.string().required(),
-    // completed: yup.boolean().required(),
-    // authId: yup.string().required(),
     description: yup.string().required(),
     name: yup.string().required(),
     questions: yup.array().of(questionsSchema).required(),

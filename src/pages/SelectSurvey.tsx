@@ -25,12 +25,12 @@ const surveys: Array<{
   ];
 
 const Title = styled.h1`
-    font-family: 'Archivo';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 18.8116px;
-    line-height: 28px;
-    color: #DCDCDC;
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18.8116px;
+  line-height: 28px;
+  color: #DCDCDC;
 `;
 const Description = styled.h2`
   font-family: 'Archivo';
@@ -69,26 +69,36 @@ const Type = styled.h2<{ color: keyof typeof colors }>`
   color: ${({ color }) => colors[color]};
 `;
 
-const SurveyCard = ({
+const Interactables = styled(Box)`
+  &:hover {
+    cursor: pointer;
+    opacity: 0.8;
+  }
+`;
+
+export const SurveyCard = ({
   title,
-  id: surveyId,
   type,
   organization,
   description,
   color,
-}: typeof surveys[number]) => {
-  const navigate = useNavigate();
-  return <Box
-    onClick={() => {
-      navigate(`/respond-survey/start-survey/${surveyId}`)
-    }}
+  image,
+  onClick,
+}: typeof surveys[number] & { onClick: () => void, image?: string }) => {
+  return <Interactables
+    onClick={onClick}
     style={{
       border: `1.5px solid ${colors[color as keyof typeof colors]}`,
       display: "flex",
       flexDirection: "column",
       justifyContent: "space-evenly",
     }}>
-
+    {image ? <div style={{
+      overflow: "hidden",
+      width: "100%",
+    }}>
+      <img src={image} alt={title} width="100%" />
+    </div> : null}
     <div style={{
       height: "calc(100% - 70px)",
       width: "calc(100% - 70px)",
@@ -109,12 +119,12 @@ const SurveyCard = ({
         </Description>
       </div>
     </div>
-  </Box >
+  </Interactables>
 }
 
 
 export const SelectSurvey = () => {
-
+  const navigate = useNavigate();
   return (
     <div style={{
       display: "flex",
@@ -135,9 +145,12 @@ export const SelectSurvey = () => {
         gap: 38
       }}>
         {
-          surveys.map((survey) => <SurveyCard
-            key={survey.id}
-            {...survey} />)
+          surveys.map(
+            (survey) => <SurveyCard
+              onClick={() => { navigate(`/respond-survey/start-survey/${survey.id}`) }}
+              key={survey.id}
+              {...survey} />
+          )
         }
       </div>
       <Spacer newspace={100} />

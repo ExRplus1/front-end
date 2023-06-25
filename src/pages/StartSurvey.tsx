@@ -270,7 +270,7 @@ export const StartSurvey = () => {
         return newAnswers;
       });
     },
-    [questions, surveyId]
+    [questions]
   );
 
   const sendAnswers = async () => {
