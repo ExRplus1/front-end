@@ -17,12 +17,12 @@ const Navbar = () => {
         <Link onClick={() => navigate('/')}>
           <Text> Home </Text>
         </Link>
-        <Link onClick={deployContracts}>
+        {/* <Link onClick={deployContracts}>
           <Text> DEPOLY</Text>
-        </Link>
-        <Link onClick={getBalance}>
+        </Link> */}
+        {/* <Link onClick={getBalance}>
           <Text> BALANCE</Text>
-        </Link>
+        </Link> */}
       </div>
       <div
         style={{

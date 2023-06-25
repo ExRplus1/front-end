@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 const delay = 2500;
 
 
-const IMAGE_LENGTH = 5;
+const IMAGE_LENGTH = 6;
 
 export function Slideshow() {
     const [index, setIndex] = useState(0);
@@ -52,7 +52,7 @@ export function Slideshow() {
                     <div
                         key={`images/slider/slider${_n + 1}.png`}
                         style={{
-                            backgroundImage: `url(images/slider/slider${index + 1}.png)`,
+                            backgroundImage: `url(/images/slider/${index + 1}.jpeg)`,
                             backgroundSize: "cover",
                             backgroundRepeat: "no-repeat",
                             backgroundPosition: "center",
