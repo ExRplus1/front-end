@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const navigate = useNavigate();
-
   return (
     <NavBarContainer>
       <div
@@ -14,6 +13,12 @@ const Navbar = () => {
       >
         <Link onClick={() => navigate('/')}>
           <Text> Home </Text>
+        </Link>
+        <Link onClick={() => navigate('/my-surveys')}>
+          <Text> My Surveys </Text>
+        </Link>
+        <Link onClick={() => navigate('/my-answers')}>
+          <Text> My Answers </Text>
         </Link>
         {/* <Link onClick={deployContracts}>
           <Text> DEPOLY</Text>

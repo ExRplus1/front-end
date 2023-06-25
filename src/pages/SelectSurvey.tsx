@@ -1,7 +1,7 @@
 import { Box } from "../components/Box";
 import { TopBar } from "../components/TopBar"
 import { TopContainer } from "../components/TopContainer"
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { colors } from "../constants/colors";
 import { Spacer } from "./Landing";
 import { useNavigate } from "react-router-dom";
@@ -69,11 +69,11 @@ const Type = styled.h2<{ color: keyof typeof colors }>`
   color: ${({ color }) => colors[color]};
 `;
 
-const Interactables = styled(Box)`
-  &:hover {
+const Interactables = styled(Box) <{ isInteractable?: string }>`
+  ${({ isInteractable }) => isInteractable === "true" ? css`&:hover {
     cursor: pointer;
     opacity: 0.8;
-  }
+  }` : null}
 `;
 
 export const SurveyCard = ({
@@ -84,21 +84,20 @@ export const SurveyCard = ({
   color,
   image,
   onClick,
-}: typeof surveys[number] & { onClick: () => void, image?: string }) => {
+}: typeof surveys[number] & { onClick?: () => void, image?: string }) => {
   return <Interactables
     onClick={onClick}
+    isInteractable={(!!onClick)?.toString()}
     style={{
       border: `1.5px solid ${colors[color as keyof typeof colors]}`,
       display: "flex",
       flexDirection: "column",
       justifyContent: "space-evenly",
     }}>
-    {image ? <div style={{
-      overflow: "hidden",
-      width: "100%",
-    }}>
-      <img src={image} alt={title} width="100%" />
-    </div> : null}
+    {image ?
+      <img src={image} alt={title} width="100%" style={{
+        aspectRatio: "1/1",
+      }} /> : null}
     <div style={{
       height: "calc(100% - 70px)",
       width: "calc(100% - 70px)",
