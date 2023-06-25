@@ -12,7 +12,7 @@ const Navbar = () => {
         }}
       >
         <Link onClick={() => navigate('/')}>
-          <Text> Home </Text>
+          <img src="/images/logo.svg" alt="logo" /><Text> HashChange </Text>
         </Link>
         <Link onClick={() => navigate('/my-surveys')}>
           <Text> My Surveys </Text>
@@ -20,12 +20,6 @@ const Navbar = () => {
         <Link onClick={() => navigate('/my-answers')}>
           <Text> My Answers </Text>
         </Link>
-        {/* <Link onClick={deployContracts}>
-          <Text> DEPOLY</Text>
-        </Link> */}
-        {/* <Link onClick={getBalance}>
-          <Text> BALANCE</Text>
-        </Link> */}
       </div>
       <div
         style={{
