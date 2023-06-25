@@ -13,19 +13,18 @@ import { SurveyCard } from "./SelectSurvey";
 import { images } from "../constants/nftImages";
 import { styled } from "styled-components";
 export const Link = styled.a`
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 600;
   font-size: 18px;
   line-height: 28px;
   cursor: pointer;
-  color:white;
+  color: white;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   max-width: 300px;
-`
-
+`;
 
 export const EndSurvey = () => {
   const [nftAddress, setNftAddress] = useState("");
@@ -43,6 +42,9 @@ export const EndSurvey = () => {
         const nftAddress = await getNftAddressForSurveyHash(surveyId as string);
         setNftAddress(nftAddress);
         const answer = await getAnswerForSurvey(surveyId as string);
+
+        console.log(answer);
+
         setSurveyHash(answer[0][0]);
         setAnswerHash(answer[0][1]);
         setNftSerial(Number(answer[0][3]).toString());
@@ -56,7 +58,7 @@ export const EndSurvey = () => {
   const claimNft = async () => {
     try {
       const assoc = await associateNft(nftAddress);
-      console.log(assoc)
+      console.log(assoc);
       if (+assoc.status === 1)
         await transferNft(nftAddress, nftSerial as unknown as number);
     } catch (e) {
@@ -83,43 +85,48 @@ export const EndSurvey = () => {
         color="electricUltramarine"
         button={null}
       />
-      <div style={{
-        maxHeight: 300,
-        display: "flex",
-        justifyContent: "space-evenly", alignItems: "center",
-      }}>
-        <div style={{
-          display: "grid",
-        }}>
-          <Link href={`${pinata}${surveyHash}`} target="_blank"
-          >
+      <div
+        style={{
+          maxHeight: 300,
+          display: "flex",
+          justifyContent: "space-evenly",
+          alignItems: "center",
+        }}
+      >
+        <div
+          style={{
+            display: "grid",
+          }}
+        >
+          <Link href={`${pinata}${surveyHash}`} target="_blank">
             {`Survey ${pinata}${surveyHash}`}
           </Link>
-          <Link href={`${pinata}${answerHash}`} target="_blank"
-          >
+          <Link href={`${pinata}${answerHash}`} target="_blank">
             {`Answer ${pinata}${answerHash}`}
           </Link>
         </div>
-        <div
-          style={{
-            alignSelf: "center",
-            maxHeight: 300,
-            maxWidth: 300,
-          }}
-        >
-          <SurveyCard
-            id={""}
-            description={""}
-            type={""}
-            image={images[+nftSerial % images.length]}
-            organization={""}
-            title={"Click On The Card To Claim Your NFT"}
-            color={"electricUltramarine"}
-            onClick={() => claimNft()}
-          />
-        </div>
+        {nftSerial === "" ? null : (
+          <div
+            style={{
+              alignSelf: "center",
+              maxHeight: 300,
+              maxWidth: 300,
+            }}
+          >
+            <SurveyCard
+              id={""}
+              description={""}
+              type={""}
+              image={images[+nftSerial % images.length]}
+              organization={""}
+              title={"Click On The Card To Claim Your NFT"}
+              color={"electricUltramarine"}
+              onClick={() => claimNft()}
+            />
+          </div>
+        )}
       </div>
       <Spacer newspace={100} />
-    </div >
+    </div>
   );
 };

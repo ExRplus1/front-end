@@ -1,5 +1,5 @@
 import Profile from "../components/Profile";
-import { getSurveys } from "../services/utils";
+import { deployContracts, getBalance, getSurveys } from "../services/utils";
 import { NavBarContainer, Link, Text } from "../styles";
 import { useNavigate } from "react-router-dom";
 
@@ -23,13 +23,13 @@ const Navbar = () => {
         </Link>
         {/* <Link onClick={deployContracts}>
           <Text> DEPOLY</Text>
-        </Link>
-        {/* <Link onClick={getBalance}>
-          <Text> BALANCE</Text>
         </Link> */}
-        <Link onClick={getSurveys}>
-          <Text> SURVEYS</Text>
+        <Link onClick={getBalance}>
+          <Text> Contract Balance</Text>
         </Link>
+        {/* <Link onClick={getSurveys}>
+          <Text> SURVEYS</Text>
+        </Link> */}
       </div>
       <div
         style={{

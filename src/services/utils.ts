@@ -262,6 +262,7 @@ export const getUserAnswers = async () => {
   try {
     const c = await instantiateContract();
     const r = await c.getUserAnswers();
+    // console.log(r)
     const dR = r.map((x: any) => {
       const s = [...x];
       s[0] = decodeCIDfromBytes32(s[0]);
