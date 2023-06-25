@@ -116,14 +116,7 @@ const QuestionsContainer = ({
       </div>
     </div >
   );
-};
-const OptionScaleQuestion = ({
-  question,
-  respondToQuestion,
-  answer,
-}: QuestionProps) => {
-  return <></>;
-};
+}
 
 const MultipleOptionQuestion = ({
   question,
@@ -162,14 +155,6 @@ const QuestionFactory = ({
   answer,
 }: QuestionProps) => {
   switch (question.questionType) {
-    case "optionScale":
-      return (
-        <OptionScaleQuestion
-          question={question}
-          respondToQuestion={respondToQuestion}
-          answer={answer}
-        />
-      );
     case "singleOption":
       return (
         <MultipleOptionQuestion
@@ -254,7 +239,7 @@ export const StartSurvey = () => {
   const [crtQuestion, setCrtQuestion] = useState(0);
 
   // TODO: save in IPFS at the end @drLeo
-  
+
   const [answers, setAnswers] = useState<Array<TAnswers>>(
     questions.map((question) => {
       return {
@@ -285,13 +270,14 @@ export const StartSurvey = () => {
         return newAnswers;
       });
     },
-    [questions, surveyId]
+    [questions]
   );
 
   const sendAnswers = async () => {
     try {
-      const price = "20";
-      const tx = await execute("answers", {surevyHash: surveyId, answers}, price, surveyId);
+      const price = "20"; //price for mint the token
+      const tx = await execute("answers", { surevyHash: surveyId, answers }, price, surveyId);
+      console.log(tx)
       if (tx.status === 1) {
         navigate(`/respond-survey/end/${surveyId}`)
       } else {

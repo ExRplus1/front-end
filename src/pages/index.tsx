@@ -6,3 +6,6 @@ export { EndSurvey } from "./EndSurvey";
 export { CreateSurveyPage } from "./CreateSurveyPage";
 export { CalculatePrice } from "./CalculatePrice";
 export { UploadJson } from "./UploadJson";
+export { MySurveys } from "./MySurveys";
+export { MyAnswers } from "./MyAnswers";
+export { SurveysResponsesGraph } from "./SurveysResponsesGraph"

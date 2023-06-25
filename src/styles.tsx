@@ -9,13 +9,14 @@ export const Bg = styled.div`
   overflow-y: scroll;
 `;
 
-export const Text = styled.span`
+export const Text = styled.span<{ color?: string }>`
   font-family: 'Inter';
   font-style: normal;
   font-weight: 600;
   font-size: 18px;
   line-height: 28px;
   cursor: pointer;
+  color: ${({ color }) => color};
 `
 export const ConnectWallet = styled.span<{ type: "black" | "white" | "whiteBlack" }>`
   display: flex;

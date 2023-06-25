@@ -11,7 +11,10 @@ import {
   EndSurvey,
   CreateSurveyPage,
   CalculatePrice,
-  UploadJson
+  UploadJson,
+  MySurveys,
+  MyAnswers,
+  SurveysResponsesGraph
 } from "../pages";
 
 const HashChangeRoutes = () => (
@@ -25,7 +28,9 @@ const HashChangeRoutes = () => (
       <Route path="/createSurvey/start" element={<CreateSurveyPage />} />
       <Route path="/createSurvey/calculatePrice" element={<CalculatePrice />} />
       <Route path="/createSurvey/uploadJson" element={<UploadJson />} />
-
+      <Route path="/my-surveys" element={<MySurveys />} />
+      <Route path="/my-answers" element={<MyAnswers />} />
+      <Route path="/my-surveys/:survey-id" element={<SurveysResponsesGraph />} />
     </Route>
   </Routes>
 );

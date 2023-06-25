@@ -1,7 +1,7 @@
 import { TopContainer } from "../components/TopContainer";
 import { useNavigate } from "react-router-dom";
 import { TSurveyForm, surveySchema } from "./UploadJson";
-import { useState, useEffect, Dispatch, SetStateAction } from "react";
+import { useState, useEffect, SetStateAction } from "react";
 import { TopBar } from "../components/TopBar";
 import { styled } from "styled-components";
 import { execute } from "../services/utils";
@@ -131,7 +131,7 @@ const PriceCalculator = ({
   price,
   setPrice,
   exRate,
-  setNoOfUsers,
+  setNoOfUsers
 }: {
   numberQuestions?: number;
   price: number;
@@ -140,9 +140,8 @@ const PriceCalculator = ({
   setNoOfUsers: React.Dispatch<SetStateAction<number>>;
 }) => {
   // price calculator table with one row and table header
-
-  const pricePerUser = 10;
-  const pricePerquestion = 10;
+  const pricePerUser = 100;
+  const pricePerquestion = 100;
   const flatSurveyPrice = 30;
   const hederaNetworkTaxes = 50;
 
@@ -150,16 +149,14 @@ const PriceCalculator = ({
 
   useEffect(() => {
     setNoOfUsers(users);
-
     const totalUsersPrice = users * pricePerUser;
-
     const calcPrice =
       totalUsersPrice +
       (numberQuestions || 0) * pricePerquestion +
       flatSurveyPrice +
       hederaNetworkTaxes;
-
     setPrice(calcPrice);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [users]);
 
   return (
@@ -233,16 +230,16 @@ export const CalculatePrice = () => {
     getSurveyIfExists();
   }, []);
 
-  const pay = async (users: number) => {
+  const pay = async () => {
     try {
       // hardcoded for the moment
-      const token = await execute(
-        "survey",
-        survey,
-        price.toString(),
-        "",
-        users
-      );
+      // const token = await execute(
+      //   "survey",
+      //   survey,
+      //   (price).toString()
+      // );
+      await execute("survey", survey, price.toString(), '', noOfUsers);
+      localStorage.removeItem("survey");
     } catch (e) {
       console.log("ERROR when creating survey", e);
     }
@@ -278,7 +275,7 @@ export const CalculatePrice = () => {
           survey
             ? {
                 text: "Pay",
-                onClick: () => pay(noOfUsers),
+                onClick: pay,
               }
             : {
                 text: "Go to Upload JSON",
