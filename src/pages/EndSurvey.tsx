@@ -83,8 +83,6 @@ export const EndSurvey = () => {
         color="electricUltramarine"
         button={null}
       />
-
-
       <div style={{
         maxHeight: 300,
         display: "flex",

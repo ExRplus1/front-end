@@ -6,7 +6,7 @@ import { colors } from "../constants/colors";
 import { Spacer } from "./Landing";
 import { useNavigate } from "react-router-dom";
 
-const surveys: Array<{
+export const surveys: Array<{
   id: string,
   title: string,
   type: string,
@@ -69,8 +69,8 @@ const Type = styled.h2<{ color: keyof typeof colors }>`
   color: ${({ color }) => colors[color]};
 `;
 
-const Interactables = styled(Box) <{ isInteractable?: string }>`
-  ${({ isInteractable }) => isInteractable === "true" ? css`&:hover {
+const Interactables = styled(Box) <{ $isInteractable?: string }>`
+  ${({ $isInteractable }) => $isInteractable === "true" ? css`&:hover {
     cursor: pointer;
     opacity: 0.8;
   }` : null}
@@ -87,7 +87,7 @@ export const SurveyCard = ({
 }: typeof surveys[number] & { onClick?: () => void, image?: string }) => {
   return <Interactables
     onClick={onClick}
-    isInteractable={(!!onClick)?.toString()}
+   $isInteractable={(!!onClick)?.toString()}
     style={{
       border: `1.5px solid ${colors[color as keyof typeof colors]}`,
       display: "flex",
@@ -135,7 +135,7 @@ export const SelectSurvey = () => {
       <TopContainer
         TopBar={() => <TopBar title={"Select a Survey"} stepText={"Step 1 of 3"} percentage={0.33} />}
         title={"Select a survey"}
-        description={"From climate change to healthcare, the choice is yours - take surveys on HashChange and earn NFT rewards!"}
+        description={"Find out how much is your voice worth. Take surveys on HashChange and earn Token and NFT rewards!"}
         color="electricUltramarine"
         button={null} />
       <div style={{
