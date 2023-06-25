@@ -37,7 +37,9 @@ export const Step = ({
         descriptionColor?: keyof typeof colors,
     }) => {
     return (
-        <Box color={color ?? "electricUltramarine"} style={{
+        <Box color={color ?? "electricUltramarine"} 
+        
+        style={{
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-evenly",

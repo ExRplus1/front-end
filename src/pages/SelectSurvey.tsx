@@ -138,10 +138,12 @@ export const SelectSurvey = () => {
         gap: 38
       }}>
         {
-          surveys.map((survey) => <SurveyCard {...survey} />)
+          surveys.map((survey) => <SurveyCard
+            key={survey.id}
+            {...survey} />)
         }
       </div>
-      <Spacer newSpace={100} />
+      <Spacer newspace={100} />
     </div>
   )
 }

@@ -45,7 +45,9 @@ export const SurveySteps = () => {
             }}>
                 <div />
                 {steps.map(
-                    (step) => <Step {...step} />
+                    (step) => <Step
+                        key={step?.title ?? "1"}
+                        {...step} />
                 )}
                 <div />
             </div>

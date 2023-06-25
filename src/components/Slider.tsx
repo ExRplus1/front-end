@@ -9,7 +9,7 @@ const IMAGE_LENGTH = 5;
 export function Slideshow() {
     const [index, setIndex] = useState(0);
     const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-    const imageIndexArray = new Array(IMAGE_LENGTH).fill(null);
+    const imageIndexArray = new Array(IMAGE_LENGTH).fill(null).map((_, index) => index);
 
     function resetTimeout() {
         if (timeoutRef.current) {
@@ -33,11 +33,12 @@ export function Slideshow() {
     }, [imageIndexArray.length, index]);
 
     return (
-        <div className="slideshow" style={{
-            margin: "0 auto",
-            overflow: "hidden",
-            height: "100%"
-        }}>
+        <div
+            className="slideshow" style={{
+                margin: "0 auto",
+                overflow: "hidden",
+                height: "100%"
+            }}>
             <div
                 className="slideshowSlider"
                 style={{
@@ -47,16 +48,18 @@ export function Slideshow() {
                     transition: "ease 1000ms"
                 }}
             >
-                {imageIndexArray.map((_, index) => (
-                    <img style={{
-                        backgroundImage: `url(images/slider/slider${index + 1}.png)`,
-                        backgroundSize: "cover",
-                        backgroundRepeat: "no-repeat",
-                        backgroundPosition: "center",
-                        display: "inline-block",
-                        height: "100%",
-                        width: "100%",
-                    }} alt={`slider${index + 1}`} />
+                {imageIndexArray.map((_n, index) => (
+                    <div
+                        key={`images/slider/slider${_n + 1}.png`}
+                        style={{
+                            backgroundImage: `url(images/slider/slider${index + 1}.png)`,
+                            backgroundSize: "cover",
+                            backgroundRepeat: "no-repeat",
+                            backgroundPosition: "center",
+                            display: "inline-block",
+                            height: "100%",
+                            width: "100%",
+                        }} />
                 ))}
             </div>
 

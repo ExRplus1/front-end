@@ -70,8 +70,8 @@ export const EndSurvey = () => {
         description={`Survey ${pinata}${surveyHash} Answer ${pinata}${answerHash}`}
         color="electricUltramarine"
         button={null}
-      />
-      <Spacer newSpace={100} />
+      />      
+      <Spacer newspace={100} />
     </div>
   );
 };

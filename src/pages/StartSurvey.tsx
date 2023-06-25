@@ -32,7 +32,7 @@ const EndSurvey = ({
 }) => {
   return (
     <div style={{ height: 650, display: "flex", width: "70vw" }}>
-      <p
+      <div
         style={{
           width: "70vw",
         }}
@@ -48,8 +48,8 @@ const EndSurvey = ({
             <Text>Continue</Text>
           </ConnectWallet>
         </div> : null}
-        <Spacer newSpace={50} />
-      </p>
+        <Spacer newspace={50} />
+      </div>
     </div>
   );
 };
@@ -69,7 +69,7 @@ const QuestionsContainer = ({
 }) => {
   return (
     <div style={{ height: 650, display: "flex", width: "70vw" }}>
-      <p
+      <div
         style={{
           width: "70vw",
         }}
@@ -78,9 +78,9 @@ const QuestionsContainer = ({
           Question {crtQuestion + 1} / {max}
         </Title>
         {questionTitle ? <QuestionTitle>{questionTitle}</QuestionTitle> : null}
-        <Spacer newSpace={50} />
+        <Spacer newspace={50} />
         {children}
-      </p>
+      </div>
 
       <div style={{ display: "flex", gap: 18, alignSelf: "flex-end" }}>
         <div
@@ -114,7 +114,7 @@ const QuestionsContainer = ({
           </ArrowButton>
         )}
       </div>
-    </div>
+    </div >
   );
 };
 const OptionScaleQuestion = ({
@@ -140,6 +140,7 @@ const MultipleOptionQuestion = ({
     >
       {(question?.options ?? []).map((option, index) => (
         <OptionContainer
+          key={option.text}
           onClick={() => {
             respondToQuestion(index, single ?? false);
           }}
@@ -236,7 +237,7 @@ export const SurveyMagic = ({
         <div />
       </div>
 
-      <Spacer newSpace={100} />
+      <Spacer newspace={100} />
     </>
   );
 };

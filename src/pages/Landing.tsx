@@ -4,14 +4,14 @@ import { colors } from "../constants/colors";
 import { ConnectWallet, Text } from "../styles";
 import { Card, Container } from "../components/Card";
 import { explainers } from "./constants";
-import { Footer } from "./Footer";
 import { useNavigate } from "react-router-dom";
 import { TakeSurvey } from "./TakeSurveySvg";
 import { CreateSurvey } from "./CreateSurvey";
 import { Slideshow } from "../components/Slider";
+import React from "react";
 
 
-const PageText = styled.div<{ white?: boolean }>`
+const PageText = styled.div<{ white?: string }>`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -64,7 +64,7 @@ const PageText = styled.div<{ white?: boolean }>`
     height: 48px;
   }
   ${({ white }) =>
-    white
+    white === "true"
       ? css`
           h1,
           h2,
@@ -77,8 +77,8 @@ const PageText = styled.div<{ white?: boolean }>`
         `
       : null}
 `;
-export const Spacer = styled.div<{ newSpace: number }>`
-  height: calc(${({ newSpace }) => newSpace}px - 21px);
+export const Spacer = styled.div<{ newspace: number }>`
+  height: calc(${({ newspace }) => newspace}px - 21px);
 `;
 const Explainer = styled.h1`
   font-family: "VCR OSD Mono";
@@ -164,7 +164,7 @@ export const Landing = () => {
         </PageText>
       </Box>
       <Box color='electricUltramarine' height='442px'>
-        <PageText white>
+        <PageText white="true">
           <div style={{
             display: "flex",
             justifyContent: "space-between",
@@ -196,7 +196,7 @@ export const Landing = () => {
         </PageText>
       </Box>
     </Flex>
-    <Spacer newSpace={51} />
+    <Spacer newspace={51} />
 
     <div
       style={{
@@ -218,11 +218,13 @@ export const Landing = () => {
         }}
       >
         {explainers.map((explainerInfo) => (
-          <Card {...explainerInfo} />
+          <React.Fragment key={explainerInfo.title}>
+            <Card {...explainerInfo} />
+          </React.Fragment>
         ))}
       </div>
     </div>
-    <Spacer newSpace={42} />
+    <Spacer newspace={42} />
     <Flex gap={12}>
       <Box height="940px">
         <img src="/images/hash_change.svg" alt="hash_change_svg" height="100%" width="100%" />
@@ -243,7 +245,7 @@ export const Landing = () => {
             How
             <br />
             does{"\n"}
-            <h1
+            <span
               style={{
                 color: colors.green,
                 fontSize: 100,
@@ -251,7 +253,8 @@ export const Landing = () => {
               }}
             >
               HashChange
-            </h1>
+            </span>
+            <br />
             work?
           </h1>
           <h4
@@ -266,8 +269,7 @@ export const Landing = () => {
         </PageText>
       </Box>
     </Flex>
-    <Spacer newSpace={120} />
-    <Footer />
+    <Spacer newspace={120} />
   </Flex>
   );
 };
