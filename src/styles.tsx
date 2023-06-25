@@ -74,6 +74,10 @@ ${({ type }) => {
 export const Link = styled.div`
   padding: 0px 24px;
   border-radius: 6px;
+  display:flex ;
+  justify-content: center ;
+  align-items:center ;
+  gap: 10px;
   ${Text} {
     color: ${colors.white}
   }

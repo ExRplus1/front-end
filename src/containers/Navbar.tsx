@@ -13,7 +13,7 @@ const Navbar = () => {
         }}
       >
         <Link onClick={() => navigate('/')}>
-          <Text> Home </Text>
+          <img src="/images/logo.svg" alt="logo" /><Text> HashChange </Text>
         </Link>
         <Link onClick={() => navigate('/my-surveys')}>
           <Text> My Surveys </Text>
