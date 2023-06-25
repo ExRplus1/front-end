@@ -9,7 +9,7 @@ import { SurveyMagic } from './StartSurvey';
 import { TopBar } from '../components/TopBar';
 
 export const answersSchema = yup.object().shape({
-    surveyId: yup.string().required(),
+    // surveyId: yup.string().required(),
     questionId: yup.number().required(),
     answers: yup.array().of(yup.number().required()).required()
 });
@@ -25,15 +25,15 @@ export const questionsSchema = yup.object().shape({
 });
 
 export const surveySchema = yup.object().shape({
-    id: yup.string().required(),
-    completed: yup.boolean().required(),
+    // id: yup.string().required(),
+    // completed: yup.boolean().required(),
+    // authId: yup.string().required(),
     description: yup.string().required(),
     name: yup.string().required(),
-    authId: yup.string().required(),
+    questions: yup.array().of(questionsSchema).required(),
     startDate: yup.date().required(),
     endDate: yup.date().required(),
-    maxNumberOfVoters: yup.number().required(),
-    questions: yup.array().of(questionsSchema).required()
+    maxNumberOfVoters: yup.number().required()
 });
 
 export type TSurveyForm = yup.InferType<typeof surveySchema>;
@@ -88,7 +88,7 @@ export const UploadJson = () => {
     // The questions in here do not have an surveyId
     const [answers, setAnswers] = useState<Array<TAnswers>>(questions.map((question) => {
         return {
-            surveyId: "testRunId",
+            // surveyId: "testRunId",
             questionId: question.id,
             answers: []
         }
@@ -100,7 +100,7 @@ export const UploadJson = () => {
             const crtAnswer = answersPrev.includes(answer) ? answersPrev.filter((ans) => ans !== answer) : [...answersPrev, answer];
 
             prevAnswers[questionNumber] = {
-                surveyId: "testRunId",
+                // surveyId: "testRunId",
                 questionId: questions[questionNumber].id,
                 answers: single ? [answer] : crtAnswer
             };

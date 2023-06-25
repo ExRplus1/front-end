@@ -253,15 +253,17 @@ export const StartSurvey = () => {
   const [crtQuestion, setCrtQuestion] = useState(0);
 
   // TODO: save in IPFS at the end @drLeo
+  
   const [answers, setAnswers] = useState<Array<TAnswers>>(
     questions.map((question) => {
       return {
-        surveyId: surveyId ?? "",
+        // surveyId: surveyId ?? "",
         questionId: question.id,
         answers: [],
       };
     })
   );
+
   const setAnswersForQuestion = useCallback(
     (questionNumber: number) => (answer: number, single: boolean) => {
       setAnswers((prevAnswers) => {
@@ -272,7 +274,7 @@ export const StartSurvey = () => {
           : [...answersPrev, answer];
 
         prevAnswers[questionNumber] = {
-          surveyId: surveyId ?? "",
+          // surveyId: surveyId ?? "",
           questionId: questions[questionNumber].id,
           answers: single ? [answer] : crtAnswer,
         };
@@ -288,7 +290,7 @@ export const StartSurvey = () => {
   const sendAnswers = async () => {
     try {
       const price = "20";
-      const tx = await execute("answers", answers, price, surveyId);
+      const tx = await execute("answers", {surevyHash: surveyId, answers}, price, surveyId);
       if (tx.status === 1) {
         navigate(`/respond-survey/end/${surveyId}`)
       } else {

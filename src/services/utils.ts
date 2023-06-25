@@ -112,10 +112,12 @@ export const deployContracts = async (abi?: any, byteCode?: any) => {
     try {
         const { provider, signer } = await connect() as any;
         const factory = new ContractFactory(abi, byteCode, signer);
+        const estimatedGas = await signer.estimateGas(factory.getDeployTransaction(process.env.REACT_APP_OPERATOR_ACCOUNT));
+        console.log(estimatedGas.data);
         // If contract requires constructor args, can specify them here
         const contract = await factory.deploy(process.env.REACT_APP_OPERATOR_ACCOUNT);
         const address = await contract.getAddress();
-        const tx = await contract.deploymentTransaction();
+        const tx = contract.deploymentTransaction();
         console.log(address, tx);
     } catch (e) {
         console.log(e)
@@ -182,8 +184,8 @@ export const execute = async (type: string, jsonObj: any, value: string, survey?
                     CID,
                     {
                         value: ethers.parseUnits(value as string),
-                        gasPrice: 10000000000000,
-                        gasLimit: 10000000
+                        gasPrice,
+                        gasLimit
                     })
                 break;
             case 'answers': {
@@ -194,8 +196,8 @@ export const execute = async (type: string, jsonObj: any, value: string, survey?
                     [Buffer.from(IPFSUploadToken)],
                     {
                         value: ethers.parseEther(value as string),
-                        gasPrice: 10000000000000,
-                        gasLimit: 10000000
+                        gasPrice,
+                        gasLimit
                     })
                 break;
             }
@@ -291,29 +293,47 @@ export const getBalance = async () => {
     }
 }
 
+
+// export const associateNft = async (nftAddress: string) => {
+//     try {
+//         console.log("nftAddr ", nftAddress);
+//         const contract = await instantiateContract(nftAddress, ['function associate()'])
+//         const tx = await contract.associate();
+//         const receipt = await tx.wait();
+//         console.log("hash ", receipt.hash)
+//         return receipt;
+//     } catch (e) {
+//         console.error(e)
+//     }
+// }
+
 export const associateNft = async (nftAddress: string) => {
     try {
-        const contract = await instantiateContract(nftAddress, ['function associate()'])
-        const qry = await contract.associate()
-        const receipt = await qry.wait();
-        console.log("AssociateNFT::", receipt.hash)
+        const contract = await instantiateContract()
+        const tx = await contract.associate(nftAddress, {
+            gasPrice,
+            gasLimit
+        });
+        const receipt = await tx.wait();
+        console.log("TX", tx, "RX", receipt)
+        return receipt;
     } catch (e) {
-        console.error(e)
+        console.log(e)
     }
 }
 
 export const transferNft = async (nftAddress: string, nftSerial: number) => {
     try {
         const contract = await instantiateContract();
-        const qry = await contract.transferNft(
+        const tx = await contract.transferNft(
             nftAddress,
             nftSerial,
             {
                 gasPrice,
                 gasLimit
             })
-        const receipt = await qry.wait();
-        console.log("TransferNFT::", receipt)
+        const receipt = await tx.wait();
+        console.log("TX", tx, "RX", receipt)
     } catch (e) {
         console.error(e)
     }

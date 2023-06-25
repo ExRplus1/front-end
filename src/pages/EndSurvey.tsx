@@ -3,7 +3,12 @@ import { TopBar } from "../components/TopBar";
 import { TopContainer } from "../components/TopContainer";
 import { Spacer } from "./Landing";
 import { useParams } from "react-router-dom";
-import { associateNft, getAnswerForSurvey, getNftAddressForSurveyHash, transferNft } from "../services/utils";
+import {
+  associateNft,
+  getAnswerForSurvey,
+  getNftAddressForSurveyHash,
+  transferNft,
+} from "../services/utils";
 
 export const EndSurvey = () => {
   const [nftAddress, setNftAddress] = useState("");
@@ -14,30 +19,32 @@ export const EndSurvey = () => {
   const pinata = process.env.REACT_APP_PINATA_ENDPOINT;
 
   const { surveyId } = useParams();
+
   useEffect(() => {
     (async () => {
       try {
+        const nftAddress = await getNftAddressForSurveyHash(surveyId as string);
+        setNftAddress(nftAddress);
         const answer = await getAnswerForSurvey(surveyId as string);
         setSurveyHash(answer[0][0]);
         setAnswerHash(answer[0][1]);
-        setNftAddress(answer[0][2]);
         setNftSerial(answer[0][3]);
       } catch (e) {
         console.log(e);
       }
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [surveyId]);
 
   const claimNft = async () => {
     try {
-        await associateNft(nftAddress);
-        await transferNft(nftAddress, nftSerial as unknown as number)
+      const assoc = await associateNft(nftAddress);
+      console.log(assoc)
+      if (assoc.status == 1)
+        await transferNft(nftAddress, nftSerial as unknown as number);
     } catch (e) {
-        console.log(e)
-        
+      console.log(e);
     }
-  }
+  };
 
   return (
     <div
@@ -54,19 +61,16 @@ export const EndSurvey = () => {
           <TopBar title={"Complete"} stepText={"Step 3 of 3"} percentage={1} />
         )}
         title={`Congratulation!`}
-        description={`You completed the survey! Your data are persisted in blockchain and now there are transparent but anonymous and can be consulted here:`}
+        description={`You completed the survey! Your data are persisted in blockchain.`}
         color="electricUltramarine"
-        button={{text: "ClaimNFT", onClick: claimNft}}
+        button={{ text: "Claim NFT", onClick: claimNft }}
       />
-      {/* <TopContainer
+      <TopContainer
         title={`SoulBounded NFT: ${nftAddress}[${nftSerial}]`}
         description={`Survey ${pinata}${surveyHash} Answer ${pinata}${answerHash}`}
         color="electricUltramarine"
         button={null}
       />
-      
-      NFT PICTURE that you click to claim it with some text
-      */}
       <Spacer newSpace={100} />
     </div>
   );

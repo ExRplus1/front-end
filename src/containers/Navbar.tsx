@@ -5,7 +5,6 @@ import { deployContracts, getBalance, } from "../services/utils";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
-  const ctx = useAppContext();
   const navigate = useNavigate();
 
   return (
@@ -16,7 +15,7 @@ const Navbar = () => {
         }}
       >
         <Link onClick={() => navigate('/')}>
-          <Text> 1Hbar = {ctx?.exRate}$ </Text>
+          <Text> Home </Text>
         </Link>
         <Link onClick={deployContracts}>
           <Text> DEPOLY</Text>

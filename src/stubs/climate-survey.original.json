@@ -1,0 +1,127 @@
+{
+  "id": "1",
+  "completed": false,
+  "description": "This survey aims to gather opinions and knowledge about climate change.",
+  "name": "Climate Change Survey",
+  "authId": "0.0.1004",
+  "questions": [
+    {
+      "id": 0,
+      "questionText": "Climate change is a global phenomenon characterized by long-term shifts in temperature patterns, weather events, and ecosystems, primarily caused by human activities such as burning fossil fuels, deforestation, and industrial emissions. It poses significant challenges to the environment, biodiversity, and human societies, requiring urgent collective action to mitigate its impacts and promote sustainable practices for a better future.",
+      "questionType": "statement",
+      "options": null
+    },
+    {
+      "id": 1,
+      "questionText": "Which of the following factors contribute to climate change? (Select all that apply)",
+      "questionType": "multipleOption",
+      "options": [
+        { "id": 1, "text": "Burning of fossil fuels" },
+        { "id": 2, "text": "Deforestation" },
+        { "id": 3, "text": "Industrial emissions" },
+        { "id": 4, "text": "Agricultural practices" }
+      ]
+    },
+    {
+      "id": 2,
+      "questionText": "Do you believe that climate change is primarily caused by human activities?",
+      "questionType": "singleOption",
+      "options": [
+        { "id": 1, "text": "Yes" },
+        { "id": 2, "text": "No" },
+        { "id": 3, "text": "Not sure" }
+      ]
+    },
+    {
+      "id": 3,
+      "questionText": "Which of the following renewable energy sources do you think should be prioritized for reducing carbon emissions? (Select all that apply)",
+      "questionType": "multipleOption",
+      "options": [
+        { "id": 1, "text": "Solar power" },
+        { "id": 2, "text": "Wind power" },
+        { "id": 3, "text": "Hydroelectric power" },
+        { "id": 4, "text": "Geothermal energy" }
+      ]
+    },
+    {
+      "id": 4,
+      "questionText": "Have you personally witnessed any climate change-related effects in your region? (Select all that apply)",
+      "questionType": "multipleOption",
+      "options": [
+        { "id": 1, "text": "Rising temperatures" },
+        { "id": 2, "text": "Extreme weather events (storms, floods, etc.)" },
+        { "id": 3, "text": "Sea-level rise" },
+        { "id": 4, "text": "Changes in rainfall patterns" }
+      ]
+    },
+    {
+      "id": 5,
+      "questionText": "How concerned are you about the potential impacts of climate change?",
+      "questionType": "optionScale",
+      "options": [
+        { "id": 1, "text": "Not concerned" },
+        { "id": 2, "text": "Slightly concerned" },
+        { "id": 3, "text": "Moderately concerned" },
+        { "id": 4, "text": "Very concerned" },
+        { "id": 5, "text": "Extremely concerned" }
+      ]
+    },
+    {
+      "id": 6,
+      "questionText": "Do you think governments should prioritize climate change mitigation efforts over other issues?",
+      "questionType": "singleOption",
+      "options": [
+        { "id": 1, "text": "Yes" },
+        { "id": 2, "text": "No" },
+        { "id": 3, "text": "Not sure" }
+      ]
+    },
+    {
+      "id": 7,
+      "questionText": "Which of the following measures do you believe can have a significant impact in combating climate change? (Select all that apply)",
+      "questionType": "multipleOption",
+      "options": [
+        { "id": 1, "text": "Transition to renewable energy sources" },
+        { "id": 2, "text": "Promote energy efficiency" },
+        { "id": 3, "text": "Invest in green infrastructure" },
+        { "id": 4, "text": "Implement carbon pricing" },
+        { "id": 5, "text": "Support reforestation initiatives" }
+      ]
+    },
+    {
+      "id": 8,
+      "questionText": "Do you believe that individuals can make a difference in addressing climate change?",
+      "questionType": "singleOption",
+      "options": [
+        { "id": 1, "text": "Yes" },
+        { "id": 2, "text": "No" },
+        { "id": 3, "text": "Not sure" }
+      ]
+    },
+    {
+      "id": 9,
+      "questionText": "Are you willing to change your lifestyle to reduce your carbon footprint?",
+      "questionType": "singleOption",
+      "options": [
+        { "id": 1, "text": "Yes" },
+        { "id": 2, "text": "No" },
+        { "id": 3, "text": "Not sure" }
+      ]
+    },
+    {
+      "id": 10,
+      "questionText": "Which of the following climate change adaptation strategies do you consider important? (Select all that apply)",
+      "questionType": "multipleOption",
+      "options": [
+        { "id": 1, "text": "Investing in resilient infrastructure" },
+        { "id": 2, "text": "Developing early warning systems" },
+        { "id": 3, "text": "Implementing sustainable agriculture practices" },
+        { "id": 4, "text": "Protecting natural ecosystems" },
+        { "id": 5, "text": "Promoting climate education" }
+      ]
+    }
+  ],
+  "startDate": "2023-06-14T00:00:00.000Z",
+  "endDate": "2023-06-06T23:59:59.000Z",
+  "maxNumberOfVoters": 1000
+}

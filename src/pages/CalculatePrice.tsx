@@ -1,10 +1,11 @@
 import { TopContainer } from "../components/TopContainer";
 import { useNavigate } from "react-router-dom";
 import { TSurveyForm, surveySchema } from "./UploadJson";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { TopBar } from "../components/TopBar";
 import { styled } from "styled-components";
 import { execute } from "../services/utils";
+import { useAppContext } from "../hooks/useAppContext";
 
 const StyledTable = styled.table`
   width: 100%;
@@ -125,8 +126,22 @@ const Total = styled.div`
     color: #737373;
   }
 `;
-const PriceCalculator = ({ numberQuestions }: { numberQuestions?: number }) => {
+const PriceCalculator = ({ numberQuestions, price, setPrice, exRate }: { numberQuestions?: number, price:number, setPrice: React.Dispatch<SetStateAction<number>>, exRate?: number}) => {
   // price calculator table with one row and table header
+
+  const pricePerUser = 100;
+  const pricePerquestion = 100;
+  const flatSurveyPrice = 30;
+  const hederaNetworkTaxes = 50;
+
+  const [users, setUsers ] = useState(0)
+
+  useEffect(() => {
+    const totalUsersPrice = users * pricePerUser;
+    const calcPrice = totalUsersPrice + (numberQuestions || 0) * pricePerquestion + flatSurveyPrice + hederaNetworkTaxes;
+    setPrice(calcPrice);
+  }, [users])
+
   return (
     <div>
       <StyledTable cellSpacing={0}>
@@ -143,7 +158,7 @@ const PriceCalculator = ({ numberQuestions }: { numberQuestions?: number }) => {
             <td>Survey details</td>
             <td>{numberQuestions}</td>
             <td>
-              <StyledInput type="number" placeholder="# of participants" />
+              <StyledInput type="number" placeholder="# of participants" onChange={(x:any) => setUsers(x.target.value)}/>
             </td>
             {/* <td>1</td> */}
             <HbarStyle>30</HbarStyle>
@@ -159,7 +174,7 @@ const PriceCalculator = ({ numberQuestions }: { numberQuestions?: number }) => {
         }}
       >
         <Total>
-          <h1>Total: 1,000 USD = 22.320328</h1>
+          <h1>Total: {(price * (exRate || 0)).toFixed(0) }$ = {price}</h1>
           <span>to continue press the button at the top</span>
         </Total>
       </div>
@@ -168,8 +183,13 @@ const PriceCalculator = ({ numberQuestions }: { numberQuestions?: number }) => {
 };
 
 export const CalculatePrice = () => {
+
   const navigator = useNavigate();
+  const ctx = useAppContext();
+  
   const [survey, setSurvey] = useState<TSurveyForm | null>();
+  const [price, setPrice] = useState(0);
+  
   useEffect(() => {
     const getSurveyIfExists = async () => {
       try {
@@ -191,11 +211,10 @@ export const CalculatePrice = () => {
   const pay = async () => {
     try {
       // hardcoded for the moment
-      const price = "300"; // hbars as string
       const token = await execute(
         "survey",
         survey,
-        price
+        (price).toString()
       );
     } catch (e) {
       console.log("ERROR when creating survey", e);
@@ -242,7 +261,7 @@ export const CalculatePrice = () => {
               }
         }
       />
-      <PriceCalculator numberQuestions={survey?.questions?.length ?? 0} />
+      <PriceCalculator numberQuestions={survey?.questions?.length ?? 0} price={price} setPrice={setPrice} exRate={ctx?.exRate}/>
     </div>
   );
 };
