@@ -224,7 +224,6 @@ export const CalculatePrice = () => {
       } catch (e) {
         setSurvey(null);
         // if error set survey to null so we don t show the calculator
-        // console.log(e);
       }
     };
     getSurveyIfExists();
@@ -232,12 +231,6 @@ export const CalculatePrice = () => {
 
   const pay = async () => {
     try {
-      // hardcoded for the moment
-      // const token = await execute(
-      //   "survey",
-      //   survey,
-      //   (price).toString()
-      // );
       await execute("survey", survey, price.toString(), '', noOfUsers);
       localStorage.removeItem("survey");
     } catch (e) {

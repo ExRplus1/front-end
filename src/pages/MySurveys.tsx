@@ -20,7 +20,7 @@ export const MySurveys = () => {
         try {
           const s = await getSurveys();
           // here we should query IPFS for the survey props
-          s.map((_s:any) => {
+          s.foreach((_s:any) => {
             setSurveys([{
               id: _s[0],
               title: "Climate Change",

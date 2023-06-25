@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useAppContext } from "../hooks/useAppContext";
 import { ConnectWallet, Text } from "../styles";
 
-//hook
+// hook
 const useHover = () => {
   const [hovering, setHovering] = useState(false);
   const onHoverProps: {} = {

@@ -9,7 +9,6 @@ import { SurveyMagic } from './StartSurvey';
 import { TopBar } from '../components/TopBar';
 
 export const answersSchema = yup.object().shape({
-    // surveyId: yup.string().required(),
     questionId: yup.number().required(),
     answers: yup.array().of(yup.number().required()).required()
 });
@@ -85,7 +84,6 @@ export const UploadJson = () => {
     // The questions in here do not have an surveyId
     const [answers, setAnswers] = useState<Array<TAnswers>>(questions.map((question) => {
         return {
-            // surveyId: "testRunId",
             questionId: question.id,
             answers: []
         }
@@ -97,7 +95,6 @@ export const UploadJson = () => {
             const crtAnswer = answersPrev.includes(answer) ? answersPrev.filter((ans) => ans !== answer) : [...answersPrev, answer];
 
             prevAnswers[questionNumber] = {
-                // surveyId: "testRunId",
                 questionId: questions[questionNumber].id,
                 answers: single ? [answer] : crtAnswer
             };
@@ -132,7 +129,7 @@ export const UploadJson = () => {
                 setFiles(surveyObject);
             } catch (e) {
                 // don t log error as we don t know if the survey is coming from us
-                // console.log(e);
+                console.log(e)
             }
         };
         getSurveyIfExists();

@@ -243,7 +243,6 @@ export const StartSurvey = () => {
   const [answers, setAnswers] = useState<Array<TAnswers>>(
     questions.map((question) => {
       return {
-        // surveyId: surveyId ?? "",
         questionId: question.id,
         answers: [],
       };
@@ -260,7 +259,6 @@ export const StartSurvey = () => {
           : [...answersPrev, answer];
 
         prevAnswers[questionNumber] = {
-          // surveyId: surveyId ?? "",
           questionId: questions[questionNumber].id,
           answers: single ? [answer] : crtAnswer,
         };

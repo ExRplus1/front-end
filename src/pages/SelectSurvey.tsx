@@ -53,9 +53,9 @@ const Type = styled.h2<{ color: keyof typeof colors }>`
   color: ${({ color }) => colors[color]};
 `;
 
-const Interactables = styled(Box)<{ isInteractable?: string }>`
-  ${({ isInteractable }) =>
-    isInteractable === "true"
+const Intractable = styled(Box) <{ $isIntractable?: string }>`
+  ${({ $isIntractable }) =>
+    $isIntractable === "true"
       ? css`
           &:hover {
             cursor: pointer;
@@ -76,16 +76,16 @@ export const SurveyCard = ({
   onClick,
 }: {
   id: string,
-  title:string,
-  type:string,
-  organization:string,
-  description:string,
-  color:any,
+  title: string,
+  type: string,
+  organization: string,
+  description: string,
+  color: any,
 } & { onClick?: () => void; image?: string }) => {
   return (
-    <Interactables
+    <Intractable
       onClick={onClick}
-      isInteractable={(!!onClick)?.toString()}
+      $isIntractable={(!!onClick)?.toString()}
       style={{
         border: `1.5px solid ${colors[color as keyof typeof colors]}`,
         display: "flex",
@@ -117,7 +117,7 @@ export const SurveyCard = ({
           <Description>{description}</Description>
         </div>
       </div>
-    </Interactables>
+    </Intractable>
   );
 };
 
@@ -138,7 +138,7 @@ export const SelectSurvey = () => {
       try {
         const s = await getSurveys();
         // here we should query IPFS for the survey props
-        s.map((_s:any) => {
+        s.foreach((_s: any) => {
           setSurveys([{
             id: _s[0],
             title: "Climate Change",

@@ -2,49 +2,6 @@ import { useEffect, useState } from "react";
 import { images } from "../constants/nftImages";
 import { SurveyCard } from "./SelectSurvey";
 import { getUserAnswers } from "../services/utils";
-import { number } from "yup";
-
-// const useGetMyNfts = () => {
-//   return {
-//     nfts: [
-//       {
-//         nftSerial: "1234",
-//         url: "https://www.URL_TO_ANSWERS.com",
-//         surveyDescription: "SOME DESCRIPTION IN HERE",
-//       },
-//       {
-//         nftSerial: "1233",
-//         url: "https://www.URL_TO_ANSWERS.com",
-//         surveyDescription: "SOME DESCRIPTION IN HERE",
-//       },
-//       {
-//         nftSerial: "1235",
-//         url: "https://www.URL_TO_ANSWERS.com",
-//         surveyDescription: "SOME DESCRIPTION IN HERE",
-//       },
-//       {
-//         nftSerial: "1236",
-//         url: "https://www.URL_TO_ANSWERS.com",
-//         surveyDescription: "SOME DESCRIPTION IN HERE",
-//       },
-//       {
-//         nftSerial: "1237",
-//         url: "https://www.URL_TO_ANSWERS.com",
-//         surveyDescription: "SOME DESCRIPTION IN HERE",
-//       },
-//       {
-//         nftSerial: "1238",
-//         url: "https://www.URL_TO_ANSWERS.com",
-//         surveyDescription: "SOME DESCRIPTION IN HERE",
-//       },
-//       {
-//         nftSerial: "1239",
-//         url: "https://www.URL_TO_ANSWERS.com",
-//         surveyDescription: "SOME DESCRIPTION IN HERE",
-//       },
-//     ],
-//   };
-// };
 
 export const MyAnswers = () => {
   const pinata = process.env.REACT_APP_PINATA_ENDPOINT;

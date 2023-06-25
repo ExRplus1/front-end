@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-undef */
 import "./App.css";
 import { AppContextProvider } from "./hooks/useAppContext";
 import HashChangeRoutes from "./components/HashChangeRoutes";
