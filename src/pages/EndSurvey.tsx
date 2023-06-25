@@ -21,9 +21,9 @@ export const Link = styled.a`
   cursor: pointer;
   color:white;
   overflow: hidden;
-white-space: nowrap;
-text-overflow: ellipsis;
-max-width: 300px ;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 300px;
 `
 
 
