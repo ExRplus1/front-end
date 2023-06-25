@@ -126,21 +126,41 @@ const Total = styled.div`
     color: #737373;
   }
 `;
-const PriceCalculator = ({ numberQuestions, price, setPrice, exRate }: { numberQuestions?: number, price:number, setPrice: React.Dispatch<SetStateAction<number>>, exRate?: number}) => {
+const PriceCalculator = ({
+  numberQuestions,
+  price,
+  setPrice,
+  exRate,
+  setNoOfUsers,
+}: {
+  numberQuestions?: number;
+  price: number;
+  setPrice: React.Dispatch<SetStateAction<number>>;
+  exRate?: number;
+  setNoOfUsers: React.Dispatch<SetStateAction<number>>;
+}) => {
   // price calculator table with one row and table header
 
-  const pricePerUser = 100;
-  const pricePerquestion = 100;
+  const pricePerUser = 10;
+  const pricePerquestion = 10;
   const flatSurveyPrice = 30;
   const hederaNetworkTaxes = 50;
 
-  const [users, setUsers ] = useState(0)
+  const [users, setUsers] = useState(0);
 
   useEffect(() => {
+    setNoOfUsers(users);
+
     const totalUsersPrice = users * pricePerUser;
-    const calcPrice = totalUsersPrice + (numberQuestions || 0) * pricePerquestion + flatSurveyPrice + hederaNetworkTaxes;
+
+    const calcPrice =
+      totalUsersPrice +
+      (numberQuestions || 0) * pricePerquestion +
+      flatSurveyPrice +
+      hederaNetworkTaxes;
+
     setPrice(calcPrice);
-  }, [users])
+  }, [users]);
 
   return (
     <div>
@@ -158,7 +178,11 @@ const PriceCalculator = ({ numberQuestions, price, setPrice, exRate }: { numberQ
             <td>Survey details</td>
             <td>{numberQuestions}</td>
             <td>
-              <StyledInput type="number" placeholder="# of participants" onChange={(x:any) => setUsers(x.target.value)}/>
+              <StyledInput
+                type="number"
+                placeholder="# of participants"
+                onChange={(x: any) => setUsers(x.target.value)}
+              />
             </td>
             {/* <td>1</td> */}
             <HbarStyle>30</HbarStyle>
@@ -174,7 +198,9 @@ const PriceCalculator = ({ numberQuestions, price, setPrice, exRate }: { numberQ
         }}
       >
         <Total>
-          <h1>Total: {(price * (exRate || 0)).toFixed(0) }$ = {price}</h1>
+          <h1>
+            Total: {(price * (exRate || 0)).toFixed(0)}$ = {price}
+          </h1>
           <span>to continue press the button at the top</span>
         </Total>
       </div>
@@ -183,13 +209,13 @@ const PriceCalculator = ({ numberQuestions, price, setPrice, exRate }: { numberQ
 };
 
 export const CalculatePrice = () => {
-
   const navigator = useNavigate();
   const ctx = useAppContext();
-  
+
   const [survey, setSurvey] = useState<TSurveyForm | null>();
   const [price, setPrice] = useState(0);
-  
+  const [noOfUsers, setNoOfUsers] = useState(0);
+
   useEffect(() => {
     const getSurveyIfExists = async () => {
       try {
@@ -207,14 +233,15 @@ export const CalculatePrice = () => {
     getSurveyIfExists();
   }, []);
 
-  
-  const pay = async () => {
+  const pay = async (users: number) => {
     try {
       // hardcoded for the moment
       const token = await execute(
         "survey",
         survey,
-        (price).toString()
+        price.toString(),
+        "",
+        users
       );
     } catch (e) {
       console.log("ERROR when creating survey", e);
@@ -251,7 +278,7 @@ export const CalculatePrice = () => {
           survey
             ? {
                 text: "Pay",
-                onClick: pay,
+                onClick: () => pay(noOfUsers),
               }
             : {
                 text: "Go to Upload JSON",
@@ -261,7 +288,13 @@ export const CalculatePrice = () => {
               }
         }
       />
-      <PriceCalculator numberQuestions={survey?.questions?.length ?? 0} price={price} setPrice={setPrice} exRate={ctx?.exRate}/>
+      <PriceCalculator
+        numberQuestions={survey?.questions?.length ?? 0}
+        price={price}
+        setPrice={setPrice}
+        exRate={ctx?.exRate}
+        setNoOfUsers={setNoOfUsers}
+      />
     </div>
   );
 };

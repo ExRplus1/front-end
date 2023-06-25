@@ -165,7 +165,7 @@ const decodeCIDfromBytes32 = (cid: string) => {
     return revertedCid;
 }
 
-export const execute = async (type: string, jsonObj: any, value: string, survey?: string) => {
+export const execute = async (type: string, jsonObj: any, value: string, survey?: string, noOfTokens?: number) => {
     try {
 
         let IPFSUploadToken = await uploadFileToIPFS(jsonObj);
@@ -182,6 +182,7 @@ export const execute = async (type: string, jsonObj: any, value: string, survey?
             case 'survey':
                 qry = await contract.setSurvey(
                     CID,
+                    noOfTokens,
                     {
                         value: ethers.parseUnits(value as string),
                         gasPrice,
@@ -204,6 +205,7 @@ export const execute = async (type: string, jsonObj: any, value: string, survey?
             default:
         }
         const receipt = await qry.wait();
+        console.log(receipt)
         return receipt;
     } catch (e) {
         console.log(e)

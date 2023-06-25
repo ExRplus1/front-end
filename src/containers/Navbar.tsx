@@ -17,9 +17,9 @@ const Navbar = () => {
         <Link onClick={() => navigate('/')}>
           <Text> Home </Text>
         </Link>
-        {/* <Link onClick={deployContracts}>
+        <Link onClick={deployContracts}>
           <Text> DEPOLY</Text>
-        </Link> */}
+        </Link>
         {/* <Link onClick={getBalance}>
           <Text> BALANCE</Text>
         </Link> */}
