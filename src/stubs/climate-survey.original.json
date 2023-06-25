@@ -56,18 +56,6 @@
     },
     {
       "id": 5,
-      "questionText": "How concerned are you about the potential impacts of climate change?",
-      "questionType": "optionScale",
-      "options": [
-        { "id": 1, "text": "Not concerned" },
-        { "id": 2, "text": "Slightly concerned" },
-        { "id": 3, "text": "Moderately concerned" },
-        { "id": 4, "text": "Very concerned" },
-        { "id": 5, "text": "Extremely concerned" }
-      ]
-    },
-    {
-      "id": 6,
       "questionText": "Do you think governments should prioritize climate change mitigation efforts over other issues?",
       "questionType": "singleOption",
       "options": [
@@ -77,7 +65,7 @@
       ]
     },
     {
-      "id": 7,
+      "id": 6,
       "questionText": "Which of the following measures do you believe can have a significant impact in combating climate change? (Select all that apply)",
       "questionType": "multipleOption",
       "options": [
@@ -89,7 +77,7 @@
       ]
     },
     {
-      "id": 8,
+      "id": 7,
       "questionText": "Do you believe that individuals can make a difference in addressing climate change?",
       "questionType": "singleOption",
       "options": [
@@ -99,7 +87,7 @@
       ]
     },
     {
-      "id": 9,
+      "id": 8,
       "questionText": "Are you willing to change your lifestyle to reduce your carbon footprint?",
       "questionType": "singleOption",
       "options": [
@@ -109,7 +97,7 @@
       ]
     },
     {
-      "id": 10,
+      "id": 9,
       "questionText": "Which of the following climate change adaptation strategies do you consider important? (Select all that apply)",
       "questionType": "multipleOption",
       "options": [

@@ -17,7 +17,7 @@ export const answersSchema = yup.object().shape({
 export const questionsSchema = yup.object().shape({
     id: yup.number().required(),
     questionText: yup.string().required(),
-    questionType: yup.string().required().oneOf(["optionScale", "singleOption", "statement", "multipleOption"]),
+    questionType: yup.string().required().oneOf(["singleOption", "statement", "multipleOption"]),
     options: yup.array().of(yup.object().shape({
         id: yup.number().required(),
         text: yup.string().required()
