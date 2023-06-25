@@ -10,6 +10,8 @@ import {
   transferNft,
 } from "../services/utils";
 
+
+
 export const EndSurvey = () => {
   const [nftAddress, setNftAddress] = useState("");
   const [nftSerial, setNftSerial] = useState("");

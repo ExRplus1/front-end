@@ -33,44 +33,40 @@ const Title = styled.h1`
     color: #DCDCDC;
 `;
 const Description = styled.h2`
-font-family: 'Archivo';
-font-style: normal;
-font-weight: 500;
-font-size: 18.8116px;
-line-height: 28px;
-/* identical to box height, or 150% */
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18.8116px;
+  line-height: 28px;
+  /* identical to box height, or 150% */
 
-display: flex;
-align-items: center;
+  display: flex;
+  align-items: center;
 
-color: #DCDCDC;
-
+  color: #DCDCDC;
 `;
 const OrganizationName = styled.h2`
   font-family: 'Archivo';
-font-style: normal;
-font-weight: 500;
-font-size: 16px;
-line-height: 28px;
-/* identical to box height, or 150% */
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 28px;
 
-display: flex;
-align-items: center;
+  display: flex;
+  align-items: center;
 
-color: ${colors.blackMana};
-font-style: italic;
+  color: ${colors.blackMana};
+  font-style: italic;
 `;
 const Type = styled.h2<{ color: keyof typeof colors }>`
-font-family: 'Archivo';
-padding:22px 0px ;
-padding-bottom: 0px;
-font-style: normal;
-font-weight: 500;
-font-size: 18.8116px;
-line-height: 28px;
-
-
-color: ${({ color }) => colors[color]};
+  font-family: 'Archivo';
+  padding:22px 0px ;
+  padding-bottom: 0px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18.8116px;
+  line-height: 28px;
+  color: ${({ color }) => colors[color]};
 `;
 
 const SurveyCard = ({
@@ -129,7 +125,8 @@ export const SelectSurvey = () => {
     }}>
       <TopContainer
         TopBar={() => <TopBar title={"Select a Survey"} stepText={"Step 1 of 3"} percentage={0.33} />}
-        title={"Select a survey"} description={"From climate change to healthcare, the choice is yours - take surveys on HashChange and earn NFT rewards!"}
+        title={"Select a survey"}
+        description={"From climate change to healthcare, the choice is yours - take surveys on HashChange and earn NFT rewards!"}
         color="electricUltramarine"
         button={null} />
       <div style={{

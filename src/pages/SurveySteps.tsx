@@ -31,7 +31,9 @@ export const SurveySteps = () => {
             padding: "0px 82px",
             paddingTop: 150
         }}>
-            <TopContainer title={"Take a survey"} description={"Discover the power of your opinions, collect NFT rewards - get started with surveys on\nHashChange!"} color="electricUltramarine"
+            <TopContainer
+                title={"Take a survey"}
+                description={"Discover the power of your opinions, collect NFT rewards - get started with surveys on\nHashChange!"} color="electricUltramarine"
                 button={{
                     text: "Take a survey",
                     onClick: function (): void {
@@ -41,7 +43,8 @@ export const SurveySteps = () => {
             <div style={{
                 display: "grid",
                 gridTemplateColumns: `0.75fr repeat(${steps.length}, 1fr) 0.75fr`,
-                gap: 34, padding: "calc(90px-27px)"
+                gap: 34,
+                padding: "calc(90px-27px)"
             }}>
                 <div />
                 {steps.map(

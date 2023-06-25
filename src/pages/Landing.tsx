@@ -122,7 +122,7 @@ export const Landing = () => {
             hash change
           </h1>
           <h2>
-            The Decentralized Survey Platform for All
+            How much does is your opinion worth?
           </h2>
           <div />
         </PageText>
@@ -244,7 +244,9 @@ export const Landing = () => {
           >
             How
             <br />
-            does{"\n"}
+            does
+            <br />
+
             <span
               style={{
                 color: colors.green,
